@@ -21,7 +21,7 @@ route
         const {id,password:hashedPassword} = results
 
         const compare = await bcrypt.compare(password,hashedPassword)
-        console.log(compare,"compare",password,hashedPassword)
+  
         if (!compare) return res.status(401).send({message: 'Invalid data'})
 
         const token = jwt.sign({ user_id:id },secret, {expiresIn: '1h' });
