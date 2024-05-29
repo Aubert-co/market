@@ -16,6 +16,7 @@ describe("POST/login",()=>{
         const password = await bcrypt.hash(personData.password,10)
         await Person.create( {id:personData.id,name:personData.name,password} )
         .catch((err)=>{
+            throw err
             console.error("err beforeall")
             throw err
         })

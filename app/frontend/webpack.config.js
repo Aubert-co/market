@@ -34,8 +34,16 @@ module:{
             exclude:/node_modules/,
             use:{
                 loader:"babel-loader"
-            }
-        }
+            },
+            
+        },
+        {
+            
+                test: /\.(png|jpe?g|gif|svg)$/i,
+                type: 'asset/resource', // Use 'asset/resource' para arquivos binários
+              
+          },
+
     ]
 },
 plugins:[

@@ -20,6 +20,9 @@ export const Container = styled.div`
     background-color: rgb(14, 20, 32);
     
 `
+export const Aside = styled.aside`
+grid-area:aside`
+
 
 export const Main = styled.main`
 
@@ -170,6 +173,74 @@ input{
   cursor:pointer;
   width:30%;
 
+}
+
+`
+
+export const Aside2 = styled.aside`
+grid-area:aside2;
+.window {
+  position: fixed;
+  top: 100px; /* Ajuste aqui para mover a janela para baixo */
+  right: 20px; /* Espaçamento da borda direita */
+  width: 320px; /* Largura ajustada para um layout mais moderno */
+  height: 60%; /* Altura ajustada */
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra moderna */
+  border-radius: 12px; /* Bordas arredondadas */
+  z-index: 999;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 1; /* Opacidade para transições */
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+.window_content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  align-self: flex-end;
+  color: #333;
+}
+
+.close-button:hover {
+  color: #ff0000;
+  transform: scale(1.1);
+}
+
+.list-items,
+.list-settings {
+  flex: 1;
+  overflow-y: auto; /* Permite que o conteúdo role verticalmente */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-right: 10px; /* Espaço para evitar que o conteúdo fique sob o scrollbar */
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+  margin-top: 20px;
 }
 
 `

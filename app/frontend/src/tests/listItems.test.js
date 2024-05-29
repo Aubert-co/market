@@ -9,6 +9,26 @@ import { items } from "./fixtures";
 var DEFAULT_MESSAGE
 const generateSrc = (path)=>`http://localhost:8080/static${path}`
 
+const itemsCart = (screen)=>{
+    const btn_action = screen.getAllByTestId("btn_action")
+    const name_ = screen.getAllByTestId('item_name')
+    const quantity_ = screen.getAllByTestId('item_quantity')
+    const img_ = screen.getAllByTestId('item_img')
+    expect(screen.queryByTestId('item_price')).not.toBeInTheDocument()
+    expect(name_.length).toEqual(items.length)
+    expect(screen.queryByTestId('buy')).not.toBeInTheDocument()
+    expect(quantity_).toHaveLength(5)
+    
+    btn_action.map((val,ind,arr)=>{
+        expect(arr[0].textContent).toEqual('-')
+        expect(arr[1].textContent).toEqual('+')
+    })
+    items.map(({name,price,imgPath,quantity},ind)=>{
+        expect(name_[ind].textContent).toEqual(name)
+        expect(quantity).toEqual(Number(quantity_[ind].textContent))
+        expect(img_[ind].getAttribute('src')).toEqual(generateSrc(imgPath))
+    })
+}
 describe("ListItems",()=>{
     beforeEach(()=>{
         DEFAULT_MESSAGE = {
@@ -52,41 +72,21 @@ describe("ListItems",()=>{
     })
     
     it("When the component type is 'cart' and the 'Remove from cart' button is clicked, it should call a service.",async()=>{
-        const service = jest.spyOn(Services,'serviceRemoveFromCart').mockReturnValue({message:'sucess',status:201})
+        const service = jest.spyOn(Services,'serviceRemoveFromCart').mockResolvedValue({message:'sucess',status:201})
         render(
             <MessageContext.Provider value={DEFAULT_MESSAGE}>
                 <ListItems datas={items} typeComponent={'Cart'} />
             </MessageContext.Provider>
         )
-        expect(screen.getAllByTestId('btn_action')).toHaveLength(15)
-        const btn_action = screen.getAllByTestId("btn_action")
-        const name_ = screen.getAllByTestId('item_name')
-        const quantity_ = screen.getAllByTestId('item_quantity')
-        const img_ = screen.getAllByTestId('item_img')
-
-
-        fireEvent.click(btn_action[0])
+        expect(screen.getAllByTestId('btn_action')).toHaveLength(10)
+        const btn_component = screen.getAllByTestId("btn_component")
+      
+        fireEvent.click(btn_component[0])
 
         expect(service).toHaveBeenCalledTimes(1)
         expect(service).toHaveBeenCalledWith({product_id:items[0].id,quantity:1})
 
-        expect(screen.queryByTestId('item_price')).not.toBeInTheDocument()
-        expect(name_.length).toEqual(items.length)
-        expect(screen.queryByTestId('buy')).not.toBeInTheDocument()
-        expect(quantity_).toHaveLength(5)
-        
-        btn_action.map((val,ind,arr)=>{
-          
-            expect(arr[0].textContent).toEqual('Remover do carrinho')
-            expect(arr[1].textContent).toEqual('-')
-            expect(arr[2].textContent).toEqual('+')
-        })
-        items.map(({name,price,imgPath,quantity},ind)=>{
-            expect(name_[ind].textContent).toEqual(name)
-            expect(price*quantity).toEqual(Number(quantity_[ind].textContent))
-            expect(img_[ind].getAttribute('src')).toEqual(generateSrc(imgPath))
-        })
-       
+        itemsCart(screen)
       
     })
     it(
@@ -97,34 +97,13 @@ describe("ListItems",()=>{
                 <ListItems datas={items} typeComponent={'Cart'}/>
             </MessageContext.Provider>
         )
-        expect(screen.getAllByTestId('btn_action')).toHaveLength(15)
+        expect(screen.getAllByTestId('btn_action')).toHaveLength(10)
         const btn_action = screen.getAllByTestId("btn_action")
-        const name_ = screen.getAllByTestId('item_name')
-        const quantity_ = screen.getAllByTestId('item_quantity')
-        const img_ = screen.getAllByTestId('item_img')
-
-
-        fireEvent.click(btn_action[1])
+        fireEvent.click(btn_action[0])
 
         expect(service).toHaveBeenCalledTimes(1)
         expect(service).toHaveBeenCalledWith({product_id:items[0].id,quantity:1})
 
-        expect(screen.queryByTestId('item_price')).not.toBeInTheDocument()
-        expect(name_.length).toEqual(items.length)
-        expect(screen.queryByTestId('buy')).not.toBeInTheDocument()
-        expect(quantity_).toHaveLength(5)
-        
-        btn_action.map((val,ind,arr)=>{
-          
-            expect(arr[0].textContent).toEqual('Remover do carrinho')
-            expect(arr[1].textContent).toEqual('-')
-            expect(arr[2].textContent).toEqual('+')
-        })
-        items.map(({name,price,imgPath,quantity},ind)=>{
-            expect(name_[ind].textContent).toEqual(name)
-            expect(price*quantity).toEqual(Number(quantity_[ind].textContent))
-            expect(img_[ind].getAttribute('src')).toEqual(generateSrc(imgPath))
-        })
        
       
     })
@@ -135,35 +114,15 @@ describe("ListItems",()=>{
                 <ListItems datas={items} typeComponent={'Cart'}/>
             </MessageContext.Provider>
         )
-        expect(screen.getAllByTestId('btn_action')).toHaveLength(15)
+        expect(screen.getAllByTestId('btn_action')).toHaveLength(10)
         const btn_action = screen.getAllByTestId("btn_action")
-        const name_ = screen.getAllByTestId('item_name')
-        const quantity_ = screen.getAllByTestId('item_quantity')
-        const img_ = screen.getAllByTestId('item_img')
-
-
-        fireEvent.click(btn_action[2])
+    
+        fireEvent.click(btn_action[1])
 
         expect(service).toHaveBeenCalledTimes(1)
         expect(service).toHaveBeenCalledWith({product_id:items[0].id,quantity:1})
 
-        expect(screen.queryByTestId('item_price')).not.toBeInTheDocument()
-        expect(name_.length).toEqual(items.length)
-        expect(screen.queryByTestId('buy')).not.toBeInTheDocument()
-        expect(quantity_).toHaveLength(5)
-        
-        btn_action.map((val,ind,arr)=>{
-          
-            expect(arr[0].textContent).toEqual('Remover do carrinho')
-            expect(arr[1].textContent).toEqual('-')
-            expect(arr[2].textContent).toEqual('+')
-        })
-        items.map(({name,price,imgPath,quantity},ind)=>{
-            expect(name_[ind].textContent).toEqual(name)
-            expect(price*quantity).toEqual(Number(quantity_[ind].textContent))
-            expect(img_[ind].getAttribute('src')).toEqual(generateSrc(imgPath))
-        })
-       
+        itemsCart(screen)
       
     })
 })
@@ -206,7 +165,7 @@ describe("When the service returns a user who is not logged in.",()=>{
         const btn_action = screen.getAllByTestId("btn_action")
        
 
-        fireEvent.click(btn_action[2])
+        fireEvent.click(btn_action[1])
 
         await waitFor(()=>{
             expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
@@ -298,7 +257,7 @@ describe("When the service returns an error.",()=>{
         const btn_action = screen.getAllByTestId("btn_action")
        
 
-        fireEvent.click(btn_action[2])
+        fireEvent.click(btn_action[1])
 
         await waitFor(()=>{
             expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)

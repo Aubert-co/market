@@ -94,3 +94,36 @@ export const serviceRegister = async({name,password})=>{
         return {message:'Algo deu errado!',status:500}
     }
 }
+export const serviceStore = async()=>{
+    try{
+        const token = localStorage.getItem('token')
+        if(!token)return {datas:[],status:401}
+        
+        const response= await fetch('localhost:8080/store',{
+            method:'GET',
+            headers:{'Authorization':`Bearer ${token}`}
+        })
+        const json =await response.json()
+
+        return {datas:json.datas,status:json.status}
+    }catch(err){
+        return {datas:[],status:500}
+    }
+}
+export const serviceCreateStore = async(formData)=>{
+    try{
+        const token = localStorage.getItem('token')
+        if(!token)return {datas:[],status:401}
+        
+        const response= await fetch('localhost:8080/store/create',{
+            method:'POST',
+            headers:{'Authorization':`Bearer ${token}`},
+            body:formData
+        })
+        const json =await response.json()
+
+        return {message:json.message,status:json.status}
+    }catch(err){
+        return {datas:[],status:500}
+    }
+}

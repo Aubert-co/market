@@ -5,12 +5,15 @@ import { SearchContext } from "../contexts";
 import {BrowserRouter, MemoryRouter,Router} from 'react-router-dom'
 import { TopBar } from "../components/TopBar";
 import { createMemoryHistory } from "history";
-var DEFAULT_SEARCH,history;
+var DEFAULT_SEARCH,DEFAULT_CART_WINDOW,DEFAULT_PROFILE_WINDOW,history;
 
 describe('TopBar',()=>{
   
     beforeEach(()=>{
-        
+        DEFAULT_PROFILE_WINDOW = {
+            isWindowProfile:false,setIsWindowProfile:jest.fn()
+        }
+        DEFAULT_CART_WINDOW={isWindowCart:false,setIsWindowCart:jest.fn()}
         DEFAULT_SEARCH = {
            searchParams:{
                name:'skirt',lowPrice:0,high:1000,category:''
@@ -23,19 +26,22 @@ describe('TopBar',()=>{
        render(
         <Router location={history.location} navigator={history}>
                     <SearchContext.Provider value={ DEFAULT_SEARCH }>
-                        <TopBar></TopBar>
+                    <TopBar isWindowCart={DEFAULT_CART_WINDOW.isWindowCart} 
+                    setIsWindowCart={DEFAULT_CART_WINDOW.setIsWindowCart} 
+                    isWindowProfile={DEFAULT_PROFILE_WINDOW.isWindowProfile} 
+                    setIsWindowProfile={DEFAULT_PROFILE_WINDOW.setIsWindowProfile}/>
+              
                     </SearchContext.Provider>  
         </Router> 
        )
     })
  
-    it("Clicking on the 'Cart' link should change the URL to /cart",()=>{
-        const cartLink = screen.getByTestId('cart')
+    it("Clicking on the 'Cart' should open the window cart",()=>{
+        const cartLink = screen.getByTestId('cart_window')
      
         fireEvent.click( cartLink )
-        const {pathname} = history.location
-        expect( pathname ).toBe('/cart')
-        expect( pathname ).not.toBe('/')
+        expect(DEFAULT_CART_WINDOW.setIsWindowCart).toHaveBeenCalledTimes(1)
+        expect(DEFAULT_CART_WINDOW.setIsWindowCart).toHaveBeenCalledWith(true)
       
     })
     it("Clicking on the 'Home' link should change the pathname to /",()=>{
@@ -46,14 +52,13 @@ describe('TopBar',()=>{
         expect( pathname ).toBe('/')
        
     })
-    it("Clicking on the 'Profile' link should change the pathname to /profile",()=>{
-        const profileLink = screen.getByTestId('profile')
+    it("Clicking on the 'Profile' should open the window profile",()=>{
+        const profileLink = screen.getByTestId('profile_window')
      
         
         fireEvent.click( profileLink )
-        const {pathname} = history.location
-        expect( pathname ).toBe('/profile')
-        expect( pathname ).not.toBe('/')
+        expect(DEFAULT_PROFILE_WINDOW.setIsWindowProfile).toHaveBeenCalledTimes(1)
+        expect(DEFAULT_PROFILE_WINDOW.setIsWindowProfile).toHaveBeenCalledWith(true)
     })
     it("Changing the input value to a new value",()=>{
         const input = screen.getByTestId('input_test')

@@ -5,6 +5,7 @@ import { Login } from "./login";
 import { MessageContext, SearchContext } from "../contexts"
 import { Register } from "./register";
 import {GlobalStyles} from '../style/index'
+import { Store } from "./store";
 
 const DEFAULT_MESSAGE = {content:'',type:''}
 export const App = () => {
@@ -18,7 +19,7 @@ export const App = () => {
         <Routes >
  
             <Route path="/" element={<Home />} />
- 
+            <Route path="/store"  element={<Store/>}/>
         </Routes>
     </Router>
     </MessageContext.Provider>

@@ -2,6 +2,7 @@ import React,{useRef,useContext} from "react";
 import { Header } from "../style";
 import { SearchContext } from "../contexts";
 import { Link } from "react-router-dom";
+import { FaShoppingCart ,FaUser} from 'react-icons/fa';
 
 
 export const SearchBar = ()=>{
@@ -20,7 +21,7 @@ export const SearchBar = ()=>{
         </div>
     )
 }
-export const TopBar = ()=>{
+export const TopBar = ({isWindowCart,setIsWindowCart,isWindowProfile,setIsWindowProfile})=>{
     return (
        <Header>
             
@@ -30,12 +31,12 @@ export const TopBar = ()=>{
             <SearchBar  />
             <nav>
             
-                <Link to="/cart" data-testid="cart">
-                    Cart
-                </Link>
-                <Link to="/profile" data-testid="profile">
-                    Settings 
-                </Link>
+                <i>
+                    <FaShoppingCart data-testid="cart_window" onClick={()=>setIsWindowCart(!isWindowCart)}/>
+                </i>
+                <i >
+                    <FaUser data-testid="profile_window" onClick={()=>setIsWindowProfile(!isWindowProfile)}/> 
+                </i>
             </nav>
        </Header>
     )

@@ -4,10 +4,10 @@ import { fireEvent, render,screen ,waitFor} from "@testing-library/react"
 import *as Services from "../services"
 import { MessageContext } from "../contexts"
 import { BtnAction } from "../components/listItems"
-
+import {FaTrash} from 'react-icons/fa'
 var DEFAULT_MESSAGE ;
 
-describe('addCart',()=>{
+describe('BTNACTION',()=>{
     beforeEach(()=>{
       jest.useFakeTimers()
     })
@@ -137,4 +137,38 @@ describe('addCart',()=>{
         })
         
     })
+    it("When BtnAction receives a component instead of text, it should render the component properly and maintain its functionality",async()=>{
+       
+        const service = jest.fn().mockReturnValue({status:201})
+        const message = {sucess:'Sucesso ao adicionar.'}
+        DEFAULT_MESSAGE = {
+            messageParams:{
+                content:'',type:''
+            },
+            setMessageParams:jest.fn()
+        }
+       jest.spyOn(React,'useState').mockReturnValue([DEFAULT_MESSAGE.messageParams,DEFAULT_MESSAGE.setMessageParams])
+
+        render(
+            <MessageContext.Provider value={  DEFAULT_MESSAGE }>
+                <BtnAction message={message} product_id={84} service={service} text={<FaTrash/>}></BtnAction>
+            </MessageContext.Provider>
+            )
+
+        const clickButton = screen.getByTestId('btn_component')
+
+        fireEvent.click(clickButton)
+        
+        expect(service).toHaveBeenCalledWith({product_id:84,quantity:1})
+        expect(service).toHaveBeenCalledTimes(1)
+       
+        await waitFor(()=>{
+        
+            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
+            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledWith({type:'sucess',content:message.sucess})
+            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'error',content:'Algo deu errado'})
+           
+        })
+    })
 })
+
