@@ -21,7 +21,7 @@ route
 .post('/store/create',fileUpload({createParentPath:true}),async(req,res)=>{
     const {user_id} = req.user
     const {name,description,category} =req.body
- 
+   
     if(!name || !description || !category)return res.status(400).send({ message: 'Please provide all required fields: name, description, and category.' });
 
     if (!req.files)return res.status(400).send({ message: 'No files were sent in the request.' });
@@ -45,6 +45,7 @@ route
     
         res.status(201).send({message:'sucess'})
     }catch(err){
+        console.log(err)
         res.status(500).send({message:'Something went wrong'+err})
     }
 })
