@@ -26,6 +26,14 @@ module.exports = {
       },
       product_id: {
         type: Sequelize.INTEGER
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: true 
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: true 
       }
     });
   },
