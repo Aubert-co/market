@@ -1,18 +1,31 @@
 const route = require('express').Router()
 const {Product} = require('../models/index')
 const {generateWhereClause,isValidNumber, sanitizeString}  = require('../helpers/index')
+
 const limit = 25
 
 route
 .get('/products',async(req,res)=>{
     try{
-         
         const datas = await Product.findAll({limit});
+     
         res.status(200).send({message:'sucess',datas})
     }catch(err){
         res.status(500).send({message:'Oops, something went wrong! Please try again later.'+err})
     }
 
+})
+.get('/products/info/:product_id',async(req,res)=>{
+    const {product_id} = req.params
+    
+    try{
+        const datas = await  Product.findOne({where:{id:product_id}});
+
+        return res.status(200).send({message:'sucess',datas})
+    }catch(err){
+        res.status(500).send({message:'Oops, something went wrong! Please try again later.'+err})
+   
+    }
 })
 .post('/products/search',async(req,res)=>{
     var {category,name,color,low,high} = req.body
