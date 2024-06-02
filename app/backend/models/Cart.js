@@ -42,6 +42,14 @@ module.exports = (sequelize, DataTypes) => {
     product_id: {
       type: DataTypes.INTEGER
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true 
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true 
+    }
   }, {
     sequelize,
     modelName: 'Cart',
