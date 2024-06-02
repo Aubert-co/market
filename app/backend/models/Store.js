@@ -14,8 +14,19 @@ module.exports = (sequelize, DataTypes) => {
       Store.hasMany(models.Product,  {
         foreignKey: 'id',
         as: 'product',
-      
       });
+      Store.hasMany(models.Views,{
+        foreignKey:'id',
+        as:'views'
+      })
+      Store.hasMany(models.Reviews,{
+        foreignKey:'id',
+        as:'reviews'
+      })
+      Store.hasMany(models.Status,{
+        foreignKey:'id',
+        as:'Status'
+      })
     }
   }
   Store.init({
@@ -44,7 +55,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull:false
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true 
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true 
+    },
+
   }, {
+    timestamps:true,
     sequelize,
     modelName: 'Store',
   });

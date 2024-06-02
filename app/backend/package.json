@@ -7,7 +7,7 @@
     "prestart": "cross-env mode=development",
     "pretest": "cross-env mode=test",
     "start": "nodemon ./serve.js",
-    "test": "jest test.js --verbose --forceExit -i",
+    "test": "jest ./tickets.test.js --verbose --forceExit -i",
     "spec":"jest /*.spec.js",
     "insert": "jest ./insert/ insert.js --forceExit -i"
   },

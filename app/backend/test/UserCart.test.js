@@ -24,7 +24,7 @@ describe("API CART",()=>{
             ])
             token = jwt.sign({user_id:user.id},secret)
         }catch(err){
-         
+            
             console.error("before all"+err)
         }
     })

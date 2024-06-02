@@ -72,6 +72,34 @@ describe("GET/products",()=>{
         expect(response.body.datas).toHaveLength(defaultLimit);
       });
     
+   
+})
+
+describe("GET/products/info/:product_id",()=>{
+    it("When sending a valid product_id, the operation should succeed, and the corresponding product should be returned.",async()=>{
+        const [item,...e] =itemStore
+  
+        const response = await request(app).get(`/products/info/${itemStore[0].id}`);
+      
+        expect(response.body.message).toBe("sucess");
+        expect(response.status).toBe(200);
+        const datas =response.body.datas
+        const keys = Object.keys(item)
+
+        
+        keys.map((val)=>{
+           expect(datas[val]).toEqual(item[val])
+        })
+    })
+    it("When sending a non-existent product_id, the operation should succeed, and the data returned should be null.",async()=>{
+        const [item,...e] =itemStore
+  
+        const response = await request(app).get(`/products/info/559`);
+      
+        expect(response.body.message).toBe("sucess");
+        expect(response.status).toBe(200);
+        expect(response.body.datas).toBeNull()
+    })
     afterAll(async()=>{
         try{
            await Product.destroy({ where: { id: { [Op.gt]: 0 } } })

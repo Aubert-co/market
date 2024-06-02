@@ -9,6 +9,18 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'id'
 
       });
+      Product.hasMany(models.Views,{
+        foreignKey:'id',
+        as:'views'
+      })
+      Product.hasMany(models.Reviews,{
+        foreignKey:'id',
+        as:'reviews'
+      })
+      Product.hasMany(models.Status,{
+        foreignKey:'id',
+        as:'Status'
+      })
       Product.belongsTo(models.Store,{
         foreignKey:'store_id',
         as:'store',
@@ -63,6 +75,14 @@ module.exports = (sequelize, DataTypes) => {
     quantity:{
       type:DataTypes.INTEGER,
       allowNull:false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true 
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true 
     }
   }, {
     sequelize,
