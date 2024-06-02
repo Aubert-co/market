@@ -7,10 +7,18 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         as: 'carts',
       });
+      Person.hasMany(models.Reviews, {
+        foreignKey: 'id',
+        as: 'reviews',
+      });
       Person.hasMany(models.Store, {
         foreignKey: 'id',
         as: 'store',
       });
+      Person.hasMany(models.Status,{
+        foreignKey:'id',
+        as:'Status'
+      })
     }
   }
     Person.init({
@@ -22,7 +30,15 @@ module.exports = (sequelize, DataTypes) => {
       },      
     name: DataTypes.STRING,
     password: DataTypes.STRING,
-    
+
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: true 
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true 
+    }
   }, {
     sequelize,
     modelName: 'Person',
