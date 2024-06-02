@@ -13,6 +13,7 @@ async function existImg(path){
     }
 }
 const createPathImg = (files)=>{
+
     if(!files.name || !files.data)return {imgName:undefined,imgPath:undefined}
 
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
