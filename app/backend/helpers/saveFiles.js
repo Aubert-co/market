@@ -1,5 +1,5 @@
 const  fs = require('fs').promises;
-
+const pathMode = process.env.mode ==="test" ? "./testpublic/" : "./public/"
 async function existImg(path){
     if(!path)return false
 
@@ -18,7 +18,7 @@ const createPathImg = (files)=>{
 
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
     const [imgName,extension] = files.name.split('.')
-    const imgPath = './public/'+uniqueSuffix+'.'+extension
+    const imgPath = pathMode+uniqueSuffix+'.'+extension
     return {imgName,imgPath,extension}
 }
 async function savesImg(files,imgPath){

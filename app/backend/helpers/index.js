@@ -26,9 +26,15 @@ const sanitizeString = (str)=>{
     if(str)return str.replace(/[^a-zA-Z\s]/g, '');
 }
 const isValidNumber = (number)=> {  
-    if (typeof number === 'number' && !isNaN(number) && number > 0) return true; 
+    number = Number(number)
+    if (typeof number === 'number' && !isNaN(number) && number > 0 && number !== Infinity && number%1===0) return true; 
     
     return false
+}
+const clampToRange = (value)=>{
+    value = value > 5 ? 5 : value
+    value = value <1 ? 1:value
+    return value
 }
 function updateWhere(params){
 
@@ -41,7 +47,8 @@ function updateWhere(params){
     
     return newObjet
 }
-module.exports = {generateWhereClause,setLimit,isValidNumber,sanitizeString,updateWhere }
+
+module.exports = {generateWhereClause,setLimit,isValidNumber,sanitizeString,updateWhere,clampToRange }
 
 
 

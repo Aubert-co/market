@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('reviews',{
+    await queryInterface.createTable('Reviews',{
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,21 +14,15 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      product_id:{
-        type: Sequelize.INTEGER,
-        allowNull:true
-      },
-   
+    
       comments: {
         type: Sequelize.TEXT,
         allowNull: true
       },
-      status_id: {
+      ticket_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+
       },
       imgPath:{
         type:Sequelize.STRING,
@@ -38,20 +32,14 @@ module.exports = {
         type:Sequelize.STRING,
         allowNull:true
       },
-      requester_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-   
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-      },
+     
       createdAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
       },
       updatedAt: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW
       }
@@ -61,6 +49,6 @@ module.exports = {
   
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('reviews');
+    await queryInterface.dropTable('Reviews');
   }
 };

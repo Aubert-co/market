@@ -3,27 +3,34 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Status extends Model {
+  class Tickets extends Model {
     
     static associate(models) {
-    Status.belongsTo(models.Person, {
+   
+      Tickets.belongsTo(models.Person, {
         foreignKey: 'requester_id',
         as: 'Person',
-        targetKey: 'id'
+       
     });
-    Status.belongsTo(models.Store, {
+    Tickets.belongsTo(models.Store, {
         foreignKey: 'store_id',
         as: 'Store',
-        targetKey: 'id'
+    
     });
-    Status.belongsTo(models.Product, {
+    Tickets.belongsTo(models.Product, {
         foreignKey: 'product_id',
         as: 'Product',
-        targetKey: 'id'
+  
     });
-    }
+    Tickets.hasMany(models.Reviews,{
+      foreignKey:'ticket_id',
+      as:'Reviews'
+    })
+
   }
-  Status.init({
+    
+  }
+  Tickets.init({
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -36,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     product_id:{
         type: DataTypes.INTEGER,
-        allowNull:true
+        allowNull:false
     },
     requester_id: {
         type: DataTypes.INTEGER,
@@ -60,7 +67,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps:true,
     sequelize,
-    modelName: 'Status',
+    modelName: 'Tickets',
   });
-  return Status;
+  return Tickets;
 };

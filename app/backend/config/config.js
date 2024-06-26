@@ -1,12 +1,12 @@
 require('dotenv').config()
-
+var configMode = process.env.mode === undefined ? "development": process.env.mode
 
 const config =  {
   development: {
-    "username": "root",
-    "password": null,
-    "database": "others2",
-    "host": "localhost",
+    "username": process.env.DB_USERNAME,
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.DATABASE,
+    "host": process.env.DB_HOST,
     "dialect": "mysql",
     "logging":false,
     "define": {
@@ -18,7 +18,7 @@ const config =  {
   test: {
     "username": process.env.DB_USERNAME,
     "password": process.env.DB_PASSWORD,
-    "database": process.env.DATABASE,
+    "database": process.env.DATABASETEST,
     "host": process.env.DB_HOST,
     "dialect": "mysql",
     "logging":false,
@@ -43,4 +43,4 @@ const config =  {
   }
 }
 
-module.exports = config["test"]
+module.exports = config[configMode]

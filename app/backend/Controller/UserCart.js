@@ -27,7 +27,7 @@ route
 
     try {
         const findCartItem = await Product.findByPk(product_id)
-        if(findCartItem === null)return res.status(404).send({message:'Oops, something went wrong! Please try again later.'})
+        if(findCartItem === null)return res.status(404).send({message:'Cart not found'})
       
         const [cartItem, created] = await Cart.findOrCreate({
             where: { product_id ,user_id},

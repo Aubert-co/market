@@ -1,6 +1,6 @@
 const request = require('supertest');
 const server = require('../serve');
-const {Product} = require('../models/index')
+const {Product,Views} = require('../models/index')
 const {Op} = require('sequelize')
 const {itemStore,defaultLimit} = require('./storefixtures')
 require('dotenv')
@@ -11,6 +11,7 @@ describe("GET/products",()=>{
     beforeAll(async()=>{
         app =  server.listen(8089)
         await Product.bulkCreate(itemStore)
+    
         .catch((err)=>{
             console.error("error beforeal",err)
             throw err
@@ -76,7 +77,7 @@ describe("GET/products",()=>{
 })
 
 describe("GET/products/info/:product_id",()=>{
-    it("When sending a valid product_id, the operation should succeed, and the corresponding product should be returned.",async()=>{
+    it("When sending a valid product_id, the operation should succeed, and the corresponding product should be returned. The view should be saved in the table 'views'.",async()=>{
         const [item,...e] =itemStore
   
         const response = await request(app).get(`/products/info/${itemStore[0].id}`);
@@ -84,14 +85,20 @@ describe("GET/products/info/:product_id",()=>{
         expect(response.body.message).toBe("sucess");
         expect(response.status).toBe(200);
         const datas =response.body.datas
-        const keys = Object.keys(item)
+        const keys = Object.keys(datas)
+        const [product,views] =await Promise.all([Product.findOne({where:{id:datas.id}}),Views.findAll({where:{product_id:datas.id}})])
+     
+        const dataViews = views[0].dataValues
+        const datasProduct = product.dataValues
+        expect(views).toHaveLength(1)
+        expect(dataViews.product_id).toEqual(itemStore[0].id)
 
-        
         keys.map((val)=>{
-           expect(datas[val]).toEqual(item[val])
+            if(val ==='createdAt' || val === 'updatedAt')return
+            expect(datasProduct[val]).toEqual(datas[val])
         })
     })
-    it("When sending a non-existent product_id, the operation should succeed, and the data returned should be null.",async()=>{
+    it("When sending a non-existent product_id, the operation should succeed, and the data returned should be null. It should not save a view in the table 'views'.",async()=>{
         const [item,...e] =itemStore
   
         const response = await request(app).get(`/products/info/559`);
@@ -99,10 +106,13 @@ describe("GET/products/info/:product_id",()=>{
         expect(response.body.message).toBe("sucess");
         expect(response.status).toBe(200);
         expect(response.body.datas).toBeNull()
+        const views =await Views.findAll()
+        expect(views).toHaveLength(1)
     })
     afterAll(async()=>{
         try{
            await Product.destroy({ where: { id: { [Op.gt]: 0 } } })
+           await Views.destroy({ where: { id: { [Op.gt]: 0 } } })
         }catch(err){
             console.error(err)
             throw err

@@ -176,7 +176,7 @@ describe("API Store",()=>{
 
         expect(datasFromDB).toHaveLength(1)
         
-        const items = await fs.readdir('./public');
+        const items = await fs.readdir('./testpublic');
         
         expect(items.length).toEqual(1)
         }catch(err){
@@ -218,7 +218,7 @@ describe("API Store",()=>{
         expect(datasFromDB.description).toEqual(description)
 
         expect(existImg(datasFromDB.imgPath)).toBeTruthy()
-        const items = await fs.readdir('./public');
+        const items = await fs.readdir('./testpublic');
         expect(items.length).toEqual(1)
         }catch(err){
             throw err

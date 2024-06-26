@@ -24,6 +24,9 @@ const newDatas  ={
 store.id=59
 store_id = 59
 describe("API /store/product",()=>{
+    beforeEach(()=>{
+        jest.clearAllMocks()
+    })
     beforeAll(async()=>{
         app =  server.listen(8086)
         try{
@@ -38,6 +41,7 @@ describe("API /store/product",()=>{
     })
     it("When not sending a store_id, an error should be returned, and a product should not be created.",async()=>{
         try{
+            const mockFS = jest.spyOn(fs,'writeFile')
             const file = path.join(__dirname, 'imgupdate.jpg');
             const response = await request(app)
                 .post('/store/product/create')
@@ -51,13 +55,14 @@ describe("API /store/product",()=>{
             const productsInDB = await Product.findAll({where:{store_id}})
 
             expect(productsInDB).toHaveLength(0)
+            expect(mockFS).toHaveBeenCalledTimes(0)
         }catch(err){
             throw err
         }
     })
     it("When attempting to create a product but not sending a file, an error should be returned.",async()=>{
         try{
-        
+            const mockFS = jest.spyOn(fs,'writeFile')
             const response = await request(app)
                 .post('/store/product/create')
                 .set({'Content-type':'application/json'})
@@ -69,12 +74,14 @@ describe("API /store/product",()=>{
 
             const productsInDB = await Product.findAll({where:{store_id}})
             expect(productsInDB).toHaveLength(0)
+            expect(mockFS).toHaveBeenCalledTimes(0)
         }catch(err){
             throw err
         }
     })
     it("When attempting to create a product and the store ID does not match the user ID, an error should be returned.",async()=>{
         try{
+            const mockFS = jest.spyOn(fs,'writeFile')
             const file = path.join(__dirname, 'imgupdate.jpg');
             const response = await request(app)
                 .post('/store/product/create')
@@ -92,12 +99,14 @@ describe("API /store/product",()=>{
 
             const productsInDB = await Product.findAll({where:{store_id}})
             expect(productsInDB).toHaveLength(0)
+            expect(mockFS).toHaveBeenCalledTimes(0)
         }catch(err){
             throw err
         }
     })
     it("When attempting to create a product but not sending a name, an error should be returned.",async()=>{
         try{
+            const mockFS = jest.spyOn(fs,'writeFile')
             const file = path.join(__dirname, 'imgupdate.jpg');
             const response = await request(app)
                 .post('/store/product/create')
@@ -114,12 +123,14 @@ describe("API /store/product",()=>{
 
             const productsInDB = await Product.findAll({where:{store_id}})
             expect(productsInDB).toHaveLength(0)
+            expect(mockFS).toHaveBeenCalledTimes(0)
         }catch(err){
             throw err
         }
     })
     it("When attempting to create a product but not sending a description, an error should be returned.",async()=>{
         try{
+            const mockFS = jest.spyOn(fs,'writeFile')
             const file = path.join(__dirname, 'imgupdate.jpg');
             const response = await request(app)
                 .post('/store/product/create')
@@ -136,12 +147,14 @@ describe("API /store/product",()=>{
 
             const productsInDB = await Product.findAll({where:{store_id}})
             expect(productsInDB).toHaveLength(0)
+            expect(mockFS).toHaveBeenCalledTimes(0)
         }catch(err){
             throw err
         }
     })
     it("When attempting to create a product but not sending a category, an error should be returned.",async()=>{
         try{
+            const mockFS = jest.spyOn(fs,'writeFile')
             const file = path.join(__dirname, 'imgupdate.jpg');
             const response = await request(app)
                 .post('/store/product/create')
@@ -158,12 +171,14 @@ describe("API /store/product",()=>{
 
             const productsInDB = await Product.findAll({where:{store_id}})
             expect(productsInDB).toHaveLength(0)
+            expect(mockFS).toHaveBeenCalledTimes(0)
         }catch(err){
             throw err
         }
     })
     it("When attempting to create a product but not sending a price, an error should be returned.",async()=>{
         try{
+            const mockFS = jest.spyOn(fs,'writeFile')
             const file = path.join(__dirname, 'imgupdate.jpg');
             const response = await request(app)
                 .post('/store/product/create')
@@ -180,12 +195,14 @@ describe("API /store/product",()=>{
 
             const productsInDB = await Product.findAll({where:{store_id}})
             expect(productsInDB).toHaveLength(0)
+            expect(mockFS).toHaveBeenCalledTimes(0)
         }catch(err){
             throw err
         }
     })
     it("When attempting to create a product but not sending a quantity, an error should be returned.",async()=>{
         try{
+            const mockFS = jest.spyOn(fs,'writeFile')
             const file = path.join(__dirname, 'imgupdate.jpg');
             const response = await request(app)
                 .post('/store/product/create')
@@ -202,6 +219,7 @@ describe("API /store/product",()=>{
 
             const productsInDB = await Product.findAll({where:{store_id}})
             expect(productsInDB).toHaveLength(0)
+            expect(mockFS).toHaveBeenCalledTimes(0)
         }catch(err){
             throw err
         }
@@ -209,7 +227,9 @@ describe("API /store/product",()=>{
    
     it("When all data is sent correctly, a new product should be created.",async()=>{
         try{
+            const mockFS = jest.spyOn(fs,'writeFile')
             const file = path.join(__dirname, 'imgupdate.jpg');
+            const buffer = await fs.readFile(file)
             const response = await request(app)
                 .post('/store/product/create')
                 .set({'Content-type':'application/json'})
@@ -227,23 +247,32 @@ describe("API /store/product",()=>{
 
             const datasFromDB = await Product.findAll({where:{store_id}})
             const [productsInDB]  = datasFromDB
+            productImg = productsInDB.imgPath
+            product_id = productsInDB.id
+
             expect(datasFromDB).toHaveLength(1)
             expect(productsInDB.name).toEqual(products.name)
             expect(productsInDB.category).toEqual(products.category)
             expect(productsInDB.quantity).toEqual(products.quantity)
             expect(productsInDB.price).toEqual(products.price)
 
+
+            const firstArgument = mockFS.mock.calls[0][0];
+            const secondArgument = mockFS.mock.calls[0][1]
+            expect(firstArgument).toBe(productImg);  
             expect(existImg(productsInDB.imgPath)).toBeTruthy()
-            productImg = productsInDB.imgPath
-            product_id = productsInDB.id
+            expect(mockFS).toHaveBeenCalledTimes(1)
+            expect(firstArgument).toBe(productsInDB.imgPath)
+            expect(secondArgument.toString()).toBe(Buffer.from(buffer).toString())
         }catch(err){
             throw err
         }
     })
     it("When attempting to update a product without sending a name, the product should be updated, but the name should remain unchanged.",async()=>{
         try{
-           
-            const file = path.join(__dirname, 'imgupdate.jpg');
+            const mockFS = jest.spyOn(fs,'writeFile')
+            const file = path.join(__dirname, 'sports.jpg');
+            const buffer = await fs.readFile(file)
             const response = await request(app)
                 .put('/store/product/edit')
                 .set({'Content-type':'application/json'})
@@ -272,13 +301,20 @@ describe("API /store/product",()=>{
 
             expect(existImg(productsInDB.imgPath)).toBeTruthy()
             productImg = productsInDB.imgPath
+            const firstArgument = mockFS.mock.calls[0][0];
+            const secondArgument = mockFS.mock.calls[0][1]
+            expect(firstArgument).toBe(productImg);  
+        
+            expect(mockFS).toHaveBeenCalledTimes(1)
+            expect(firstArgument).toBe(productsInDB.imgPath)
+            expect(secondArgument.toString()).toBe(Buffer.from(buffer).toString())
         }catch(err){
             throw err
         }
     })
     it("When a store ID is not sent, an error should be returned, and the product should not be deleted.",async()=>{
         try{
-           
+            const mockFS = jest.spyOn(fs,'unlink')
             
             const response = await request(app)
                 .delete('/store/product/delete')
@@ -292,7 +328,9 @@ describe("API /store/product",()=>{
             
             expect(datasFromDB).toHaveLength(1)
           
-            expect(existImg(productImg)).toBeTruthy()
+            const exists = await existImg(productImg)
+            expect(exists).toBeTruthy()
+            expect(mockFS).toHaveReturnedTimes(0)
         }catch(err){
             throw err
         }
@@ -300,7 +338,7 @@ describe("API /store/product",()=>{
       it("When a product ID is not sent, an error should be returned, and the product should not be deleted.",async()=>{
         try{
            
-            
+            const mockFS = jest.spyOn(fs,'unlink')
             const response = await request(app)
                 .delete('/store/product/delete')
                 .set({'Content-type':'application/json'})
@@ -313,7 +351,9 @@ describe("API /store/product",()=>{
             
             expect(datasFromDB).toHaveLength(1)
           
-            expect(existImg(productImg)).toBeTruthy()
+            const exists = await existImg(productImg)
+            expect(exists).toBeTruthy()
+            expect(mockFS).toHaveReturnedTimes(0)
         }catch(err){
             throw err
         }
@@ -321,7 +361,7 @@ describe("API /store/product",()=>{
     it("When the store does not match the user ID, an error should be returned.",async()=>{
         try{
            
-            
+            const mockFS = jest.spyOn(fs,'unlink')
             const response = await request(app)
                 .delete('/store/product/delete')
                 .set({'Content-type':'application/json'})
@@ -333,8 +373,10 @@ describe("API /store/product",()=>{
             const datasFromDB = await Product.findAll({where:{id:product_id}})
             
             expect(datasFromDB).toHaveLength(1)
-          
-            expect(existImg(productImg)).toBeTruthy()
+
+            const exists = await existImg(productImg)
+            expect(exists).toBeTruthy()
+            expect(mockFS).toHaveReturnedTimes(0)
         }catch(err){
             throw err
         }
@@ -342,7 +384,7 @@ describe("API /store/product",()=>{
     it("When all correct data is sent, the product should be deleted.",async()=>{
         try{
            
-            
+            const mockFS = jest.spyOn(fs,'unlink')
             const response = await request(app)
                 .delete('/store/product/delete')
                 .set({'Content-type':'application/json'})
@@ -356,7 +398,13 @@ describe("API /store/product",()=>{
             
             expect(datasFromDB).toHaveLength(0)
           
-            expect(existImg(productImg)).toBeTruthy()
+            const exists = await existImg(productImg)
+            expect(exists).toBeFalsy()
+           
+            const firstArgument = mockFS.mock.calls[0][0];
+        
+            expect(firstArgument).toBe(productImg)
+            expect(mockFS).toHaveBeenCalledTimes(1)
         }catch(err){
             throw err
         }
@@ -370,8 +418,8 @@ describe("API /store/product",()=>{
             ])
             app.close()
          
-         
-            await fs.unlink(productImg)
+            const exists = await existImg(productImg)
+            if(exists)await fs.unlink(productImg)
         }catch(err){
             console.error("afterAll"+err)
         }

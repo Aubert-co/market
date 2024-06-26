@@ -13,20 +13,19 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey:'id',
         as:'views'
       })
-      Product.hasMany(models.Reviews,{
-        foreignKey:'id',
-        as:'reviews'
-      })
-      Product.hasMany(models.Status,{
-        foreignKey:'id',
-        as:'Status'
+
+      Product.hasMany(models.Tickets,{
+        foreignKey:'product_id',
+        as:'Tickets'
       })
       Product.belongsTo(models.Store,{
         foreignKey:'store_id',
         as:'store',
         sourceKey:'id'
       })
+      
     }
+    
   };
   
   Product.init({
@@ -85,6 +84,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true 
     }
   }, {
+    timestamps:true,
     sequelize,
     modelName: 'Product',
   });

@@ -32,21 +32,24 @@ const stores = [
       category: "Electronics",
       name: "Smartphone",
       description: "A high-performance smartphone with advanced features.",
-      user_id: 1
+      user_id: 1,
+      id:1
     },
     {
       imgPath: "/path/to/image2.jpg",
       category: "Clothing",
       name: "T-Shirt",
       description: "A comfortable cotton t-shirt suitable for everyday wear.",
-      user_id: 2
+      user_id: 2,
+      id:2
     },
     {
       imgPath: "/path/to/image3.jpg",
       category: "Books",
       name: "Fantasy Novel",
       description: "An epic fantasy novel filled with magic and adventure.",
-      user_id: 3
+      user_id: 3,
+      id:3
     }
   ];
   
@@ -68,8 +71,71 @@ const users = [
     }
   ];
   
-  
-  
+const status = [{
+  id: 1,
+  store_id: 1,
+  product_id: 1,
+  requester_id: 2,
+  status: 'open'
+},
+{
+  id: 2,
+  store_id: 1,
+  product_id: 2,
+  requester_id: 3,
+  status: 'completed'
+},
+{
+  id: 3,
+  store_id: 1,
+  product_id: 3,
+  requester_id: 3,
+  status: 'cancelled'
+},
+{
+  id: 4,
+  store_id: 2,
+  product_id: 5,
+  requester_id: 1,
+  status: 'cancelled'
+},
+{
+  id: 5,
+  store_id: 2,
+  product_id: 6,
+  requester_id: 3,
+  status: 'open'
+},
+{
+  id: 6,
+  store_id: 2,
+  product_id: 7,
+  requester_id: 1,
+  status: 'completed'
+},
+{
+  id: 7,
+  store_id: 3,
+  product_id: 6,
+  requester_id: 2,
+  status: 'completed'
+},
+{
+  id: 8,
+  store_id: 3,
+  product_id: 17,
+  requester_id: 2,
+  status: 'cancelled'
+},
+{
+  id: 9,
+  store_id: 3,
+  product_id: 16,
+  requester_id: 1,
+  status: 'open'
+}
+]
+
 const defaultLimit = 25
 const maximumLimit = 25
-module.exports = {itemStore,defaultLimit,maximumLimit,stores,users}
+module.exports = {itemStore,defaultLimit,maximumLimit,stores,users,status}

@@ -18,7 +18,8 @@ route
     }
 
 })
-.post('/store/create',fileUpload({createParentPath:true}),async(req,res)=>{
+.use(fileUpload({createParentPath:true}))
+.post('/store/create',async(req,res)=>{
     const {user_id} = req.user
     const {name,description,category} =req.body
    
@@ -45,12 +46,12 @@ route
     
         res.status(201).send({message:'sucess'})
     }catch(err){
-        console.log(err)
+        
         res.status(500).send({message:'Something went wrong'+err})
     }
 })
 
-.put('/store/edit',fileUpload({createParentPath:true}),async(req,res)=>{
+.put('/store/edit',async(req,res)=>{
     const {user_id} = req.user
     const {description,category,id} =req.body
     const valuesToUpdate =  updateWhere({description,category})
@@ -77,7 +78,7 @@ route
         res.status(500).send({message:'Something went wrong'+err})
     }
 })
-.post('/store/product/create',fileUpload({createParentPath:true}),async(req,res)=>{
+.post('/store/product/create',async(req,res)=>{
     const {user_id} = req.user
     const {store_id,quantity,category,price,name,description} = req.body
   
@@ -114,20 +115,28 @@ route
         res.status(500).send({message:'Something went wrong'+err})
     }
 })
-.put('/store/product/edit',fileUpload({createParentPath:true}),async(req,res)=>{
+
+.use(async(req,res,next)=>{
     const {user_id} = req.user
-    const {name,category,description,price,store_id,product_id,quantity} =req.body
-    
+    const {store_id,product_id,} =req.body
     if (!product_id  || !store_id) return res.status(400).send({ message: "ID not provided" });
 
+    const store = await Store.findByPk(store_id);
+    if(!store || store.user_id !== user_id)return res.status(404).send({message:'Store not found'})
+    
+    req.store = store
+    next()
+})
+.put('/store/product/edit',async(req,res)=>{
+  
+    const {name,category,description,price,store_id,product_id,quantity} =req.body
+  
+   
     try{
         const valuesToUpdate = updateWhere({name,category,description,price,quantity})
         
-        const store = await Store.findByPk(store_id);
-        if(!store || store.user_id !== user_id)return res.status(404).send({message:'Store not found'})
-     
-     
-        const oldProducts = await Product.findOne({where:{store_id:store.id,id:product_id}})
+        
+        const oldProducts = await Product.findOne({where:{store_id,id:product_id}})
         if(!oldProducts)return res.status(404).send({message:'Product not found'})
         
         if(req.files)await savesImg(req.files.file,oldProducts.imgPath)
@@ -138,28 +147,22 @@ route
         res.status(500).send({message:'Something went wrong'+err})
     }
 })
-.delete('/store/product/delete',fileUpload({createParentPath:true}),async(req,res)=>{
-    const {user_id} = req.user
+.delete('/store/product/delete',async(req,res)=>{
+   
     const {product_id,store_id} =req.body
 
-    if (!product_id  || !store_id) return res.status(400).send({ message: "ID not provided" });
-
     try{
-        const store = await Store.findByPk(store_id);
-        if(!store || store.user_id !== user_id)return res.status(404).send({message:'Store not found'})
-     
+       
         const products = await Product.findOne({
-            where:{id:product_id,store_id:store.id}
+            where:{id:product_id,store_id}
         })
         if(products === null)return res.status(404).send({message:'product not found'})
 
         const imgPathToDelete = products.imgPath
-        await Product.destroy({    
-            where:{id:product_id}
-        })
-        
         const isImg =await existImg(imgPathToDelete)
         if(isImg)await fs.unlink(imgPathToDelete)
+
+        await Product.destroy({where:{id:product_id}})
         
         res.status(201).send({message:'Sucess'})
     }catch(err){

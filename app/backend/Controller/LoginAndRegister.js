@@ -28,9 +28,9 @@ route
         
         res.status(200).send({message: "Successful login", token});
 
-        }catch(err){
-            res.status(500).send({message:'Oops, something went wrong! Please try again later.'+err})
-        }
+    }catch(err){
+        res.status(500).send({message:'Oops, something went wrong! Please try again later.'+err})
+    }
 })
 .post('/register',async(req,res)=>{
     const {name,password} = req.body

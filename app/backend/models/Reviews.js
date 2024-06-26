@@ -6,21 +6,12 @@ module.exports = (sequelize, DataTypes) => {
   class Reviews extends Model {
     
     static associate(models) {
-    Reviews.belongsTo(models.Store, {
-        foreignKey: 'store_id',
-        as: 'store',
-        targetKey: 'id'
-    });
-    Reviews.belongsTo(models.Person, {
-        foreignKey: 'requester_id',
-        as: 'Person',
-        targetKey: 'id'
-    });
-    Reviews.belongsTo(models.Product, {
-        foreignKey: 'product_id',
-        as: 'Product',
-        targetKey: 'id'
-    });
+    
+    Reviews.belongsTo(models.Tickets, {
+      foreignKey: 'ticket_id',
+      as: 'Tickets',
+   
+  });
     }
   }
   Reviews.init({
@@ -30,9 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER
     },
-    product_id:{
-        type: DataTypes.INTEGER,
-        allowNull:true
+   
+    ticket_id:{
+      type:DataTypes.INTEGER,
+      allowNull:true
     },
     rating: {
         type: DataTypes.INTEGER,
@@ -50,19 +42,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: true
     },
-    requester_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
 
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-    },
     createdAt: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.DATE
     },
     updatedAt: {
-        allowNull: false,
+        allowNull: true,
         type: DataTypes.DATE
     },
    

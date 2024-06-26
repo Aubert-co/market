@@ -1,5 +1,5 @@
 const route = require('express').Router()
-const {Product} = require('../models/index')
+const {Product,Views} = require('../models/index')
 const {generateWhereClause,isValidNumber, sanitizeString}  = require('../helpers/index')
 
 const limit = 25
@@ -20,7 +20,9 @@ route
     
     try{
         const datas = await  Product.findOne({where:{id:product_id}});
-
+        if(!datas)return res.status(200).send({message:'sucess',datas})
+        await Views.create({product_id})
+     
         return res.status(200).send({message:'sucess',datas})
     }catch(err){
         res.status(500).send({message:'Oops, something went wrong! Please try again later.'+err})

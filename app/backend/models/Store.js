@@ -8,25 +8,22 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Store.belongsTo(models.Person, {
         foreignKey: 'user_id',
-        as: 'person',
-        sourceKey: 'id'
+        as: 'Person',
+      
       });
       Store.hasMany(models.Product,  {
-        foreignKey: 'id',
+        foreignKey: 'store_id',
         as: 'product',
       });
       Store.hasMany(models.Views,{
         foreignKey:'id',
         as:'views'
       })
-      Store.hasMany(models.Reviews,{
-        foreignKey:'id',
-        as:'reviews'
+      Store.hasMany(models.Tickets,{
+        foreignKey:'store_id',
+        as:'Tickets'
       })
-      Store.hasMany(models.Status,{
-        foreignKey:'id',
-        as:'Status'
-      })
+     
     }
   }
   Store.init({

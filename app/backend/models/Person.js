@@ -7,17 +7,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'id',
         as: 'carts',
       });
-      Person.hasMany(models.Reviews, {
-        foreignKey: 'id',
-        as: 'reviews',
-      });
+   
       Person.hasMany(models.Store, {
-        foreignKey: 'id',
+        foreignKey: 'user_id',
         as: 'store',
+        
       });
-      Person.hasMany(models.Status,{
-        foreignKey:'id',
-        as:'Status'
+      Person.hasMany(models.Tickets,{
+        foreignKey:'requester_id',
+        as:'Tickets'
       })
     }
   }
