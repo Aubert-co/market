@@ -116,17 +116,7 @@ route
     }
 })
 
-.use(async(req,res,next)=>{
-    const {user_id} = req.user
-    const {store_id,product_id,} =req.body
-    if (!product_id  || !store_id) return res.status(400).send({ message: "ID not provided" });
 
-    const store = await Store.findByPk(store_id);
-    if(!store || store.user_id !== user_id)return res.status(404).send({message:'Store not found'})
-    
-    req.store = store
-    next()
-})
 .put('/store/product/edit',async(req,res)=>{
   
     const {name,category,description,price,store_id,product_id,quantity} =req.body

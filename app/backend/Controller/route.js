@@ -5,11 +5,11 @@ const products = require('./products')
 const stores = require('./stores')
 const tickets = require('./tickets')
 const reviews = require('./Reviews')
-route
-.use(loginAndRegister)
-.use(products)
-.use('/cart',cart)
-.use(stores)
-.use(tickets)
-.use(reviews)
+
+route.use(loginAndRegister)
+route.use(products)
+route.use('/cart',cart)
+route.use(stores)
+route.use(tickets)
+route.use(reviews)
 module.exports = route

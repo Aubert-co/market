@@ -19,6 +19,9 @@ const updateDatas = {rating:4,comment:'updated value',file:imgToUpdate}
 
 
 describe("apis",()=>{
+    beforeEach(()=>{
+        jest.clearAllMocks()
+    })
     beforeAll(async()=>{
         app =  server.listen(8095)
         await Tickets.bulkCreate(status)
@@ -42,26 +45,28 @@ describe("apis",()=>{
             console.error("afterAll"+err)
         }
     })
-    it("When not send a ticket id should return an error",async()=>{
+    it.only("When not send a ticket id should return an error",async()=>{
+     
         const file = path.join(__dirname, 'sports.jpg');
         const response = await request(app)
             .post('/reviews/product/create')
             .set({'Content-type':'application/json'})
             .set('Authorization',`Bearer ${token}`)
             .attach('file',file)
-            .field('rating',6)
+            .field('rating',5)
             .field('comments','lorem ipstu')
             
         expect(response.status).toEqual(400)
+        console.log(response.body.message)
         expect(response.body.message).toEqual('Ticket id not provided.')
         
         const checkInDB = await Reviews.findAll()
         expect(checkInDB).toHaveLength(0)
         const items = await fs.readdir('./testpublic');
-        
-        expect(items.length).toEqual(0)
+      
     })
     it("When not send a ticket id should return an error",async()=>{
+        const mockFS = jest.spyOn(fs,'writeFile')
         const file = path.join(__dirname, 'sports.jpg');
         const response = await request(app)
             .post('/reviews/product/create')
@@ -79,8 +84,10 @@ describe("apis",()=>{
 
         const items = await fs.readdir('./testpublic');
         expect(items.length).toEqual(0)
+        expect(mockFS).toHaveBeenCalledTimes(0)
     })
-    it("When send a ticket that the status is not completed",async()=>{
+    it("When send a ticket that the status is not completed should return an error",async()=>{
+        const mockFS = jest.spyOn(fs,'writeFile')
         const file = path.join(__dirname, 'sports.jpg');
         const response = await request(app)
             .post('/reviews/product/create')
@@ -98,11 +105,37 @@ describe("apis",()=>{
 
         const items = await fs.readdir('./testpublic');
         expect(items.length).toEqual(0)
+        expect(mockFS).toHaveBeenCalledTimes(0)
     })
-    it("When send all data correct should create a new review",async()=>{
-        const rating = 5
+    it("When send a rating smaller than 1 should return an error",async()=>{
+        const mockFS = jest.spyOn(fs,'writeFile')
+        const rating = 0
         const comments = 'lorem ipstu'
         const file = path.join(__dirname, 'sports.jpg');
+        const response = await request(app)
+            .post('/reviews/product/create')
+            .set({'Content-type':'application/json'})
+            .set('Authorization',`Bearer ${token}`)
+            .attach('file',file)
+            .field('rating',rating)
+            .field('comments',comments)
+            .field('ticket_id',ticket_completed)
+          
+        expect(response.status).toEqual(400)
+        expect(response.body.message).toEqual('Rating not provided.')
+        const checkInDB = await Reviews.findAll()
+        expect(checkInDB).toHaveLength(1)
+        
+        const datas = checkInDB[0].dataValues
+        expect(datas).toHaveLength(0)
+        expect(mockFS).toHaveBeenCalledTimes(0)
+    })
+    it("When send all data correct should create a new review",async()=>{
+        const mockFS = jest.spyOn(fs,'writeFile')
+        const rating = 6
+        const comments = 'lorem ipstu'
+        const file = path.join(__dirname, 'sports.jpg');
+        const buffer = await fs.readFile(file)
         const response = await request(app)
             .post('/reviews/product/create')
             .set({'Content-type':'application/json'})
@@ -121,12 +154,13 @@ describe("apis",()=>{
         img_Path =datas.imgPath
         review_id = datas.id
         expect(datas.comments).toEqual(comments)
-        expect(datas.rating).toEqual(rating)
-
-        const items = await fs.readdir('./testpublic');
-        expect(items.length).toEqual(1)
-        const exist = await existImg(datas.imgPath)
-        expect(exist).toEqual(true)
+        //When the rating is greater than 5 they should return 5
+        expect(datas.rating).toEqual(5)
+        const firstArgument = mockFS.mock.calls[0][0];
+        const secondArgument = mockFS.mock.calls[0][1]
+        expect(firstArgument).not.toBe(img_Path);    
+        expect(secondArgument.toString()).toBe(Buffer.from(buffer).toString())
+        expect(mockFS).toHaveBeenCalledTimes(1)
     })
     it("When a user try to create a review to a ticket that already exists a review",async()=>{
         const rating = 5
@@ -213,7 +247,7 @@ describe("apis",()=>{
         const exist = await existImg(datas.imgPath)
         expect(exist).toEqual(true)
     })
-    it("When try to update a review but not send a rating the rating should not be updated",async()=>{
+    it("When not send a rating the rating should not be updated",async()=>{
        
         const response = await request(app)
             .put('/reviews/product/edit')

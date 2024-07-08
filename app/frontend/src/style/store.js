@@ -154,3 +154,140 @@ button{
     cursor:pointer;
 }
 `
+
+
+export const AdminContainer = styled.div`
+
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.info-boxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.info-box {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+    min-width: 200px;
+}
+
+.info-box h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #6c63ff;
+}
+
+.info-box p {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.dashboard-section {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.dashboard-section h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.dashboard {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    text-align: center;
+}
+
+.table-section {
+    margin-top: 40px;
+}
+
+.table-section h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f7fc;
+    color: #333;
+}
+
+.form-section {
+    margin-top: 40px;
+}
+
+.form-section h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button[type="submit"] {
+    background-color: #6c63ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button[type="submit"]:hover {
+    background-color: #5753d5;
+}
+`

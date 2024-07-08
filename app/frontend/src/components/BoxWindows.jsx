@@ -61,16 +61,14 @@ export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas }) 
     <BoxWindow typeWindow={'settings'} isWindowOpen={isSettingsOpen} setIsWindowOpen={setIsSettingsOpen} />
   );
   
-const service = async()=>{
-  return {datas:items,status:201}
-}
+
 export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
     const { setMessageParams } = useContext(MessageContext);
     const [items, setItems] = useState({ datas: 'carregando', status: '' });
   
     useEffect(() => {
       if (isWindowOpen) {
-        fetchData({ service, setItems });
+        fetchData({ service:serviceGetCart, setItems });
       }
     }, [isWindowOpen]);
   

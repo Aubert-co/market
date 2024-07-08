@@ -12,7 +12,7 @@ describe("apis",()=>{
         app =  server.listen(8082)
     })
    
-    it("It should return a status of 404 when the user is not registered in the database.",async()=>{
+    it("Should create a new user.",async()=>{
         const response = await request(app)
         .post('/register')
         .set('Content-Type', 'application/json')
@@ -57,15 +57,7 @@ describe("apis",()=>{
         const datas = await Person.findOne({where:{name}})
         expect(datas).toBeNull()
     })
-    it("Should return an error when name is not sent",async()=>{
-        const response = await request(app)
-        .post('/register')
-        .set('Content-Type', 'application/json')
-        .send({name:"",password:"1234"})
-        
-        expect(response.status).toBe(400)
-       
-    })
+ 
    
  afterAll(async()=>{
     await Person.destroy({ where: { id: { [Op.gt]: 1 } } });

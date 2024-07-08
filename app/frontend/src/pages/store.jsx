@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchData } from "../hooks";
 import { serviceStore } from "../services";
-import { ShowForm } from "../components/CreateStore";
+import { ShowFormStore } from "../components/ShowFormStore";
+import { AdminStore } from "../components/adminStore";
 
 
 export const Store = () => {
@@ -9,17 +10,22 @@ export const Store = () => {
     const [showCreateStore, setShowCreate] = useState(false);
 
     useEffect(() => {
-        fetchData({service:serviceStore,setItems:setStore})
-    }, [showCreateStore]); 
-
-    if (store.datas !== 'Carregando' && Array.isArray(store.datas) && store.datas.length === 0) 
-        return <ShowForm setShowCreate={setShowCreate} showCreateStore={showCreateStore} />;
+        fetchData({ service: serviceStore, setItems: setStore });
+    }, []); 
+    useEffect(() => {
+        if (store.datas !== 'Carregando' && Array.isArray(store.datas) && store.datas.length === 0) {
+            setShowCreate(true);
+        }
+    }, [store]); 
+    
+  //  if (showCreateStore) return <ShowFormStore setShowCreate={setShowCreate} showCreateStore={showCreateStore} />;
     
     
-
+    
     return (
         <div className="box_store" data-testid="box_store">
-            {store.datas === 'Carregand' && 'Carregando'}
+            {store.datas === 'Carregando' && 'Carregando'}
+            <AdminStore/>
         </div>
     );
 };

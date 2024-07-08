@@ -12,7 +12,8 @@ export const Login = ()=>{
     const clickToSend =async ({name,password,setMessage})=>{
         
        const {token,status} = await serviceLogin({name,password})
-     
+        
+       console.log("login",status,token)
        if(!token || status !== 200){
         setMessage({content:"Algo deu errado"})
         return  

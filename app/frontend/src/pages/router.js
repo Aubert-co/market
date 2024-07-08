@@ -20,6 +20,8 @@ export const App = () => {
  
             <Route path="/" element={<Home />} />
             <Route path="/store"  element={<Store/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/register" element={<Register/>}/>
         </Routes>
     </Router>
     </MessageContext.Provider>
