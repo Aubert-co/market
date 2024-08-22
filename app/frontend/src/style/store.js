@@ -29,7 +29,6 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    border: 5px solid white;
     margin-bottom: 20px;
 }
 
@@ -104,6 +103,7 @@ body {
 @media (max-width: 768px) {
     .benefit-box {
         width: 45%;
+       
     }
 }
 

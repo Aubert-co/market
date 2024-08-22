@@ -4,6 +4,8 @@ import { serviceStore } from "../services";
 import { ShowFormStore } from "../components/ShowFormStore";
 import { AdminStore } from "../components/adminStore";
 
+const adTetx ="Por que escolher nossa plataforma para criar sua loja?"
+const adLink= "Crie sua loja agora mesmo e comece a faturar com facilidade e segurança."
 
 export const Store = () => {
     const [store, setStore] = useState({ datas: 'Carregando', status: '' });
@@ -18,7 +20,7 @@ export const Store = () => {
         }
     }, [store]); 
     
-  //  if (showCreateStore) return <ShowFormStore setShowCreate={setShowCreate} showCreateStore={showCreateStore} />;
+    if (showCreateStore) return <ShowFormStore adText={adTetx} adLink={adLink}/>;
     
     
     

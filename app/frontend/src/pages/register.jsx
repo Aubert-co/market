@@ -11,7 +11,7 @@ export const Register = ()=>{
     const clickToSend =async({name,password,setMessage})=>{
         const {message,status} = await serviceRegister({name,password})
         
-        console.log(message,status)
+       
         if( status !== 201){
          setMessage({content:"Algo deu errado"})
          return  
