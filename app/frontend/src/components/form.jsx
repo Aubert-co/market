@@ -7,7 +7,7 @@ export const LoginOrRegister = ({type})=>type === "Login" ? <Link to="/register"
  <Link data-testid="link_login" to="/login">Já tem uma conta faça login!</Link> 
      
 
-export const Form  = ({event,type})=>{
+export const Form  = ({event,type,formRef})=>{
     const refName = useRef('')
     const refPassword = useRef('')
     const refRepeatPassword = useRef('')
@@ -32,7 +32,7 @@ export const Form  = ({event,type})=>{
     }
     return (
         <div>
-            <div className="form">
+            <div className="form" ref={formRef}>
                     <h1 className="type_form" data-testid="type_form">{type}</h1>
                 <div className="message" >
                    <h3 data-testid="message">{message.content}</h3>

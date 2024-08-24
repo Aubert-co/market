@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef} from "react";
 import { fetchData } from "../hooks";
 import { serviceStore } from "../services";
 import { BoxBenefits } from "../components/BoxBenefits";
 import { AdminStore } from "../components/adminStore";
 import { FormCreateStore } from "../components/FormCreateStore";
+import {StyleCreateStore} from '../style/store'
 import analiseImg from '../assets/analise.png';
 import facilImg from '../assets/facil.png';
 import segImg from '../assets/seg.png';
@@ -37,7 +38,7 @@ const benefits = [
 export const Store = () => {
     const [store, setStore] = useState({ datas: 'Carregando', status: '' });
     const [showCreateStore, setShowCreate] = useState(false);
-
+    const formRef = useRef(null);
     useEffect(() => {
         fetchData({ service: serviceStore, setItems: setStore });
     }, []); 
@@ -47,8 +48,12 @@ export const Store = () => {
         }
     }, [store]); 
     
-    if (showCreateStore) return <BoxBenefits benefits={benefits} adText={adText} adLink={adLink} Form={FormCreateStore}/>;
-    
+    if (showCreateStore) return (
+        <StyleCreateStore>
+            <BoxBenefits benefits={benefits} adText={adText} adLink={adLink} formRef={formRef}/>
+            <FormCreateStore formRef={formRef}/>
+        </StyleCreateStore>
+    )
     
     
     return (

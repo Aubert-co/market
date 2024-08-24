@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useRef } from "react";
 import storeImg from '../assets/store.png';
-import {StyleCreateStore} from '../style/store'
+
 
 
 export const ListBenefits = ({benefits,scrollToForm})=>{
@@ -16,15 +16,15 @@ export const ListBenefits = ({benefits,scrollToForm})=>{
 }
 
 
-export const BoxBenefits = ({adText,adLink,benefits,Form})=>{
+export const BoxBenefits = ({adText,adLink,benefits,formRef})=>{
     
-    const formRef = useRef(null);
+  
     const scrollToForm = () => {
         formRef.current.scrollIntoView({ behavior: 'smooth' });
     };
    
     return(
-        <StyleCreateStore>
+        <>
         <div className="main-container" data-testid="show_storeForm">
             <div className="header">
                 <div className="header-content">
@@ -40,7 +40,7 @@ export const BoxBenefits = ({adText,adLink,benefits,Form})=>{
                 </div>
             </div>
         </div>
-         <Form formRef={formRef} />
-    </StyleCreateStore>
+        
+    </>
     )
 }

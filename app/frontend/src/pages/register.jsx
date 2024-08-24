@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { InputText } from "../components/utils";
+import {StyleCreateStore} from '../style/store'
 import { Form } from "../components/form";
 import { serviceRegister } from "../services";
 import descontoImg from '../assets/desconto.png'
@@ -7,7 +7,6 @@ import freteGratisImg from '../assets/delivery.png'
 import entregaRapidaImg from '../assets/deliveryMoto.png'
 import { Route, BrowserRouter as Router ,Routes,useNavigate  } from "react-router-dom";
 import { BoxBenefits } from "../components/BoxBenefits";
-import { FormCreateStore } from "../components/FormCreateStore";
 
 const adText = "Por que criar uma conta na nossa plataforma de e-commerce?";
 const adLink = "Cadastre-se agora e aproveite cupons de desconto exclusivos e muito mais!";
@@ -32,7 +31,7 @@ const benefits = [
 ];
 
 export const Register = ()=>{
-   
+    const formRef = useRef(null);
     const navigate = useNavigate()
     const clickToSend =async({name,password,setMessage})=>{
         const {message,status} = await serviceRegister({name,password})
@@ -52,11 +51,10 @@ export const Register = ()=>{
          
     }
     return (
-        <div className="box_store">
-            <BoxBenefits beneficts={benefits} adText={adText} adLink={adLink} Form={ FormCreateStore}/>
-           
-        </div>
-       
+        <StyleCreateStore>
+            <BoxBenefits benefits={benefits} adText={adText} adLink={adLink} formRef={formRef}/>
+            <Form type={"Register"} event={clickToSend} formRef={formRef}/>
+        </StyleCreateStore>
     )
     
 }
