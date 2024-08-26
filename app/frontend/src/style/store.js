@@ -158,136 +158,95 @@ button{
 
 export const AdminContainer = styled.div`
 
+ 
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+        .dashboard-container {
+            width: 90%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .dashboard-box {
+            background-color: #1a1a2e;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor:pointer
+        }
+
+        .dashboard-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .dashboard-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-box p {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .visits-box {
+            background-color: #00adb5;
+        }
+
+        .total-orders-box {
+            background-color: #393e46;
+        }
+
+        .open-orders-box {
+            background-color: #f8b400;
+        }
+
+        .closed-orders-box {
+            background-color: #4caf50;
+        }
+
+        .canceled-orders-box {
+            background-color: #e94560;
+        }
+
+        .store-rating-box {
+            background-color: #6a0572;
+        }
+        .add-product-box {
+    background-color: #2196f3;
 }
 
-.info-boxes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-bottom: 40px;
+.check-products-box {
+    background-color: #ff5722;
 }
 
-.info-box {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-    flex: 1;
-    min-width: 200px;
-}
-
-.info-box h3 {
-    margin: 0 0 10px 0;
-    font-size: 18px;
-    color: #6c63ff;
-}
-
-.info-box p {
-    margin: 0;
-    font-size: 24px;
-    color: #333;
-}
-
-.dashboard-section {
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
-
-.dashboard-section h1 {
-    font-size: 24px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.dashboard {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    text-align: center;
-}
-
-.table-section {
-    margin-top: 40px;
-}
-
-.table-section h2 {
-    font-size: 22px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 40px;
-}
-
-table, th, td {
-    border: 1px solid #ddd;
-}
-
-th, td {
-    padding: 12px;
-    text-align: left;
-}
-
-th {
-    background-color: #f4f7fc;
-    color: #333;
-}
-
-.form-section {
-    margin-top: 40px;
-}
-
-.form-section h2 {
-    font-size: 22px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-form {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-button[type="submit"] {
-    background-color: #6c63ff;
-    color: white;
-    border: none;
+.dashboard-button {
+    margin-top: 15px;
     padding: 10px 20px;
-    border-radius: 4px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
-    background-color: #5753d5;
+.dashboard-button:hover {
+    background-color: #f0f0f0;
 }
 `

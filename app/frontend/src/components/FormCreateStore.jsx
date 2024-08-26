@@ -1,9 +1,10 @@
-import React,{ useRef,useContext } from "react";
+import React,{ useRef,useContext, useState, useEffect } from "react";
 
 import { serviceCreateStore } from "../services";
 import { BoxMessage } from "./BoxMessage";
 import { MessageContext } from "../contexts";
 import { getInputValue } from "./utils";
+import { useNavigate } from "react-router-dom";
 
 
 const handleSubmit = async(inputsRefs,setMessage) => {
@@ -14,8 +15,8 @@ const handleSubmit = async(inputsRefs,setMessage) => {
     
    
     if(!name || !description || !category || !image){
-        console.log("Falhou",name)
-        return setMessage({content:'Os campos nome , descrição , categoria e imagem são obrigatorios',type:'error'})
+      
+        return setMessage({content:'Os campos nome , descrição , categoria e imagem são obrigatorios',type:'warning'})
     }
     const formData = new FormData();
     
@@ -26,27 +27,44 @@ const handleSubmit = async(inputsRefs,setMessage) => {
     const {status} = await serviceCreateStore(formData)
     return status
    
-};
-const handleStatus = ({status,setMessage,setShowCreate})=>{
-    if(status === 201){
-        setMessage({content:'Sua loja foi criada com sucesso!',type:'sucess'})
-        setTimeout(()=>{
-            setShowCreate(false)
-        },2000)
-        return 
+};  
+
+   
+const handleStatus = ({status, setMessage, setShowCreate,navigate}) => {
+    
+  
+    if (status === 201) {
+       
+        setMessage({ content: 'Sua loja foi criada com sucesso!', type: 'success' });
+        setTimeout(() => {
+            setShowCreate(false);
+        }, 3000);
+        return;
     }
-    if(status ===401)return setMessage({content:'Você precisá logar para criar uma loja!',type:'error'})
-    if(status >=500)return setMessage({content:'Algo deu errado ao criar sua loja!',type:'error'})
+
+   
+    if (status === 401) {
+        setMessage({ content: 'Você precisá logar para criar uma loja!', type: 'error' });
+        setTimeout(()=>{
+            navigate('/login'); 
+        },3000)
+    
+        return;
+    }
+    if (status >= 500) {
+        setMessage({ content: 'Algo deu errado ao criar sua loja!', type: 'error' });
+    }
 }
 export const FormCreateStore = ({setShowCreate,formRef}) => {
     const {setMessageParams} = useContext( MessageContext )
     const inputsRefs = {name:useRef(null),description:useRef(null),category:useRef(null),image:useRef(null)}
-   
-
+    const navigate = useNavigate(); 
+ 
     const onClick =async ()=>{
         const status = await handleSubmit(inputsRefs,setMessageParams)
      
-        handleStatus({status,setMessage:setMessageParams,setShowCreate})
+       
+        handleStatus({status,setMessage:setMessageParams,setShowCreate,navigate})
     }
     
     return (

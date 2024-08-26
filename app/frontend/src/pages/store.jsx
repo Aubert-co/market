@@ -9,6 +9,7 @@ import analiseImg from '../assets/analise.png';
 import facilImg from '../assets/facil.png';
 import segImg from '../assets/seg.png';
 import entregaImg from '../assets/delivery.png';
+import { LoadingBox } from "../components/LoadingBox";
 const adText ="Por que escolher nossa plataforma para criar sua loja?"
 const adLink= "Crie sua loja agora mesmo e comece a faturar com facilidade e segurança."
 
@@ -48,17 +49,18 @@ export const Store = () => {
         }
     }, [store]); 
     
-    if (showCreateStore) return (
+        if(store.datas === 'Carregando' && !store.status)return <LoadingBox/>
+   /* if (showCreateStore) return (
         <StyleCreateStore>
             <BoxBenefits benefits={benefits} adText={adText} adLink={adLink} formRef={formRef}/>
             <FormCreateStore formRef={formRef}/>
         </StyleCreateStore>
-    )
+    )*/
     
     
     return (
         <div className="box_store" data-testid="box_store">
-            {store.datas === 'Carregando' && 'Carregando'}
+           
             <AdminStore/>
         </div>
     );

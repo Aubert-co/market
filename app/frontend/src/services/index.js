@@ -72,7 +72,9 @@ export const serviceLogin = async({name,password})=>{
             headers
         })
         const {message,token} = await response.json()
-       
+        if(token){
+            localStorage.setItem('token',token)
+        }
         return {status:response.status,message,token}
     }catch(err){
        
@@ -113,6 +115,26 @@ export const serviceStore = async()=>{
     }
 }
 export const serviceCreateStore = async(formData)=>{
+    try{
+        const token = localStorage.getItem('token')
+      
+        if(!token)return {datas:[],status:401}
+        
+        const response= await fetch('http://localhost:8080/store/create',{
+            method:'POST',
+            headers:{'Authorization':`Bearer ${token}`},
+            body:formData
+        })
+        const json =await response.json()
+      
+        return {message:json.message,status:response.status}
+    }catch(err){
+       
+        return {datas:[],status:500}
+    }
+}
+
+export const serviceAdmStore = async()=>{
     try{
         const token = localStorage.getItem('token')
       

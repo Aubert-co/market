@@ -6,11 +6,15 @@ import { MessageContext } from "../contexts";
 export const BoxMessage = ()=>{
     const {messageParams,setMessageParams} = useContext( MessageContext )
     useEffect(()=>{
-        setTimeout(()=>{
-            setMessageParams({content:'',type:''})
-            
-        },5000)
-    }, [messageParams.content])
+        
+        if(messageParams.content){
+            const timer = setTimeout(()=>{
+                setMessageParams({content:'',type:''})
+            },5000)
+    
+            return () => clearTimeout(timer)
+        }
+    }, [messageParams.content, setMessageParams])
     return (
         <>
             {messageParams.content && (
