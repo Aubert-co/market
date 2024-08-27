@@ -245,7 +245,7 @@ grid-area:aside2;
 
 `
 
-export const LoadingStyle = styled.div`
+export const StatusStyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

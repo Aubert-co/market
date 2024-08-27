@@ -30,11 +30,8 @@ const handleSubmit = async(inputsRefs,setMessage) => {
 };  
 
    
-const handleStatus = ({status, setMessage, setShowCreate,navigate}) => {
-    
-  
+const handleStatus = ({ status, setMessage, setShowCreate, navigate }) => {
     if (status === 201) {
-       
         setMessage({ content: 'Sua loja foi criada com sucesso!', type: 'success' });
         setTimeout(() => {
             setShowCreate(false);
@@ -42,19 +39,19 @@ const handleStatus = ({status, setMessage, setShowCreate,navigate}) => {
         return;
     }
 
-   
     if (status === 401) {
         setMessage({ content: 'Você precisá logar para criar uma loja!', type: 'error' });
-        setTimeout(()=>{
+        setTimeout(() => {
             navigate('/login'); 
-        },3000)
-    
+        }, 3000);
         return;
     }
+
     if (status >= 500) {
         setMessage({ content: 'Algo deu errado ao criar sua loja!', type: 'error' });
     }
-}
+};
+
 export const FormCreateStore = ({setShowCreate,formRef}) => {
     const {setMessageParams} = useContext( MessageContext )
     const inputsRefs = {name:useRef(null),description:useRef(null),category:useRef(null),image:useRef(null)}
@@ -62,8 +59,6 @@ export const FormCreateStore = ({setShowCreate,formRef}) => {
  
     const onClick =async ()=>{
         const status = await handleSubmit(inputsRefs,setMessageParams)
-     
-       
         handleStatus({status,setMessage:setMessageParams,setShowCreate,navigate})
     }
     

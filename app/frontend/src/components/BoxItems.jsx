@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-
-
 import { fetchData } from "../hooks";
 import { ListItems } from "./listItems";
 
