@@ -15,7 +15,10 @@ export const BoxItems = ({searchParams,typeComponent,service})=>{
     if(items.status !== '' && items.status >201 ) return <h1 data-testid="error">Não encontrado!</h1>;
     
     return (
-     <div className="product-container">   {items.datas === 'carregando' ?<IsLoading/>:  <ListItems datas={items.datas} typeComponent={typeComponent}/>}</div>
+     <div className="product-container">   {items.datas === 'carregando' ?
+        <IsLoading/>: 
+        <ListItems datas={items.datas} typeComponent={typeComponent}/>}
+    </div>
     );
 }
 

@@ -9,15 +9,16 @@ export const GlobalStyles = createGlobalStyle`
   }
 `;
 export const Container = styled.div`
-  display: grid;
-    grid-template-areas:
-      "header header header header"
-      "aside main main aside2"
-      "footer footer footer footer";
-    grid-template-columns: 10% 70% 5%;
-    grid-template-rows: auto 1fr auto; 
-    column-gap: 1%;
-    background-color: rgb(14, 20, 32);
+display: grid;
+grid-template-areas:
+  "header header header header"
+  "aside main main aside2"
+  "footer footer footer footer";
+grid-template-columns: 10% 70% 5%;
+grid-template-rows: auto 1fr auto; 
+column-gap: 1%;
+background-color: #f4f7f9
+
     
 `
 export const Aside = styled.aside`
@@ -25,84 +26,98 @@ grid-area:aside`
 
 
 export const Main = styled.main`
+grid-area: main;`;
 
-grid-area: main;
+export const ProductSection = styled.div`
+text-align: center;
+padding: 20px;
+background-color: #f7f9fc; /* Fundo mais claro */
 
-.product-section {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .product-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .product {
-    margin: 10px;
-    width: 300px;
-    border: 1px solid #ddd;
-  
-    border-radius: 10px;
-    text-align: start;
-  }
-  
-  .product h3 {
-    margin:5px 0px 10px 10px;
-  }
-  
-  .product p {
-    margin: 5px 0px 10px 10px;
-  }
-  
-  .product a {
-    display: block;
-    margin-top: 10px;
-    text-align: center;
-    background-color: #007bff;
-    color: #fff;
-    padding: 8px 16px;
-    text-decoration: none;
-    border-radius: 4px;
-  }
-  
-  .product a:hover {
-    background-color: #0056b3;
-  }
-  .img{
-    background-color: red;
-    width: 100%;
-    height: 250px;
-    border-radius: 10px 10px 0px 0;
-  }
-.product button{
-    width: 100%;
-    background-color: #144c86;
-    border-radius: 0px 0px 10px 10px;
-    border: none;
-    text-transform: uppercase;
-    height: 40px;
-    color: white;
+
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor:pointer
 }
-button:hover{
-    cursor: pointer;
-    color: rgb(230, 222, 222);
 
-    background-color: #0056b3;
+.product {
+  margin: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  text-align: start;
+  background-color: #fff; /* Fundo branco para destacar */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: transform 0.3s, box-shadow 0.3s;
 }
-`
+
+.product:hover {
+  transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Aumenta a sombra */
+}
+
+.product h3 {
+  margin: 10px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.product p {
+  margin: 10px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.product a {
+  display: block;
+  margin: 10px;
+  text-align: center;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 16px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.product a:hover {
+  background-color: #0056b3;
+}
+
+.img {
+  background-color: #e0e0e0;
+  width: 100%;
+  height: 250px;
+  border-radius: 10px 10px 0 0;
+}
+
+.product button {
+  width: 100%;
+  background-color: #144c86;
+  border-radius: 0 0 10px 10px;
+  border: none;
+  text-transform: uppercase;
+  height: 40px;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.product button:hover {
+  cursor: pointer;
+  color: #e6dede;
+  background-color: #0056b3;
+}`
 export const Header = styled.header`
 grid-area: header;
 width: 95%;
 display: flex;
 justify-content: space-between;
 align-items: center;
-padding: 5px;
-background-color: rgb(14, 20, 32);;
-box-shadow: 0 0 10px rgb(37, 55, 90);;
-border-radius: 10px;
-box-shadow: 0 0 10px rgb(42, 61, 99);;
+padding: 10px;
+background-color: #2a2a2a; /* Cor neutra */
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+border-radius: 8px;
 justify-self: center;
 margin-top: 1%;
 
@@ -114,68 +129,103 @@ margin-top: 1%;
   cursor: pointer;
 }
 
-
 .logo img {
-  max-width: 50px; 
-  height: auto; 
+  max-width: 50px;
+  height: auto;
 }
-
 
 .logo a {
   text-decoration: none;
-
   font-weight: bold;
-  font-size: 32px;
+  font-size: 28px;
+  color: #f5f5f5; /* Cor neutra e clara */
 }
 
 nav {
-  
   margin-top: 20px;
   margin-bottom: 20px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding-right: 20px;
-  
 }
 
 nav a {
   margin-left: 10%;
-  color: #dfdede;
+  color: #b0b0b0; /* Cor neutra */
   text-decoration: none;
   font-size: 16px;
   font-weight: bold;
- 
-  padding: 2%;
+  padding: 10px 15px;
   white-space: nowrap;
   text-transform: uppercase;
-}
-nav  :hover{
-  background-color: #dfdede;
-  color: rgb(92,85,85);
-}
-.search{
-  display:flex;
-  width:50%;
-  height:50%;
-  text-align:center;
-  justify-content:center;
-  align-items:center;
-  justify-items:center
-}
-input{
-  width:100%;
-  height:90%
-}
-.btn_search{
-  height:100%;
-  background:red;
-  cursor:pointer;
-  width:30%;
-
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 5px;
 }
 
+nav a:hover {
+  background-color: #b0b0b0;
+  color: #2a2a2a;
+}
+
+.search {
+  display: flex;
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+input {
+  width: 70%;
+  height: 60%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  font-size: 16px;
+}
+
+.btn_search {
+  height: 60%;
+  background-color: #ff6347; ; /* Cor moderna para o botão */
+  cursor: pointer;
+  width: 30%;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 0 5px 5px 0;
+  transition: background-color 0.3s ease;
+}
+
+.btn_search:hover {
+  background-color: #df472b; /* Sombra mais clara ao passar o mouse */
+}
+i{
+ cursor: pointer;
+  margin: 0 15px;
+  font-size: 1.5em;
+  color: #f5f5f5; /* Cor neutra para os ícones */
+
+  &:hover {
+    color: #ff6347; /* Tom de laranja para um efeito de destaque */
+    transition: color 0.3s ease-in-out;
+  }
+
+  &.cart-icon {
+    position: relative;
+  }
+
+  &.profile-icon {
+    position: relative;
+  }
+
+  /* Estilo adicional para quando o carrinho ou o perfil estiver ativo */
+  &.active {
+    color: #ffd700; /* Cor dourada para destacar o ícone ativo */
+  }}
 `
+;
+
 
 export const Aside2 = styled.aside`
 grid-area:aside2;

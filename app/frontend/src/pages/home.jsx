@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Aside, Aside2, Container,Main } from "../style"
+import { Aside, Aside2, Container,Main ,ProductSection} from "../style"
 import { TopBar } from "../components/TopBar"
 import {  SearchContext } from "../contexts"
 import { BoxMessage } from "../components/BoxMessage"
@@ -28,7 +28,9 @@ export default function Home(){
                 </Aside>
           
                 <Main>
-                    <BoxItems className="product-section" searchParams={searchParams} service={service}/>
+                    <ProductSection>
+                    <BoxItems searchParams={searchParams} service={service}/>
+                    </ProductSection>
                 </Main>
 
                 <Aside2>

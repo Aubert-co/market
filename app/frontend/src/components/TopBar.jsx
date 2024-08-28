@@ -16,8 +16,8 @@ export const SearchBar = ()=>{
     return (
 
         <div className="search">
-            <input required minLength={2} maxLength={20} className="input_search" ref={inputRef} data-testid="input_test" placeholder="SEARCH A PRODUCT"/>
-            <button className="btn_search" data-testid="btn_search" onClick={clickSend}>Search</button>
+            <input required minLength={2} maxLength={20} className="input_search" ref={inputRef} data-testid="input_test" placeholder="BUSQUE POR UM PRODUTO"/>
+            <button className="btn_search" data-testid="btn_search" onClick={clickSend}>BUSCAR</button>
         </div>
     )
 }
