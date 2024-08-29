@@ -28,6 +28,7 @@ export const BtnAction =({product_id,service,text,message})=>{
 }
 
 const listItems = ({ datas, typeComponent,redirectToProduct }) => {
+    if(typeComponent === 'Cart')console.log(datas);
     return datas.map(({ id, name, price, imgPath, quantity }) => {
       const img = imgPath.replace('../public', '');
       const src = `http://localhost:8080/static${img}`;

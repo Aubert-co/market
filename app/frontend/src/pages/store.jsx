@@ -2,8 +2,8 @@ import React, { useEffect, useState ,useRef} from "react";
 import { fetchData } from "../hooks";
 import { serviceStore } from "../services";
 import { BoxBenefits } from "../components/BoxBenefits";
-import { AdminStore } from "../components/adminStore";
-import { FormCreateStore } from "../components/FormCreateStore";
+import { AdminStore } from "../components/Store/adminStore";
+import { FormCreateStore } from "../components/Store/FormCreateStore";
 import {StyleCreateStore} from '../style/store'
 import analiseImg from '../assets/analise.png';
 import facilImg from '../assets/facil.png';

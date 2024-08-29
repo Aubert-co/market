@@ -4,11 +4,12 @@ import { MessageContext } from "../contexts";
 
 import {fetchData} from '../hooks/index'
 import { ListItems } from "./listItems";
-import { items } from "../tests/fixtures";
+import  * as values from "../tests/fixtures";
 
 const messageAddCart = {sucess:'Sucesso ao adicionar.'}
 
 const ListSettings =()=><div data-testid="settings">settings</div>
+
 export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas }) => {
     const closeWindow = () => setIsWindowOpen(false);
   
@@ -65,10 +66,12 @@ export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas }) 
 export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
     const { setMessageParams } = useContext(MessageContext);
     const [items, setItems] = useState({ datas: 'carregando', status: '' });
-  
+    const service =async()=>{
+      return {datas:values.items,status:201}
+  }
     useEffect(() => {
       if (isWindowOpen) {
-        fetchData({ service:serviceGetCart, setItems });
+        fetchData({ service, setItems });
       }
     }, [isWindowOpen]);
   
