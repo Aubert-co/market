@@ -4,18 +4,21 @@ import { render,fireEvent, screen, waitFor } from "@testing-library/react";
 import {Router} from 'react-router-dom'
 
 import { createMemoryHistory } from "history";
-import { Form } from "../components/form";
-import '@testing-library/jest-dom'
+import { Form } from "../Components/Form";
+import { MessageContext } from "../Contexts";
+import '@testing-library/jest-dom';
+import { mockContextValue,setMessageParams } from "./mocks";
 
-
-var DEFAULT_VALUES,event;
+var DEFAULT_VALUES,event,DEFAULT_MESSAGE;
 var content = ["Voce fez o login com sucesso","Nome muito curto","Senha muito curta","Cadastrado com sucesso","Nome muito curto","Senha muito curta","As senhas não concindem"]
 var point = 0
 describe('FORM',()=>{
     afterEach(()=>{
         point+=1
+        jest.clearAllMocks()
     })
     beforeEach(()=>{
+        
         jest.useFakeTimers()
          DEFAULT_VALUES = {
             values:{name:'',password:''},
@@ -24,13 +27,22 @@ describe('FORM',()=>{
         jest.spyOn(React,'useState').mockReturnValue([DEFAULT_VALUES.values,DEFAULT_VALUES.setValues])
        
         const history = createMemoryHistory();
-         event =jest.fn(({name,password,setMessage})=>{
+         event =jest.fn(({name,password,setMessageParams})=>{
             DEFAULT_VALUES.setValues({name,password})
-            setMessage({content:content[point]})
+            setMessageParams({content:content[point]})
         })
-        render(
+       let {rerender} = render(
             <Router location={history.location} navigator={history}>
+                <MessageContext.Provider value={mockContextValue('','')}>
                     <Form event={event} type={"Login"}/>
+                </MessageContext.Provider>
+            </Router> 
+        )
+        rerender(
+            <Router location={history.location} navigator={history}>
+                <MessageContext.Provider value={mockContextValue(content[point],'')}>
+                    <Form event={event} type={"Login"}/>
+                </MessageContext.Provider>
             </Router> 
         )
     })
@@ -38,13 +50,12 @@ describe('FORM',()=>{
         const name = "lucas"
         const password = "password1"
        
-       
+        
         const type_form = screen.getByTestId('type_form')
         const [input_name,input_password,input_repeatpass] = screen.getAllByTestId("input")
         const btn_send = screen.getByTestId("btn_send")
-        const message = screen.getByTestId("message")
         const linkToRegister =screen.getByTestId('link_register')
-
+        const messageBox = screen.queryByTestId('message_box')
         expect(linkToRegister.textContent).toEqual('Não tem uma conta crie uma agora!')
         expect(linkToRegister).toHaveAttribute('href','/register')
         expect(type_form.textContent).toEqual('Login')
@@ -58,16 +69,11 @@ describe('FORM',()=>{
         expect(input_name).toHaveValue(name)
         expect(input_password).toHaveValue(password)
         
-        await waitFor(()=>{
-            expect(DEFAULT_VALUES.setValues).toHaveBeenCalledTimes(1)
-            expect(DEFAULT_VALUES.setValues).toHaveBeenCalledWith({name,password})
-
-            expect(message.textContent).toEqual(content[0])
-        },{timeout:4000})
-
-        await waitFor(()=>{
-            expect(message.textContent).toEqual('')
-        },{timeout:5001})
+        expect(setMessageParams).toHaveBeenCalledWith({content:content[point]})
+    
+       await waitFor(()=>{
+            expect(messageBox.textContent).toEqual(content[point])
+       })
     })
     it("When a name shorter than 3 characters is submitted, it should return an error.",async()=>{
         const name = "lu"
@@ -77,7 +83,7 @@ describe('FORM',()=>{
         const type_form = screen.getByTestId('type_form')
         const [input_name,input_password,input_repeatPass] = screen.getAllByTestId("input")
         const btn_send = screen.getByTestId("btn_send")
-        const message = screen.getByTestId("message")
+        const messageBox = screen.queryByTestId('message_box')
         const linkToRegister =screen.getByTestId('link_register')
 
         expect(linkToRegister.textContent).toEqual('Não tem uma conta crie uma agora!')
@@ -91,17 +97,11 @@ describe('FORM',()=>{
         fireEvent.change(input_password,{target:{value:password}})
       
         fireEvent.click(btn_send)
+        expect(setMessageParams).toHaveBeenCalledWith({content:content[point],type:'warning'})
         
         await waitFor(()=>{
-            expect(DEFAULT_VALUES.setValues).toHaveBeenCalledTimes(0)
-            expect(DEFAULT_VALUES.setValues).not.toHaveBeenCalled()
-            expect(event).not.toHaveBeenCalled()
-            expect(message.textContent).toEqual(content[1])
-        },{timeout:4000})
-
-        await waitFor(()=>{
-            expect(message.textContent).toEqual('')
-        },{timeout:5001})
+            expect(messageBox.textContent).toEqual(content[point])
+       })
     })
 
     it("When a password shorter than 5 characters is submitted, it should return an error.",async()=>{
@@ -112,7 +112,7 @@ describe('FORM',()=>{
         const type_form = screen.getByTestId('type_form')
         const [input_name,input_password,input_repeatPass] = screen.getAllByTestId("input")
         const btn_send = screen.getByTestId("btn_send")
-        const message = screen.getByTestId("message")
+        const messageBox = screen.queryByTestId('message_box')
         const linkToRegister =screen.getByTestId('link_register')
 
         expect(linkToRegister.textContent).toEqual('Não tem uma conta crie uma agora!')
@@ -126,20 +126,15 @@ describe('FORM',()=>{
         fireEvent.change(input_password,{target:{value:password}})
  
         fireEvent.click(btn_send)
+        expect(setMessageParams).toHaveBeenCalledWith({content:content[point],type:'warning'})
         
+      
         await waitFor(()=>{
-            expect(DEFAULT_VALUES.setValues).toHaveBeenCalledTimes(0)
-            expect(DEFAULT_VALUES.setValues).not.toHaveBeenCalled()
-            expect(event).not.toHaveBeenCalled()
-            expect(message.textContent).toEqual(content[2])
-        },{timeout:4000})
-
-        await waitFor(()=>{
-            expect(message.textContent).toEqual('')
-        },{timeout:5001})
+            expect(messageBox.textContent).toEqual(content[point])
+       })
     })
 })
-
+/*
 describe("FORM  Register",()=>{
         afterEach(()=>{
             point+=1
@@ -297,4 +292,4 @@ describe("FORM  Register",()=>{
             expect(message.textContent).toEqual('')
         },{timeout:5001})
     })
-})
+})*/

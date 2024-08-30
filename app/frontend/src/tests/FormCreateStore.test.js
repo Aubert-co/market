@@ -2,11 +2,11 @@ import React from "react";
 import { fireEvent, render,screen, waitFor } from "@testing-library/react";
 import  *as Services from "../services"
 import '@testing-library/jest-dom'
-import { FormCreateStore } from "../components/FormCreateStore";
-import { MessageContext } from "../contexts";
+import { FormCreateStore } from "../Components/Store/FormCreateStore";
+import { MessageContext } from "../Contexts";
 import * as Router from "react-router";
-let navigate,mockContextValue,setMessageParams,setShowCreate;
-
+let navigate,setShowCreate;
+import { setMessageParams,mockContextValue } from "./mocks";
 
 
 
@@ -16,14 +16,9 @@ describe('FormCreateStore',()=>{
       
         jest.clearAllMocks()
         navigate = jest.fn()
-        setMessageParams = jest.fn()
+      
         jest.spyOn(Router, 'useNavigate').mockImplementation(() => navigate)
-        mockContextValue = (content,type)=>{
-            return {
-                messageParams: { content, type },   
-                setMessageParams
-            };
-        }
+      
         setShowCreate = jest.fn();
     })
     it("When a name, image, category, or description is not sent, it should return an a boxmessage with an error message",async()=>{

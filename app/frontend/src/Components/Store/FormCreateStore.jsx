@@ -2,8 +2,8 @@ import React,{ useRef,useContext, useState, useEffect } from "react";
 
 import { serviceCreateStore } from "../../services";
 import { BoxMessage } from "../BoxMessage";
-import { MessageContext } from "../../contexts";
-import { getInputValue } from "../utils";
+import { MessageContext } from "../../Contexts";
+import { getInputValue } from "../Utils";
 import { useNavigate } from "react-router-dom";
 
 

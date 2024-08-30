@@ -1,6 +1,6 @@
 import React,{useContext,useState,useEffect} from "react";
 import { addToCart,serviceGetCart, serviceRemoveFromCart,serviceDecreaseCart,serviceIncreaseCart } from "../services";
-import { MessageContext } from "../contexts";
+import { MessageContext } from "../Contexts";
 import {FaTrash} from 'react-icons/fa'
 import { useNavigate } from "react-router";
 

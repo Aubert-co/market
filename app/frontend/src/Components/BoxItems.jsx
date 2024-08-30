@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { fetchData } from "../hooks";
-import { ListItems } from "./listItems";
+import { fetchData } from "../Hooks";
+import { ListItems } from "./ListItems";
 
 
 const IsLoading = ()=><h1 data-testid="loading">carregando...</h1>

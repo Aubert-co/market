@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { MessageContext } from "../contexts";
+import { MessageContext } from "../Contexts";
 
 
 

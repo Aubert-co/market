@@ -1,5 +1,5 @@
 import React, { useRef, useContext} from "react";
-import { SearchContext, } from "../contexts";
+import { SearchContext, } from "../Contexts";
 
 
 

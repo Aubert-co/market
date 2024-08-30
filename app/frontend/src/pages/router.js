@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import { Route, BrowserRouter as Router ,Routes  } from "react-router-dom";
 import  Home  from "./home";
 import { Login } from "./login";
-import { MessageContext, SearchContext } from "../contexts"
+import { MessageContext, SearchContext } from "../Contexts"
 import { Register } from "./register";
 import {GlobalStyles} from '../style/index'
 import { Store } from "./store";

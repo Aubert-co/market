@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { AdminContainer } from "../../style/store"
 import { serviceAdmStore } from "../../services"
-import { fetchData } from "../../hooks"
+import { fetchData } from "../../Hooks"
 import { StatusBox } from "../StatusBox"
 import { Link } from "react-router-dom";
 

@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
-import { InputText } from "../components/utils";
-import { Form } from "../components/form";
+import { Form } from "../Components/Form";
 import { serviceLogin } from "../services";
 import { Route, BrowserRouter as Router ,Routes,useNavigate  } from "react-router-dom";
 

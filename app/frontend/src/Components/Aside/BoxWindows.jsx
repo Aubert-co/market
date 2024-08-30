@@ -1,12 +1,6 @@
-import React,{useContext,useState,useEffect} from "react";
-import { addToCart,serviceGetCart, serviceRemoveFromCart,serviceDecreaseCart,serviceIncreaseCart } from "../services";
-import { MessageContext } from "../contexts";
+import React,{useEffect} from "react";
+import { ListItems } from "../ListItems";
 
-import {fetchData} from '../hooks/index'
-import { ListItems } from "./listItems";
-import  * as values from "../tests/fixtures";
-
-const messageAddCart = {sucess:'Sucesso ao adicionar.'}
 
 const ListSettings =()=><div data-testid="settings">settings</div>
 
@@ -58,38 +52,4 @@ export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas }) 
   };
   
 
-  export const SettingsWindow = ({ setIsSettingsOpen, isSettingsOpen }) => (
-    <BoxWindow typeWindow={'settings'} isWindowOpen={isSettingsOpen} setIsWindowOpen={setIsSettingsOpen} />
-  );
-  
 
-export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
-    const { setMessageParams } = useContext(MessageContext);
-    const [items, setItems] = useState({ datas: 'carregando', status: '' });
-    const service =async()=>{
-      return {datas:values.items,status:201}
-  }
-    useEffect(() => {
-      if (isWindowOpen) {
-        fetchData({ service, setItems });
-      }
-    }, [isWindowOpen]);
-  
-    useEffect(() => {
-      if (items.status && items.status > 201) {
-        setMessageParams({ content: 'Login necessário', type: 'error' });
-      }
-    }, [items.status, setMessageParams]);
-  
-
-    if (!isWindowOpen || items.datas === 'carregando') return null;
-  
-    return (
-      <BoxWindow
-        typeWindow={'Cart'}
-        isWindowOpen={isWindowOpen}
-        setIsWindowOpen={setIsWindowOpen}
-        datas={items.datas}
-      />
-    );
-  };

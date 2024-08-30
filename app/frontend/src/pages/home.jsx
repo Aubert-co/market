@@ -1,14 +1,14 @@
 import React, { useState } from "react"
 import { Aside, Aside2, Container,Main ,ProductSection} from "../style"
-import { TopBar } from "../components/TopBar"
-import {  SearchContext } from "../contexts"
-import { BoxMessage } from "../components/BoxMessage"
-import { BoxItems } from "../components/BoxItems"
-import { FilterBar } from "../components/FilterBar"
+import { TopBar } from "../Components/Header/TopBar"
+import {  SearchContext } from "../Contexts"
+import { BoxMessage } from "../Components/BoxMessage"
+import { BoxItems } from "../Components/BoxItems"
+import { FilterBar } from "../Components/FilterBar"
 import {  serviceGetItems } from "../services";
 import {items} from '../tests/fixtures'
-import { CartWindow, SettingsWindow } from "../components/BoxWindows"
-
+import { CartWindow } from "../Components/Aside/CartWindow"
+import { SettingsWindow } from "../Components/Aside/SettingsWindow"
 const DEFAULT_SEARCH= {name:'',lowPrice:0,highPrice:1000}
 
 export default function Home(){
