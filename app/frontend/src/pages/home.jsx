@@ -4,7 +4,7 @@ import { TopBar } from "../Components/Header/TopBar"
 import {  SearchContext } from "../Contexts"
 import { BoxMessage } from "../Components/BoxMessage"
 import { BoxItems } from "../Components/BoxItems"
-import { FilterBar } from "../Components/FilterBar"
+import { FilterBar } from "../Components/Aside/FilterBar"
 import {  serviceGetItems } from "../services";
 import {items} from '../tests/fixtures'
 import { CartWindow } from "../Components/Aside/CartWindow"
@@ -24,7 +24,7 @@ export default function Home(){
     
                 <TopBar isWindowCart={isWindowCart} setIsWindowCart={setIsWindowCart} isWindowProfile={isWindowProfile} setIsWindowProfile={setIsWindowProfile}/>
                 <Aside>
-                    <FilterBar/>
+                 
                 </Aside>
           
                 <Main>

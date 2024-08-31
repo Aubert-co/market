@@ -7,7 +7,6 @@ import { SearchBar } from "./SearchBar";
 export const TopBar = ({isWindowCart,setIsWindowCart,isWindowProfile,setIsWindowProfile})=>{
     return (
        <Header>
-            
             <div className="logo">
                 <Link to="/" data-testid="home">SUPERSTORE</Link>
             </div>

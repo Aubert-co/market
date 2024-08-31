@@ -22,7 +22,46 @@ background-color: #f4f7f9
     
 `
 export const Aside = styled.aside`
-grid-area:aside`
+grid-area:aside;
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  width: 100%;
+}
+
+.filter-bar label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.filter-bar input {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+}
+
+.filter-bar button {
+  padding: 8px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.filter-bar button:hover {
+  background-color: #0056b3;
+}
+
+`
 
 
 export const Main = styled.main`
@@ -115,7 +154,7 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 padding: 10px;
-background-color: #2a2a2a; /* Cor neutra */
+background-color: #2a2a2a; 
 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 border-radius: 8px;
 justify-self: center;
@@ -219,11 +258,44 @@ i{
     position: relative;
   }
 
-  /* Estilo adicional para quando o carrinho ou o perfil estiver ativo */
+  
   &.active {
-    color: #ffd700; /* Cor dourada para destacar o ícone ativo */
-  }}
+    color: #ffd700; 
+  }
+ @media (max-width: 768px) {
+  display:flex
+  flex-direction: row;
+  height:100px;
+  background-color:red; 
+  widht:100%;
+  .logo,
+  nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .search {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;  /* Expande a barra de busca verticalmente */
+  }
+
+  nav {
+    justify-content: space-around;
+    flex: 1;  /* Expande a seção de navegação verticalmente */
+  }
+}
+
+
+
+ 
 `
+
 ;
 
 

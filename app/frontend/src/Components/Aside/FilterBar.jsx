@@ -1,5 +1,5 @@
 import React, { useRef, useContext} from "react";
-import { SearchContext, } from "../Contexts";
+import { SearchContext, } from "../../Contexts";
 
 
 
@@ -21,15 +21,16 @@ export const FilterBar = ()=>{
        
       };
     return (
-        <div>
-          <div className="price">
-            min:
-            <input  data-testid="input_filter" min={0} type="number" ref={minPrice} />
-            max:
-            <input data-testid="input_filter" min={1} type="number" ref={maxPrice} />
-            <button data-testid="btn_filter" onClick={clickToFilter}>Filter</button>
-          </div>
-        </div>
+      <div className="filter-bar">
+        <label htmlFor="minPrice">Min:</label>
+        <input id="minPrice" data-testid="input_filter" min={0} type="number" ref={minPrice} />
+        
+        <label htmlFor="maxPrice">Max:</label>
+        <input id="maxPrice" data-testid="input_filter" min={1} type="number" ref={maxPrice} />
+        
+        <button data-testid="btn_filter" onClick={clickToFilter}>Filter</button>
+      </div>
+    
       );
     
 }

@@ -59,18 +59,11 @@ const listItems = ({ datas, typeComponent,redirectToProduct }) => {
               </p>
             </>
           )}
-          {typeComponent === 'Cart' ? (
+          {typeComponent === 'Cart' && (
             <BtnAction
               text={<FaTrash />}
               product_id={id}
               service={serviceRemoveFromCart}
-            />
-          ) : (
-            <BtnAction
-              message={messageAddCart}
-              text={'Adicionar ao carrinho'}
-              product_id={id}
-              service={addToCart}
             />
           )}
         </div>
