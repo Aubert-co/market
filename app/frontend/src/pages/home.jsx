@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Aside, Aside2, Container,Main ,ProductSection} from "../style"
+import { Aside, Aside2, Container,Main ,ProductSection,Header} from "../style"
 import { TopBar } from "../Components/Header/TopBar"
 import {  SearchContext } from "../Contexts"
 import { BoxMessage } from "../Components/BoxMessage"
@@ -21,9 +21,11 @@ export default function Home(){
     return (
         <Container>
             <SearchContext.Provider value={{searchParams,setSearchParams}}>
-    
-                <TopBar isWindowCart={isWindowCart} setIsWindowCart={setIsWindowCart} isWindowProfile={isWindowProfile} setIsWindowProfile={setIsWindowProfile}/>
-                <Aside>
+                <Header>
+                    <TopBar isWindowCart={isWindowCart} setIsWindowCart={setIsWindowCart} isWindowProfile={isWindowProfile} setIsWindowProfile={setIsWindowProfile}/>
+               
+                </Header>
+               <Aside>
                  
                 </Aside>
           

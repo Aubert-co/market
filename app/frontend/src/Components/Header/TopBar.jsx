@@ -1,12 +1,12 @@
 import React from "react";
-import { Header } from "../../style";
+
 import { Link } from "react-router-dom";
 import { FaShoppingCart ,FaUser} from 'react-icons/fa';
 import { SearchBar } from "./SearchBar";
 
 export const TopBar = ({isWindowCart,setIsWindowCart,isWindowProfile,setIsWindowProfile})=>{
     return (
-       <Header>
+       <>
             <div className="logo">
                 <Link to="/" data-testid="home">SUPERSTORE</Link>
             </div>
@@ -20,6 +20,6 @@ export const TopBar = ({isWindowCart,setIsWindowCart,isWindowProfile,setIsWindow
                     <FaUser data-testid="profile_window" onClick={()=>setIsWindowProfile(!isWindowProfile)}/> 
                 </i>
             </nav>
-       </Header>
+       </>
     )
 }

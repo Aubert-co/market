@@ -1,8 +1,8 @@
 import React from "react";
 import { fireEvent, render,screen, waitFor ,act} from "@testing-library/react";
 import  *as Services from "../services"
-import { BoxItems } from "../components/BoxItems";
-import { MessageContext } from "../contexts";
+import { BoxItems } from "../Components/BoxItems";
+import { MessageContext } from "../Contexts";
 import '@testing-library/jest-dom'
 import { items } from "./fixtures";
 

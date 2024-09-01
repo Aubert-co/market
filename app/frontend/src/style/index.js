@@ -17,8 +17,34 @@ grid-template-areas:
 grid-template-columns: 10% 70% 5%;
 grid-template-rows: auto 1fr auto; 
 column-gap: 1%;
-background-color: #f4f7f9
+background-color: #f4f7f9;
 
+ @media (max-width: 768px) {
+  header{
+  display:flex;
+  flex-direction:column;}
+  .logo,
+  nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+
+  .search {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  nav {
+    justify-content: space-around;
+ 
+  }
+}
     
 `
 export const Aside = styled.aside`
@@ -262,36 +288,6 @@ i{
   &.active {
     color: #ffd700; 
   }
- @media (max-width: 768px) {
-  display:flex
-  flex-direction: row;
-  height:100px;
-  background-color:red; 
-  widht:100%;
-  .logo,
-  nav {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-
-  .search {
-    width: 100%;
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1;  /* Expande a barra de busca verticalmente */
-  }
-
-  nav {
-    justify-content: space-around;
-    flex: 1;  /* Expande a seção de navegação verticalmente */
-  }
-}
-
-
 
  
 `
