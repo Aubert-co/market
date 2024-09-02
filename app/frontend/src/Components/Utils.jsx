@@ -13,4 +13,7 @@ export const InputText =React.forwardRef(({ placeholder, className, ...rest }, r
     />
   ));
 
-export const getInputValue = (ref) => ref.current ? ref.current.value : '';
+export const getInputValue = (ref) =>{
+  if(ref?.current && ref.current.value)return ref.current.value
+  return ''
+}
