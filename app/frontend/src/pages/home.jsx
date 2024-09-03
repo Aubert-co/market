@@ -9,6 +9,7 @@ import {  serviceGetItems } from "../services";
 import {items} from '../tests/fixtures'
 import { CartWindow } from "../Components/Aside/CartWindow"
 import { SettingsWindow } from "../Components/Aside/SettingsWindow"
+import { BoxPromotion } from "../Components/BoxPromotion"
 const DEFAULT_SEARCH= {name:'',lowPrice:0,highPrice:1000}
 
 export default function Home(){
@@ -30,8 +31,9 @@ export default function Home(){
                 </Aside>
           
                 <Main>
+                    <BoxPromotion/>
                     <ProductSection>
-                    <BoxItems searchParams={searchParams} service={service}/>
+                        <BoxItems searchParams={searchParams} service={service}/>
                     </ProductSection>
                 </Main>
 

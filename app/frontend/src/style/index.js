@@ -19,32 +19,7 @@ grid-template-rows: auto 1fr auto;
 column-gap: 1%;
 background-color: #f4f7f9;
 
- @media (max-width: 768px) {
-  header{
-  display:flex;
-  flex-direction:column;}
-  .logo,
-  nav {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-
-  .search {
-    width: 100%;
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-  }
-
-  nav {
-    justify-content: space-around;
  
-  }
-}
     
 `
 export const Aside = styled.aside`
@@ -91,13 +66,41 @@ grid-area:aside;
 
 
 export const Main = styled.main`
-grid-area: main;`;
+grid-area: main;
+`;
+export const PromoContainer = styled.div`
+display: flex;
+justify-content: space-between;
+gap: 10px;
+padding: 20px;
 
+cursor:pointer;
+.promo-box {
+    
+    flex: 1;
+    padding: 15px;
+    background-color: #ff6347;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.promo-box h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.promo-box p {
+    font-size: 14px;
+    color: #ffffff;
+}
+
+`
 export const ProductSection = styled.div`
 text-align: center;
 padding: 20px;
-background-color: #f7f9fc; /* Fundo mais claro */
-
+background-color: #f7f9fc; 
 
 .product-container {
   display: flex;
@@ -239,6 +242,7 @@ nav a:hover {
   height: 100%;
   justify-content: center;
   align-items: center;
+
 }
 
 input {
@@ -252,7 +256,7 @@ input {
 
 .btn_search {
   height: 60%;
-  background-color: #ff6347; ; /* Cor moderna para o botão */
+  background-color: #ff6347; ;
   cursor: pointer;
   width: 30%;
   border: none;
@@ -263,16 +267,16 @@ input {
 }
 
 .btn_search:hover {
-  background-color: #df472b; /* Sombra mais clara ao passar o mouse */
+  background-color: #df472b;
 }
 i{
  cursor: pointer;
   margin: 0 15px;
   font-size: 1.5em;
-  color: #f5f5f5; /* Cor neutra para os ícones */
+  color: #f5f5f5; 
 
   &:hover {
-    color: #ff6347; /* Tom de laranja para um efeito de destaque */
+    color: #ff6347;
     transition: color 0.3s ease-in-out;
   }
 
@@ -288,7 +292,28 @@ i{
   &.active {
     color: #ffd700; 
   }
+}
+  @media (max-width: 600px) {
+  display:grid;
+  grid-template-areas:"logo nav"
+  "search search";
+  .logo{
+    grid-area:logo;
+  }
+  nav{
+    grid-area:nav;
+  }
+  .search {
+    grid-area:search;
+    width: 95%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+  }
 
+}
  
 `
 
@@ -299,16 +324,16 @@ export const Aside2 = styled.aside`
 grid-area:aside2;
 .window {
   position: fixed;
-  top: 100px; /* Ajuste aqui para mover a janela para baixo */
-  right: 20px; /* Espaçamento da borda direita */
-  width: 320px; /* Largura ajustada para um layout mais moderno */
-  height: 60%; /* Altura ajustada */
+  top: 100px;
+  right: 20px; 
+  width: 320px; 
+  height: 60%; 
   background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra moderna */
-  border-radius: 12px; /* Bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   z-index: 999;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  opacity: 1; /* Opacidade para transições */
+  opacity: 1;
   display: flex;
   flex-direction: column;
 }

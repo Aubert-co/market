@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { AdminContainer } from "../../style/store"
 import { serviceAdmStore } from "../../services"
 import { fetchData } from "../../Hooks"
-import { StatusBox } from "../StatusBox"
+import { StatusBox } from "../Utils"
 import { Link } from "react-router-dom";
 
 

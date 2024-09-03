@@ -21,8 +21,8 @@ export const Form  = ({event,type,formRef})=>{
         const password = getInputValue(refPassword)
         const repeatPass = getInputValue(refRepeatPassword)
     
-        if(name.length < 3 )return setMessageParams({content:'Nome muito curto',type:'warning'})
-        if(password.length < 5  )return setMessageParams({content:'Senha muito curta',type:'warning'})
+        if(name && name.length < 3 )return setMessageParams({content:'Nome muito curto',type:'warning'})
+        if(password && password.length < 5  )return setMessageParams({content:'Senha muito curta',type:'warning'})
         if(type === 'Register' && password !== repeatPass)return setMessageParams({content:'As senhas não concindem',type:'warning'})
         
         event({name,password,setMessageParams})

@@ -5,7 +5,7 @@ import { BoxBenefits } from "../Components/BoxBenefits";
 import { AdminStore } from "../Components/Store/adminStore";
 import { FormCreateStore } from "../Components/Store/FormCreateStore";
 import {StyleCreateStore} from '../style/store'
-import { StatusBox } from "../Components/StatusBox";
+import { StatusBox } from "../Components/Utils";
 import { benefitsCreateStore ,adLinkStore,adTextStore} from "../Constants/benefits";
 
 export const Store = () => {
