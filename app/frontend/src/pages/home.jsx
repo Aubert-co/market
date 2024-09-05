@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Aside, Aside2, Container,Main ,ProductSection,Header} from "../style"
+import { Aside, Aside2, Container,Main ,ProductSection,Header,PromoContainer} from "../style"
 import { TopBar } from "../Components/Header/TopBar"
 import {  SearchContext } from "../Contexts"
 import { BoxMessage } from "../Components/BoxMessage"
@@ -31,7 +31,10 @@ export default function Home(){
                 </Aside>
           
                 <Main>
-                    <BoxPromotion/>
+                    <PromoContainer>
+                        <BoxPromotion/>
+                    </PromoContainer>
+   
                     <ProductSection>
                         <BoxItems searchParams={searchParams} service={service}/>
                     </ProductSection>
