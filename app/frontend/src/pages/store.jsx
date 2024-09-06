@@ -22,12 +22,12 @@ export const Store = () => {
     }, [store]); 
     
         if(store.datas === 'Carregando' && !store.status)return <StatusBox/>
-   /* if (showCreateStore) return (
+    if (showCreateStore) return (
         <StyleCreateStore>
             <BoxBenefits benefits={benefitsCreateStore} adText={adTextStore} adLink={adLinkStore} formRef={formRef}/>
             <FormCreateStore formRef={formRef}/>
         </StyleCreateStore>
-    )*/
+    )
     
     
     return (

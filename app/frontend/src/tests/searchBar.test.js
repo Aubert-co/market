@@ -1,7 +1,7 @@
 import React,{useState} from "react";
-import { SearchBar } from "../components/TopBar";
+import { SearchBar } from "../Components/Header/SearchBar";
 import { render,fireEvent, screen, waitFor } from "@testing-library/react";
-import { SearchContext } from "../contexts";
+import { SearchContext } from "../Contexts";
 
 
 var DEFAULT_SEARCH;

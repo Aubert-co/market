@@ -2,6 +2,7 @@ import React,{useContext,useState,useEffect} from "react";
 import { BoxWindow } from "./BoxWindows";
 import { fetchData } from "../../Hooks";
 import { MessageContext } from "../../Contexts";
+import { serviceGetCart } from "../../services";
 
 export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
     const { setMessageParams } = useContext(MessageContext);
@@ -9,7 +10,7 @@ export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
    
     useEffect(() => {
       if (isWindowOpen) {
-        fetchData({ service:fetchData, setItems });
+        fetchData({ service:serviceGetCart, setItems });
       }
     }, [isWindowOpen]);
   

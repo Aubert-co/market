@@ -1,5 +1,7 @@
 import styled,{createGlobalStyle} from "styled-components";
 
+const brandColor = "#ff6347"
+
 export const GlobalStyles = createGlobalStyle`
   * {
     padding: 0;
@@ -79,7 +81,7 @@ cursor:pointer;
     
     flex: 1;
     padding: 15px;
-    background-color: #ff6347;
+    background-color: ${brandColor};
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     text-align: center;
@@ -206,7 +208,7 @@ margin-top: 1%;
   text-decoration: none;
   font-weight: bold;
   font-size: 28px;
-  color: #f5f5f5; /* Cor neutra e clara */
+  color: ${brandColor}
 }
 
 nav {
@@ -220,7 +222,7 @@ nav {
 
 nav a {
   margin-left: 10%;
-  color: #b0b0b0; /* Cor neutra */
+  color: #b0b0b0; 
   text-decoration: none;
   font-size: 16px;
   font-weight: bold;
@@ -256,7 +258,7 @@ input {
 
 .btn_search {
   height: 60%;
-  background-color: #ff6347; ;
+  background-color: ${brandColor}; ;
   cursor: pointer;
   width: 30%;
   border: none;
@@ -276,7 +278,7 @@ i{
   color: #f5f5f5; 
 
   &:hover {
-    color: #ff6347;
+    color: ${brandColor};
     transition: color 0.3s ease-in-out;
   }
 

@@ -1,8 +1,6 @@
 import React from "react";
 import storeImg from '../Assets/store.png';
 
-
-
 export const ListBenefits = ({benefits,scrollToForm})=>{
 
     return   benefits.map(({title,img,content},ind)=>{
@@ -14,7 +12,6 @@ export const ListBenefits = ({benefits,scrollToForm})=>{
     })
  
 }
-
 
 export const BoxBenefits = ({adText,adLink,benefits,formRef})=>{
     

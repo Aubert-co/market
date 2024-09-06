@@ -2,8 +2,8 @@ import React from "react"
 
 import { fireEvent, render,screen ,waitFor} from "@testing-library/react"
 import *as Services from "../services"
-import { MessageContext } from "../contexts"
-import { BtnAction } from "../components/listItems"
+import { MessageContext } from "../Contexts"
+import { BtnAction } from "../Components/ListItems"
 import {FaTrash} from 'react-icons/fa'
 var DEFAULT_MESSAGE ;
 

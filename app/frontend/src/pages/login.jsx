@@ -8,19 +8,18 @@ export const Login = ()=>{
    
     const navigate = useNavigate()
 
-    const clickToSend =async ({name,password,setMessage})=>{
+    const clickToSend =async ({name,password,setMessageParams})=>{
         
        const {token,status} = await serviceLogin({name,password})
         
-       console.log("login",status,token)
        if(!token || status !== 200){
-        setMessage({content:"Algo deu errado"})
+        setMessageParams({content:"Algo deu errado"})
         return  
       
        }
 
         localStorage.setItem('token',token)
-        setMessage({content:"Você fez login com sucesso, você será redirecionado"})
+        setMessageParams({content:"Você fez login com sucesso, você será redirecionado"})
 
         setTimeout(()=>{
             navigate("/")

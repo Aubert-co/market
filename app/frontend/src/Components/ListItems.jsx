@@ -2,9 +2,9 @@ import React,{useContext,useState,useEffect} from "react";
 import { addToCart,serviceGetCart, serviceRemoveFromCart,serviceDecreaseCart,serviceIncreaseCart } from "../services";
 import { MessageContext } from "../Contexts";
 import {FaTrash} from 'react-icons/fa'
-import { useNavigate } from "react-router";
 
-const messageAddCart = {sucess:'Sucesso ao adicionar.'}
+
+
 
 export const BtnAction =({product_id,service,text,message})=>{
     const {messageParams,setMessageParams} = useContext( MessageContext )
@@ -28,7 +28,7 @@ export const BtnAction =({product_id,service,text,message})=>{
 }
 
 const listItems = ({ datas, typeComponent,redirectToProduct }) => {
-    if(typeComponent === 'Cart')console.log(datas);
+ 
     return datas.map(({ id, name, price, imgPath, quantity }) => {
       const img = imgPath.replace('../public', '');
       const src = `http://localhost:8080/static${img}`;
@@ -38,8 +38,9 @@ const listItems = ({ datas, typeComponent,redirectToProduct }) => {
           className="product"
           data-testid="item"
           key={id}
-          onClick={() => redirectToProduct(id)}
+          {...(redirectToProduct && { onClick: () => redirectToProduct(id) })}
         >
+      
           {src && (
             <div className="img">
               <img alt={name} src={src} data-testid="item_img"></img>
@@ -57,29 +58,22 @@ const listItems = ({ datas, typeComponent,redirectToProduct }) => {
               <p className="total" data-testid="total">
                 R${price * quantity}
               </p>
-            </>
-          )}
-          {typeComponent === 'Cart' && (
-            <BtnAction
+
+              <BtnAction
               text={<FaTrash />}
               product_id={id}
               service={serviceRemoveFromCart}
-            />
+              />
+            </>
           )}
+      
         </div>
       );
     });
   };
   
-export const ListItems = ({typeComponent,datas})=>{
-    const navigate = useNavigate()
-    const redirectToProduct = (product_id)=>{
-        if(typeComponent !== 'Cart'){
-            navigate(`/product/${product_id}`)
-        }
-    }
-    
-    
-    return listItems({datas,typeComponent,redirectToProduct})
+export const ListItems = ({typeComponent,datas,redirectToProduct})=>{
+
+  return listItems({datas,typeComponent,redirectToProduct})
 }
 

@@ -21,11 +21,11 @@ export const Register = ()=>{
        
         }
  
-         setMessage({content:"Você criou sua conta com sucesso, você será redirecionado"})
- 
-         setTimeout(()=>{
-            navigate("/login")
-         },3000)
+        setMessage({content:"Você criou sua conta com sucesso, você será redirecionado"})
+
+        setTimeout(()=>{
+        navigate("/login")
+        },3000)
          
     }
     return (
