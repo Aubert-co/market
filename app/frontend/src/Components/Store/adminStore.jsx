@@ -7,9 +7,9 @@ import { Link } from "react-router-dom";
 
 
 export const AdminStore = ()=>{
-    const [items,setItems] =  useState({datas:'Carregando',status:''})
+    const [items,setItems] =  useState({datas:'Carregando',status:''});
     useEffect(()=>{
-        fetchData({service:serviceAdmStore,setItems})
+        fetchData({service:serviceAdmStore,setItems});
     },[])
     if( items === 'Carregando' && !items.status )return <StatusBox text={'Carregando...'}/>
     return (
@@ -54,4 +54,4 @@ export const AdminStore = ()=>{
         
         </AdminContainer>
     )
-}
+};

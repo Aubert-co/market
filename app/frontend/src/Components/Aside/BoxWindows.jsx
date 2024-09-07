@@ -2,7 +2,7 @@ import React,{useEffect} from "react";
 import { ListItems } from "../ListItems";
 
 
-const ListSettings =()=><div data-testid="settings">settings</div>
+const ListSettings =()=><div data-testid="settings">settings</div>;
 
 export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas }) => {
     const closeWindow = () => setIsWindowOpen(false);

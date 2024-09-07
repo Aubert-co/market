@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 
 const handleSubmit = async(inputsRefs,setMessage) => {
-    const name = getInputValue(inputsRefs.name)
-    const description = getInputValue(inputsRefs.description)
-    const category = getInputValue(inputsRefs.category)
+    const name = getInputValue(inputsRefs.name);
+    const description = getInputValue(inputsRefs.description);
+    const category = getInputValue(inputsRefs.category);
     const image = inputsRefs.image.current.files[0];
     
    
@@ -53,14 +53,14 @@ const handleStatus = ({ status, setMessage, setShowCreate, navigate }) => {
 };
 
 export const FormCreateStore = ({setShowCreate,formRef}) => {
-    const {setMessageParams} = useContext( MessageContext )
+    const {setMessageParams} = useContext( MessageContext );
     const inputsRefs = {name:useRef(null),description:useRef(null),category:useRef(null),image:useRef(null)}
     const navigate = useNavigate(); 
  
     const onClick =async ()=>{
-        const status = await handleSubmit(inputsRefs,setMessageParams)
-        handleStatus({status,setMessage:setMessageParams,setShowCreate,navigate})
-    }
+        const status = await handleSubmit(inputsRefs,setMessageParams);
+        handleStatus({status,setMessage:setMessageParams,setShowCreate,navigate});
+    };
     
     return (
         <div ref={formRef} className="create_store" data-testid="formCreate_store">

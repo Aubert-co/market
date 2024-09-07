@@ -22,4 +22,4 @@ export const TopBar = ({isWindowCart,setIsWindowCart,isWindowProfile,setIsWindow
             </nav>
        </>
     )
-}
+};

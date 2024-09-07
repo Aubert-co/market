@@ -9,9 +9,9 @@ export const ListBenefits = ({benefits,scrollToForm})=>{
             <h2>{title}</h2>
             <p>{content}</p>
         </div>
-    })
+    });
  
-}
+};
 
 export const BoxBenefits = ({adText,adLink,benefits,formRef})=>{
     
@@ -40,4 +40,4 @@ export const BoxBenefits = ({adText,adLink,benefits,formRef})=>{
         
     </>
     )
-}
+};

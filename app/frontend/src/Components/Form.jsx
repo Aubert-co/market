@@ -1,8 +1,8 @@
 import React, {  useRef ,useContext} from "react";
-import {Link} from 'react-router-dom'
-import { getInputValue } from "./Utils";
+import {Link} from 'react-router-dom';
+import { isAlphanumeric,getMultiInputValues } from "./Utils";
 import { MessageContext } from "../Contexts";
-import {BoxMessage} from './BoxMessage'
+import {BoxMessage} from './BoxMessage';
 
 
 export const LoginOrRegister = ({type})=>type === "Login" ? 
@@ -17,12 +17,11 @@ export const Form  = ({event,type,formRef})=>{
     const { setMessageParams } = useContext(MessageContext);
    
     const onClick =()=>{
-        const name = getInputValue(refName)
-        const password = getInputValue(refPassword)
-        const repeatPass = getInputValue(refRepeatPassword)
-    
-        if(name && name.length < 3 )return setMessageParams({content:'Nome muito curto',type:'warning'})
+        const [name,password,repeatPass] = getMultiInputValues(refName,refPassword,refRepeatPassword)
+        if(name && name.length < 5 )return setMessageParams({content:'Nome muito curto',type:'warning'})
         if(password && password.length < 5  )return setMessageParams({content:'Senha muito curta',type:'warning'})
+        if(name && !isAlphanumeric(name))return setMessageParams({content:'Nome inválido, digite apenas números e letras',type:'warning'})
+        if(password && !isAlphanumeric(password))return setMessageParams({content:'Senha inválida, digite apenas números e letras',type:'warning'})
         if(type === 'Register' && password !== repeatPass)return setMessageParams({content:'As senhas não concindem',type:'warning'})
         
         event({name,password,setMessageParams})

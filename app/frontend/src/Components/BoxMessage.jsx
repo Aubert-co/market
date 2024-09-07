@@ -9,12 +9,12 @@ export const BoxMessage = ()=>{
         
         if(messageParams.content){
             const timer = setTimeout(()=>{
-                setMessageParams({content:'',type:''})
+                setMessageParams({content:'',type:''});
             },5000)
     
-            return () => clearTimeout(timer)
+            return () => clearTimeout(timer);
         }
-    }, [messageParams.content, setMessageParams])
+    }, [messageParams.content, setMessageParams]);
     return (
         <>
             {messageParams.content && (
@@ -23,6 +23,6 @@ export const BoxMessage = ()=>{
                 </div>
             )}
         </>
-    )
+    );
     
-}
+};

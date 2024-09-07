@@ -1,31 +1,31 @@
 import React,{useContext,useState,useEffect} from "react";
 import { addToCart,serviceGetCart, serviceRemoveFromCart,serviceDecreaseCart,serviceIncreaseCart } from "../services";
 import { MessageContext } from "../Contexts";
-import {FaTrash} from 'react-icons/fa'
+import {FaTrash} from 'react-icons/fa';
 
 
 
 
 export const BtnAction =({product_id,service,text,message})=>{
-    const {messageParams,setMessageParams} = useContext( MessageContext )
+    const {messageParams,setMessageParams} = useContext( MessageContext );
 
     const event = async()=>{
     
-        const {status} =  await service({product_id,quantity:1})
+        const {status} =  await service({product_id,quantity:1});
 
-        if(status === 401)return setMessageParams({content:'Login necessário para adicionar ao carrinho.',type:'error'})
+        if(status === 401)return setMessageParams({content:'Login necessário para adicionar ao carrinho.',type:'error'});
             
-        if(message && status === 201)return setMessageParams({content:message.sucess,type:'sucess'})
-        if(status > 401)  setMessageParams({content:'Algo deu errado',type:'error'})
+        if(message && status === 201)return setMessageParams({content:message.sucess,type:'sucess'});
+        if(status > 401)  setMessageParams({content:'Algo deu errado',type:'error'});
         
     }
-    if(text && text.props)return React.cloneElement(text,{onClick:event,className:'btn_action',"data-testid":"btn_component"})
+    if(text && text.props)return React.cloneElement(text,{onClick:event,className:'btn_action',"data-testid":"btn_component"});
     return (
         <button onClick={event} className="btn_action" data-testid="btn_action">
            {text}
         </button>
-    )
-}
+    );
+};
 
 const listItems = ({ datas, typeComponent,redirectToProduct }) => {
  
@@ -74,6 +74,6 @@ const listItems = ({ datas, typeComponent,redirectToProduct }) => {
   
 export const ListItems = ({typeComponent,datas,redirectToProduct})=>{
 
-  return listItems({datas,typeComponent,redirectToProduct})
-}
+  return listItems({datas,typeComponent,redirectToProduct});
+};
 

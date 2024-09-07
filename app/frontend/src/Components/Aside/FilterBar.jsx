@@ -1,20 +1,19 @@
 import React, { useRef, useContext} from "react";
 import { SearchContext, } from "../../Contexts";
+import { getMultiInputValues } from "../Utils";
 
 
 
 export const FilterBar = ()=>{
-    const {searchParams,setSearchParams} = useContext( SearchContext )
-    const minPrice = useRef(0)
-    const maxPrice = useRef(1000)
+    const {searchParams,setSearchParams} = useContext( SearchContext );
+    const minPrice = useRef(0);
+    const maxPrice = useRef(1000);
     
     const clickToFilter = () => {
-      const lowPrice =Number(minPrice.current.value)
-      const highPrice = Number(maxPrice.current.value)
-
-        if(lowPrice === 0 && highPrice === 0 )return
-        if( searchParams.highPrice === highPrice && searchParams.lowPrice === lowPrice)return
-        if(lowPrice >= highPrice)return
+        const[lowPrice,highPrice]=getMultiInputValues(minPrice,maxPrice);
+        if(lowPrice === 0 && highPrice === 0 )return;
+        if( searchParams.highPrice === highPrice && searchParams.lowPrice === lowPrice)return;
+        if(lowPrice >= highPrice)return;
         const newFilterParams = {...searchParams,lowPrice,highPrice};
   
         setSearchParams(newFilterParams);

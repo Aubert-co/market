@@ -2,12 +2,12 @@ import React,{useRef,useContext} from "react";
 import { SearchContext } from "../../Contexts";
 
 export const SearchBar = ()=>{
-    const {searchParams,setSearchParams} = useContext( SearchContext )
-    const inputRef = useRef( null )
+    const {searchParams,setSearchParams} = useContext( SearchContext );
+    const inputRef = useRef( null );
    
     const clickSend = ()=>{
-        const name = inputRef.current.value
-        if(name.length > 2)  setSearchParams({...searchParams,name})
+        const name = inputRef.current.value;
+        if(name.length > 2)  setSearchParams({...searchParams,name});
     }
     return (
 
