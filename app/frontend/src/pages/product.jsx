@@ -1,21 +1,22 @@
-import React, { useState } from "react"
-import { Aside, Aside2, Container,Main ,ProductSection,Header,PromoContainer} from "../style";
+import React, { useContext, useState } from "react"
+import { Aside, Aside2, Container,Main ,Header} from "../style";
 import { TopBar } from "../Components/Header/TopBar";
-import {  SearchContext } from "../Contexts";
+import {  SearchContext ,CartWindowCtx,SetttingsWindowCtx} from "../Contexts";
 import { BoxMessage } from "../Components/BoxMessage";
-import { BoxItems } from "../Components/BoxItems";
-import { FilterBar } from "../Components/Aside/FilterBar";
 import {  serviceGetItems } from "../services";
 import {items} from '../tests/fixtures';
 import { CartWindow } from "../Components/Aside/CartWindow";
 import { SettingsWindow } from "../Components/Aside/SettingsWindow";
-import { BoxPromotion } from "../Components/BoxPromotion";
-const DEFAULT_SEARCH= {name:'',lowPrice:0,highPrice:1000};
+import { useParams } from "react-router-dom";
+import { MainContainer } from "../style/product";
+import { ProductContainer } from "../Components/Product/ProductContainer";
 
-export default function Home(){
-    const [isWindowCart,setIsWindowCart] = useState(false);
-    const [isWindowProfile,setIsWindowProfile] = useState(false);
-    const [searchParams,setSearchParams]= useState( DEFAULT_SEARCH  );
+
+export default function Product(){
+    const {isWindowCart,setIsWindowCart} = useContext(CartWindowCtx);
+    const {isWindowProfile,setIsWindowProfile} = useContext(SetttingsWindowCtx);
+    const {searchParams,setSearchParams}=   useContext(SearchContext);
+    const {id} = useParams()
     const service =async()=>{
         return {datas:items,status:200};
     };
@@ -31,7 +32,7 @@ export default function Home(){
                 </Aside>
           
                 <Main>
-                 
+                   <ProductContainer/>
                 </Main>
 
                 <Aside2>

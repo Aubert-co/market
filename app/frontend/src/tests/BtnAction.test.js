@@ -3,7 +3,7 @@ import React from "react"
 import { fireEvent, render,screen ,waitFor} from "@testing-library/react"
 import *as Services from "../services"
 import { MessageContext } from "../Contexts"
-import { BtnAction } from "../Components/ListItems"
+import { BtnAction } from "../Components/BtnAction"
 import {FaTrash} from 'react-icons/fa'
 var DEFAULT_MESSAGE ;
 
@@ -25,6 +25,68 @@ describe('BTNACTION',()=>{
         render(
             <MessageContext.Provider value={  DEFAULT_MESSAGE }>
                 <BtnAction message={message} product_id={84} service={service} text={'Remover do carrinho'}></BtnAction>
+            </MessageContext.Provider>
+            )
+        const clickButton = screen.getByTestId('btn_action')
+
+        fireEvent.click(clickButton)
+        expect(clickButton.textContent).toEqual('Remover do carrinho')
+        expect(service).toHaveBeenCalledWith({product_id:84,quantity:1})
+        expect(service).toHaveBeenCalledTimes(1)
+        await waitFor(()=>{
+        
+            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
+            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledWith({type:'sucess',content:message.sucess})
+            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'error',content:'Algo deu errado'})
+           
+        })
+
+    })
+    it("When send the prop 'quantity' should return the correctly 'quantity'",async()=>{
+        const service = jest.fn().mockReturnValue({status:201})
+        const message = {sucess:'Sucesso ao adicionar.'}
+        DEFAULT_MESSAGE = {
+            messageParams:{
+                content:'',type:''
+            },
+            setMessageParams:jest.fn()
+        }
+       jest.spyOn(React,'useState').mockReturnValue([DEFAULT_MESSAGE.messageParams,DEFAULT_MESSAGE.setMessageParams])
+
+        render(
+            <MessageContext.Provider value={  DEFAULT_MESSAGE }>
+                <BtnAction message={message} product_id={84} quantity={59} service={service} text={'Remover do carrinho'}></BtnAction>
+            </MessageContext.Provider>
+            )
+        const clickButton = screen.getByTestId('btn_action')
+
+        fireEvent.click(clickButton)
+        expect(clickButton.textContent).toEqual('Remover do carrinho')
+        expect(service).toHaveBeenCalledWith({product_id:84,quantity:59})
+        expect(service).toHaveBeenCalledTimes(1)
+        await waitFor(()=>{
+        
+            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
+            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledWith({type:'sucess',content:message.sucess})
+            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'error',content:'Algo deu errado'})
+           
+        })
+
+    })
+    it("When not send the prop 'quantity' should return the default quantity '1'",async()=>{
+        const service = jest.fn().mockReturnValue({status:201})
+        const message = {sucess:'Sucesso ao adicionar.'}
+        DEFAULT_MESSAGE = {
+            messageParams:{
+                content:'',type:''
+            },
+            setMessageParams:jest.fn()
+        }
+       jest.spyOn(React,'useState').mockReturnValue([DEFAULT_MESSAGE.messageParams,DEFAULT_MESSAGE.setMessageParams])
+
+        render(
+            <MessageContext.Provider value={  DEFAULT_MESSAGE }>
+                <BtnAction message={message} product_id={84}  service={service} text={'Remover do carrinho'}></BtnAction>
             </MessageContext.Provider>
             )
         const clickButton = screen.getByTestId('btn_action')

@@ -1,9 +1,40 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { MainContainer } from "../../style/product";
+import { BtnAction } from "../BtnAction";
+import { addToCart } from "../../services";
+import { getInputValue } from "../Utils";
 
+export const Actions = ({refItemQuantity})=>{
+  const quantity = Number(getInputValue(refItemQuantity));
+  return (
+    <>
+       <button>Comprar Agora</button>
+        <BtnAction service={addToCart} quantity={quantity}  text={'Adicionar ao carrinho'} message={'Adicionado ao carrinho'} />
+    </>
+  )
+}
+export const ItemQuantity = ({refItemQuantity})=>{
+  
+  const changeQuantity = (type) => {
+    const val = Number(getInputValue(refItemQuantity));
+    if (type === "increase") return refItemQuantity.current.value = val + 1;
+    
+    if (val > 1) refItemQuantity.current.value = val - 1; 
+  
+  };
 
+  return (
+    <>
+      <button data-testid="decrease_btn" onClick={() => changeQuantity("decrease")}>-</button>
+        <input data-testid="input_quantity" ref={refItemQuantity} type="number" defaultValue="1" />
+      <button data-testid="increase_btn" onClick={() => changeQuantity("increase")}>+</button>
+    </>
+  );
+}
 export const ProductContainer = ()=>{
-   return( <MainContainer>
+   const refItemQuantity = useRef(1);
+   return( 
+   <MainContainer>
      <div className="product-container">
     <div className="image-section">
       <img src="url-da-imagem" alt="Nome do Produto" />
@@ -14,14 +45,12 @@ export const ProductContainer = ()=>{
     </div>
     <div className="purchase-section">
       <p className="price">R$ 299,00</p>
+
       <div className="quantity-control">
-        <button>-</button>
-        <input type="number" value="1" />
-        <button>+</button>
+          <ItemQuantity refItemQuantity={refItemQuantity}/>
       </div>
       <div className="actions">
-        <button>Comprar Agora</button>
-        <button>Adicionar ao Carrinho</button>
+          <Actions refItemQuantity={refItemQuantity}/>
       </div>
     </div>
   </div>
