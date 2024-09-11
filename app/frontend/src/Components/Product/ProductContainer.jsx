@@ -13,13 +13,13 @@ export const Actions = ({refItemQuantity})=>{
     </>
   )
 }
-export const ItemQuantity = ({refItemQuantity})=>{
+export const ItemQuantity = ({refItemQuantity,itemInStock})=>{
   
   const changeQuantity = (type) => {
     const val = Number(getInputValue(refItemQuantity));
-    if (type === "increase") return refItemQuantity.current.value = val + 1;
+    if (type === "increase" && val < itemInStock) return refItemQuantity.current.value = val + 1;
     
-    if (val > 1) refItemQuantity.current.value = val - 1; 
+    if (val > 1 && type==="decrease") refItemQuantity.current.value = val - 1; 
   
   };
 
