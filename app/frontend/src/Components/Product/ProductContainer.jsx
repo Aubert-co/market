@@ -1,8 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MainContainer } from "../../style/product";
 import { BtnAction } from "../BtnAction";
 import { addToCart } from "../../services";
 import { getInputValue } from "../Utils";
+
 
 export const Actions = ({refItemQuantity})=>{
   const quantity = Number(getInputValue(refItemQuantity));
@@ -17,7 +18,8 @@ export const ItemQuantity = ({refItemQuantity,itemInStock})=>{
   
   const changeQuantity = (type) => {
     const val = Number(getInputValue(refItemQuantity));
-    if (type === "increase" && val < itemInStock) return refItemQuantity.current.value = val + 1;
+    
+    if (type === "increase"  && val < itemInStock) return refItemQuantity.current.value = val + 1;
     
     if (val > 1 && type==="decrease") refItemQuantity.current.value = val - 1; 
   
@@ -31,8 +33,10 @@ export const ItemQuantity = ({refItemQuantity,itemInStock})=>{
     </>
   );
 }
-export const ProductContainer = ()=>{
+export const ProductContainer = ({datas})=>{
    const refItemQuantity = useRef(1);
+   
+   if(!datas)return
    return( 
    <MainContainer>
      <div className="product-container">
@@ -40,11 +44,11 @@ export const ProductContainer = ()=>{
       <img src="url-da-imagem" alt="Nome do Produto" />
     </div>
     <div className="info-section">
-      <h1>Nome do Produto</h1>
-      <p>Descrição breve do produto aqui.</p>
+      <h1>{datas.product_name}</h1>
+      <p>{datas.description}</p>
     </div>
     <div className="purchase-section">
-      <p className="price">R$ 299,00</p>
+      <p className="price">{datas.price}</p>
 
       <div className="quantity-control">
           <ItemQuantity refItemQuantity={refItemQuantity}/>

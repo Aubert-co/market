@@ -10,16 +10,19 @@ import { SettingsWindow } from "../Components/Aside/SettingsWindow";
 import { useParams } from "react-router-dom";
 import { MainContainer } from "../style/product";
 import { ProductContainer } from "../Components/Product/ProductContainer";
-
+import { fetchData } from "../../Hooks";
 
 export default function Product(){
     const {isWindowCart,setIsWindowCart} = useContext(CartWindowCtx);
     const {isWindowProfile,setIsWindowProfile} = useContext(SetttingsWindowCtx);
     const {searchParams,setSearchParams}=   useContext(SearchContext);
     const {id} = useParams()
-    const service =async()=>{
-        return {datas:items,status:200};
-    };
+    const [items,setItems] = useState({datas:'',status:''});
+
+    useEffect(()=>{
+     fetchData({body:id,service,})
+    },[])
+
     return (
         <Container>
             <SearchContext.Provider value={{searchParams,setSearchParams}}>
@@ -32,7 +35,7 @@ export default function Product(){
                 </Aside>
           
                 <Main>
-                   <ProductContainer/>
+                   <ProductContainer datas={items.datas}/>
                 </Main>
 
                 <Aside2>
