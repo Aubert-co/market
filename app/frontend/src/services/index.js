@@ -1,5 +1,5 @@
 const  headers ={'Content-Type':'application/json'}
-
+const url = "http://localhost:8080"
 export const serviceDecreaseCart = async({cart_id})=>{
 
 }
@@ -9,7 +9,7 @@ export const serviceIncreaseCart = async({cart_id})=>{
 export const addToCart = async({product_id,quantity})=>{
     try{
 
-        const response= await fetch('http://localhost:8080/cart/create',{
+        const response= await fetch(url+`/cart/create`,{
             method:'POST',
             body:JSON.stringify({product_id,quantity}),
             headers
@@ -26,7 +26,7 @@ export const serviceGetCart =async()=>{
         const token = localStorage.getItem('token')
         if(!token)return {datas:[],status:401}
         
-        const response= await fetch('localhost:8080/cart/items',{
+        const response= await fetch(url+'/cart/items',{
             method:'GET',
             headers:{'Authorization':`Bearer ${token}`}
         })
@@ -37,7 +37,7 @@ export const serviceGetCart =async()=>{
 }
 export const serviceRemoveFromCart = async({product_id})=>{
     try{
-        const response= await fetch('http://localhost:8080/cart/delete',{
+        const response= await fetch(url+'/cart/delete',{
             method:'POST',
             body:JSON.stringify({cart_id:product_id}),
             headers
@@ -51,7 +51,7 @@ export const serviceRemoveFromCart = async({product_id})=>{
 }
 export const serviceGetItems = async({body})=>{
     try{
-        const response = await fetch('http://localhost:8080/',{
+        const response = await fetch(url+'/',{
             method:'POST',
             headers,
             body:JSON.stringify (body )
@@ -66,7 +66,7 @@ export const serviceGetItems = async({body})=>{
 export const serviceLogin = async({name,password})=>{
 
     try{
-        const response = await fetch('http://localhost:8080/login',{
+        const response = await fetch(url+'/login',{
             method:'POST',
             body:JSON.stringify({name,password}),
             headers
@@ -85,7 +85,7 @@ export const serviceLogin = async({name,password})=>{
 export const serviceRegister = async({name,password})=>{
 
     try{
-        const response = await fetch('http://localhost:8080/register',{
+        const response = await fetch(url+'/register',{
             method:'POST',
             body:JSON.stringify({name,password}),
             headers
@@ -103,7 +103,7 @@ export const serviceStore = async()=>{
         console.log(token)
         if(!token)return {datas:[],status:401}
         
-        const response= await fetch('http://localhost:8080/store/admin',{
+        const response= await fetch(url+'/store/admin',{
             method:'GET',
             headers:{'Authorization':`Bearer ${token}`}
         })
@@ -120,7 +120,7 @@ export const serviceCreateStore = async(formData)=>{
       
         if(!token)return {datas:[],status:401}
         
-        const response= await fetch('http://localhost:8080/store/create',{
+        const response= await fetch(url+'/store/create',{
             method:'POST',
             headers:{'Authorization':`Bearer ${token}`},
             body:formData
@@ -140,7 +140,7 @@ export const serviceAdmStore = async()=>{
       
         if(!token)return {datas:[],status:401}
         
-        const response= await fetch('http://localhost:8080/store/create',{
+        const response= await fetch(url+'/store/create',{
             method:'POST',
             headers:{'Authorization':`Bearer ${token}`},
             body:formData
@@ -152,4 +152,20 @@ export const serviceAdmStore = async()=>{
        
         return {datas:[],status:500}
     }
+}
+
+export const serviceGetProduct = async({product_id})=>{
+    try{
+        if(!product_id || typeof product_id !=='number')return {datas:[],status:401}
+        
+        
+        
+        const response= await fetch(url+`/products/info/${product_id}`)
+        const json =await response.json()
+      
+        return {message:json.message,status:response.status}
+    }catch(err){
+       
+        return {datas:[],status:500}
+    } 
 }

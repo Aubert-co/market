@@ -21,7 +21,7 @@ describe("Page Login",()=>{
         jest.clearAllMocks()
         jest.useFakeTimers()
         jest.spyOn(Services,'serviceLogin').mockResolvedValue(valueFormService[count])
-        history = createMemoryHistory({ initialEntries: ['/login'] });  // Defina a rota inicial para '/login'
+        history = createMemoryHistory({ initialEntries: ['/login'] }); 
 
        
         render(

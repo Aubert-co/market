@@ -6,7 +6,7 @@ import {  CartWindowCtx, SearchContext, SetttingsWindowCtx ,MessageContext} from
 import { Register } from "./register";
 import {GlobalStyles} from '../style/index'
 import { Store } from "./store";
-import Product from "./product";
+import Product from "./Product";
 const DEFAULT_MESSAGE = {content:'',type:''};
 const DEFAULT_SEARCH= {name:'',lowPrice:0,highPrice:1000};
 export const App = () => {

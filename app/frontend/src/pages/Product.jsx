@@ -1,31 +1,30 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState ,useEffect} from "react"
 import { Aside, Aside2, Container,Main ,Header} from "../style";
 import { TopBar } from "../Components/Header/TopBar";
-import {  SearchContext ,CartWindowCtx,SetttingsWindowCtx} from "../Contexts";
+import {   CartWindowCtx,SetttingsWindowCtx} from "../Contexts";
 import { BoxMessage } from "../Components/BoxMessage";
-import {  serviceGetItems } from "../services";
+import {  serviceGetProduct } from "../services";
 import {items} from '../tests/fixtures';
 import { CartWindow } from "../Components/Aside/CartWindow";
 import { SettingsWindow } from "../Components/Aside/SettingsWindow";
 import { useParams } from "react-router-dom";
 import { MainContainer } from "../style/product";
 import { ProductContainer } from "../Components/Product/ProductContainer";
-import { fetchData } from "../../Hooks";
+import { fetchData } from "../Hooks/index";
 
 export default function Product(){
     const {isWindowCart,setIsWindowCart} = useContext(CartWindowCtx);
     const {isWindowProfile,setIsWindowProfile} = useContext(SetttingsWindowCtx);
-    const {searchParams,setSearchParams}=   useContext(SearchContext);
+   
     const {id} = useParams()
     const [items,setItems] = useState({datas:'',status:''});
-
+    console.log(id)
     useEffect(()=>{
-     fetchData({body:id,service,})
+     fetchData({body:{product_id:id},service:serviceGetProduct,setItems})
     },[])
 
     return (
         <Container>
-            <SearchContext.Provider value={{searchParams,setSearchParams}}>
                 <Header>
                     <TopBar isWindowCart={isWindowCart} setIsWindowCart={setIsWindowCart} isWindowProfile={isWindowProfile} setIsWindowProfile={setIsWindowProfile}/>
                
@@ -43,7 +42,7 @@ export default function Product(){
                     <CartWindow setIsWindowOpen={setIsWindowCart} isWindowOpen={isWindowCart}/>
                     <SettingsWindow setIsSettingsOpen={setIsWindowProfile} isSettingsOpen={isWindowProfile}/>
                 </Aside2>
-            </SearchContext.Provider>
+         
         </Container>
     )
 };
