@@ -4,7 +4,7 @@ import { MessageContext } from "../Contexts";
 
 
 export const BoxMessage = ()=>{
-    const {messageParams,setMessageParams} = useContext( MessageContext )
+    const {messageParams,setMessageParams} = useContext( MessageContext );
     useEffect(()=>{
         
         if(messageParams.content){

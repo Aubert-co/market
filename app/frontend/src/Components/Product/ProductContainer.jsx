@@ -51,7 +51,7 @@ export const ProductContainer = ({datas})=>{
       <p className="price">{datas.price}</p>
 
       <div className="quantity-control">
-          <ItemQuantity refItemQuantity={refItemQuantity}/>
+          <ItemQuantity refItemQuantity={refItemQuantity} itemInStock={50}/>
       </div>
       <div className="actions">
           <Actions refItemQuantity={refItemQuantity}/>

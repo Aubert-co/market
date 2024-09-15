@@ -24,8 +24,8 @@ const handleSubmit = async(inputsRefs,setMessage) => {
     formData.append('description', description);
     formData.append('category', category);
     formData.append('file', image,image.name);
-    const {status} = await serviceCreateStore(formData)
-    return status
+    const {status} = await serviceCreateStore(formData);
+    return status;
    
 };  
 
