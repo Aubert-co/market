@@ -1,16 +1,24 @@
 import React,{useEffect} from "react";
 import { ListItems } from "../ListItems";
+import { ListSettings } from "./SettingsWindow";
 
 
-const ListSettings =()=>{
+const Cart_ = ({datas})=>{
+
+  const totally = datas.reduce((tr, vl) => {
+    return tr + vl.price;
+  }, 0);
+
   return (
-    <div className="set_windows">
-      <h4>Minhas Compras</h4>
-      <h4>Meus Cupons</h4>
-    </div>
-  )
+  <div className="list_cart" data-testid="list_items">
+   
+    <ListItems typeComponent={'Cart'} datas={datas} />
+    <button>Limpar Carrinho</button>  
+    <button> FInalizar Compra</button>
+    <h4>Total {totally}</h4>
+  </div>
+)
 }
-
 export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas }) => {
     const closeWindow = () => setIsWindowOpen(false);
   
@@ -42,9 +50,7 @@ export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas }) 
               datas === 'carregando' ? (
                 <div className="loading" data-testid="window_loading">Loading...</div>
               ) : (
-                <div className="list_items" data-testid="list_items">
-                  <ListItems typeComponent={'Cart'} datas={datas} />
-                </div>
+                <Cart_ datas={datas}/>
               )
             ) : (
               <div className="list-settings" data-testid="list_settings">

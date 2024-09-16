@@ -375,10 +375,10 @@ grid-area:aside2;
 .list-items,
 .list-settings {
   flex: 1;
-  overflow-y: auto; /* Permite que o conteúdo role verticalmente */
+  overflow-y: auto; 
   margin-top: 10px;
   margin-bottom: 10px;
-  padding-right: 10px; /* Espaço para evitar que o conteúdo fique sob o scrollbar */
+  padding-right: 10px;
 }
 
 .loading {
@@ -387,7 +387,18 @@ grid-area:aside2;
   color: #888;
   margin-top: 20px;
 }
-
+.list_cart{
+  height:80%;
+  overflow-y: auto;  
+  overflow-x: hidden;
+}
+.product{
+  display:flex;
+  margin:1%;
+  height:20%;
+}
+  .btn_action{
+  cursor:pointer}
 `
 
 export const StatusStyle = styled.div`

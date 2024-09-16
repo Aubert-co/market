@@ -3,14 +3,17 @@ import { BoxWindow } from "./BoxWindows";
 import { fetchData } from "../../Hooks";
 import { MessageContext } from "../../Contexts";
 import { serviceGetCart } from "../../services";
-
+import { items } from "../../tests/fixtures";
+const service =async()=>{
+  return {datas:items,status:200};
+};
 export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
     const { setMessageParams } = useContext(MessageContext);
     const [items, setItems] = useState({ datas: 'carregando', status: '' });
    
     useEffect(() => {
       if (isWindowOpen) {
-        fetchData({ service:serviceGetCart, setItems });
+        fetchData({ service, setItems });
       }
     }, [isWindowOpen]);
   
