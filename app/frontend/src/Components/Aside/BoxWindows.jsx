@@ -3,11 +3,12 @@ import { ListItems } from "../ListItems";
 import { ListSettings } from "./SettingsWindow";
 
 
-const Cart_ = ({datas})=>{
-
-  const totally = datas.reduce((tr, vl) => {
+const ListCartItems = ({datas})=>{
+  console.log(datas)
+  /*const totally = datas.reduce((tr, vl) => {
     return tr + vl.price;
-  }, 0);
+  }, 0);*/
+  const totally = datas.price
 
   return (
   <div className="list_cart" data-testid="list_items">
@@ -20,7 +21,10 @@ const Cart_ = ({datas})=>{
 )
 }
 export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas }) => {
-    const closeWindow = () => setIsWindowOpen(false);
+    const closeWindow = () => {
+      setIsWindowOpen(false);
+      console.log("fechado")
+    }
   
     useEffect(() => {
       if (isWindowOpen) {
@@ -50,7 +54,7 @@ export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas }) 
               datas === 'carregando' ? (
                 <div className="loading" data-testid="window_loading">Loading...</div>
               ) : (
-                <Cart_ datas={datas}/>
+                <ListCartItems datas={datas}/>
               )
             ) : (
               <div className="list-settings" data-testid="list_settings">

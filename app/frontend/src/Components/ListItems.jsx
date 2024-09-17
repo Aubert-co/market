@@ -4,7 +4,20 @@ import { MessageContext } from "../Contexts";
 import {FaTrash} from 'react-icons/fa';
 import { BtnAction } from "./BtnAction";
 
+export const CartActions = ({quantity,id,price})=>{
+ return(
+   <>
+    <button  product_id={id} >-</button>
+    <input type="text" className="quantity" data-testid="item_quantity" value={quantity}/>
+    <button product_id={id}  >+</button>
+    <p className="total" data-testid="total">
+      R${price * quantity}
+    </p>
 
+    <FaTrash />
+  </>
+ )
+}
 
 
 const listItems = ({ datas, typeComponent,redirectToProduct }) => {
@@ -31,20 +44,7 @@ const listItems = ({ datas, typeComponent,redirectToProduct }) => {
             <p className="item_price" data-testid="item_price">{price}</p>
           )}
           {typeComponent === 'Cart' && (
-            <>
-              <BtnAction text="-" product_id={id} service={serviceDecreaseCart} />
-              <p className="quantity" data-testid="item_quantity">{quantity}</p>
-              <BtnAction text="+" product_id={id} service={serviceIncreaseCart} />
-              <p className="total" data-testid="total">
-                R${price * quantity}
-              </p>
-
-              <BtnAction
-              text={<FaTrash />}
-              product_id={id}
-              service={serviceRemoveFromCart}
-              />
-            </>
+           <CartActions id={id} quantity={quantity} price={price}/>
           )}
       
         </div>

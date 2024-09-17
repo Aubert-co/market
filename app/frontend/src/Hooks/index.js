@@ -4,3 +4,4 @@ export const fetchData = async ({body,setItems,service}) => {
     setItems({datas,status})
     return null
 };
+

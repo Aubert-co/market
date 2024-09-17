@@ -4,7 +4,7 @@ import { TopBar } from "../Components/Header/TopBar";
 import {   CartWindowCtx,SetttingsWindowCtx} from "../Contexts";
 import { BoxMessage } from "../Components/BoxMessage";
 import {  serviceGetProduct } from "../services";
-import {items} from '../tests/fixtures';
+import *as values from '../tests/fixtures';
 import { CartWindow } from "../Components/Aside/CartWindow";
 import { SettingsWindow } from "../Components/Aside/SettingsWindow";
 import { useParams } from "react-router-dom";
@@ -18,9 +18,12 @@ export default function Product(){
    
     const {id} = useParams()
     const [items,setItems] = useState({datas:'',status:''});
-    console.log(id)
+    
+    const service =async()=>{
+        return {datas:values.items[0],status:200};
+    };
     useEffect(()=>{
-     fetchData({body:{product_id:id},service:serviceGetProduct,setItems})
+     fetchData({service,setItems})
     },[])
 
     return (
