@@ -4,7 +4,7 @@ import { ListSettings } from "./SettingsWindow";
 
 
 const ListCartItems = ({datas})=>{
-  console.log(datas)
+ 
   /*const totally = datas.reduce((tr, vl) => {
     return tr + vl.price;
   }, 0);*/

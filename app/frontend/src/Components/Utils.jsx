@@ -21,3 +21,5 @@ export const isAlphanumeric = (input)=>{
     const regex = /^[a-zA-Z0-9]+$/; 
     return regex.test(input); 
 }
+export const existValue = (datas,id)=> datas.some((val)=>val.id === id)
+

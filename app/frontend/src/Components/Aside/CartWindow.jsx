@@ -4,6 +4,22 @@ import { fetchData } from "../../Hooks";
 import { MessageContext } from "../../Contexts";
 import { serviceGetCart } from "../../services";
 import { items } from "../../tests/fixtures";
+import {FaTrash} from 'react-icons/fa';
+import { QuantitySelector } from "../QuantitySelector";
+
+export const CartActions = ({quantity,id,price})=>{
+  const [stateQuantity,setQuantity] = useState(quantity)
+  return(
+    <>
+     <QuantitySelector id={id} quantity={stateQuantity} setQuantity={setQuantity}/>
+     <p className="total" data-testid="total">
+       R${price * quantity}
+     </p>
+ 
+     <FaTrash />
+   </>
+  )
+ }
 
 export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
     const { setMessageParams } = useContext(MessageContext);
@@ -32,7 +48,7 @@ export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
       }
     }, [items.status, setMessageParams]);
   
-    console.log("windiow",items.datas)
+    
     if (!isWindowOpen || items.datas === 'carregando') return null;
   
     return (
@@ -44,3 +60,4 @@ export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
       />
     );
   };
+

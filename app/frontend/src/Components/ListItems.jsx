@@ -1,23 +1,9 @@
 import React,{useContext,useState,useEffect} from "react";
 import { addToCart,serviceGetCart, serviceRemoveFromCart,serviceDecreaseCart,serviceIncreaseCart } from "../services";
 import { MessageContext } from "../Contexts";
-import {FaTrash} from 'react-icons/fa';
 import { BtnAction } from "./BtnAction";
+import { CartActions } from "./Aside/CartWindow";
 
-export const CartActions = ({quantity,id,price})=>{
- return(
-   <>
-    <button  product_id={id} >-</button>
-    <input type="text" className="quantity" data-testid="item_quantity" value={quantity}/>
-    <button product_id={id}  >+</button>
-    <p className="total" data-testid="total">
-      R${price * quantity}
-    </p>
-
-    <FaTrash />
-  </>
- )
-}
 
 
 const listItems = ({ datas, typeComponent,redirectToProduct }) => {
