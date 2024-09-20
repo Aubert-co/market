@@ -13,6 +13,9 @@
     "react-dom": "18.2.0",
     "react-router-dom": "6.23.0"
   },
+  "resolutions": {
+    "express": "^4.20.0"
+  },
   "devDependencies": {
     "@babel/core": "7.24.0",
     "@babel/plugin-transform-runtime": "7.24.0",
