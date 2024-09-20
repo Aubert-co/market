@@ -35,3 +35,12 @@ export const  items = [
         quantity:1
       }
 ]
+
+export const mapExpect = (array1,array2,price)=>{
+  array1.map((_,ind,array)=>{
+      expect(array[ind].name).toEqual(array2[ind].name)
+      expect(array[ind].id).toEqual(array2[ind].id)
+      expect(array[ind].quantity).toEqual(array2[ind].quantity)
+      if(price)expect(array[ind].price).toEqual(array2[ind].price)
+    })
+}

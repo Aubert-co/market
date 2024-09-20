@@ -16,3 +16,12 @@ export const cacheChangeQuantity = ({cart,quantity,id})=>{
       return val
   })
 }
+
+export const GetTimeCached = ()=>JSON.parse(localStorage.getItem('times')) || {}
+ 
+export const saveTime = ({typeItem,dateNow})=>{
+  dateNow = dateNow ||  new Date().getTime();
+  const getTimes = GetTimeCached() 
+  getTimes[typeItem] = dateNow
+  localStorage.setItem('times',JSON.stringify(getTimes))
+}

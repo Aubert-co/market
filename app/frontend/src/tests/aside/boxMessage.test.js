@@ -1,7 +1,7 @@
 import React,{useContext, useState} from "react";
 import { render,fireEvent, screen, waitFor } from "@testing-library/react";
-import { MessageContext } from "../Contexts";
-import { BoxMessage } from "../Components/BoxMessage";
+import { MessageContext } from "../../Contexts";
+import { BoxMessage } from "../../Components/BoxMessage";
 
 
 var DEFAULT_MESSAGE;

@@ -1,10 +1,10 @@
 import React from "react";
 import { fireEvent, render,screen, waitFor } from "@testing-library/react";
-import  *as Services from "../services"
-import { CartWindow, } from "../Components/Aside/CartWindow";
-import { MessageContext } from "../Contexts";
+import  *as Services from "../../services"
+import { CartWindow, } from "../../Components/Aside/CartWindow";
+import { MessageContext } from "../../Contexts";
 import '@testing-library/jest-dom'
-import { items } from "./fixtures";
+import { items } from "../fixtures";
 
 const generateSrc = (path)=>`http://localhost:8080/static${path}`
 

@@ -1,0 +1,60 @@
+import { mapExpect } from "../tests/fixtures"
+import { getCart, GetTimeCached, saveCart, saveTime ,cacheChangeQuantity} from "./index"
+
+
+
+describe("test",()=>{
+    beforeEach(()=>{
+        jest.clearAllMocks()
+        jest.useFakeTimers()
+        localStorage.clear() 
+    })
+
+    it("Should save the object corretly in the localStorage",()=>{
+        expect(getCart()).toEqual([])
+        const cart = [{id:3,name:'lucas',quantity:55},{id:4,name:'jose',quantity:5}]
+        
+        saveCart(cart)
+        const localStorageDatas = JSON.parse(localStorage.getItem('cart'))
+        const funcionGetCart = getCart()
+
+        expect(localStorageDatas).toHaveLength(2)
+        
+        mapExpect(localStorageDatas,cart)
+        mapExpect(localStorageDatas,funcionGetCart)
+        mapExpect(funcionGetCart,cart)
+       
+
+    })
+    it("When the quantity changes, it should update the correct item in the array inside localStorage.",()=>{
+        const cart = [{id:3,name:'lucas',quantity:55},{id:4,name:'jose',quantity:5}]
+        saveCart(cart)
+        const newCart = cacheChangeQuantity({cart,id:cart[0].id,quantity:123})
+        
+        expect(newCart[0].quantity).toEqual(123)
+        expect(newCart[1].quantity).toEqual(cart[1].quantity)
+        saveCart(newCart)
+        const getLocalDate = getCart()
+        const localStorageDatas = JSON.parse(localStorage.getItem('cart'))
+        
+        mapExpect(getLocalDate,localStorageDatas)
+
+        expect(localStorageDatas[0].quantity).not.toEqual(cart[0].quantity)
+        mapExpect([cart[1]],[getLocalDate[1]])
+        mapExpect([cart[1]],[localStorageDatas[1]])
+    })
+    it("When saving a new item, it should be saved correctly in localStorage.",()=>{
+        expect(GetTimeCached()).toEqual({})
+        const date =  new Date().getTime();
+        const typeItem = 'cartTime'
+        saveTime({typeItem})
+        
+        const getLocalDate = JSON.parse(localStorage.getItem('times'))
+
+        expect(getLocalDate).toHaveProperty(typeItem)
+        expect(getLocalDate[typeItem]).toEqual(date)
+
+        expect(GetTimeCached()).toHaveProperty(typeItem)
+        expect(GetTimeCached()[typeItem]).toEqual(date)
+    })
+})

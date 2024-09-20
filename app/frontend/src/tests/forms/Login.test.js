@@ -1,12 +1,12 @@
 import React from "react";
 import { render,fireEvent, screen, waitFor, getAllByTestId } from "@testing-library/react";
 import {createMemoryHistory} from "history";
-import { Login } from "../pages/login";
+import { Login } from "../../pages/login";
 import '@testing-library/jest-dom'
-import *as Services from "../services"
+import *as Services from "../../services"
 import { Router } from  'react-router-dom'
-import { MessageContext } from "../Contexts";
-import { setMessageParams,mockContextValue } from "./mocks";
+import { MessageContext } from "../../Contexts";
+import { setMessageParams,mockContextValue } from "../mocks";
 
 var history;
 const valueFormService = [

@@ -1,9 +1,9 @@
 import React,{useState,useContext} from "react";
 import { render,fireEvent, screen, waitFor } from "@testing-library/react";
 
-import { SearchContext } from "../Contexts";
+import { SearchContext } from "../../Contexts";
 import {BrowserRouter, MemoryRouter,Router} from 'react-router-dom'
-import { TopBar } from "../Components/Header/TopBar";
+import { TopBar } from "../../Components/Header/TopBar";
 import { createMemoryHistory } from "history";
 var DEFAULT_SEARCH,DEFAULT_CART_WINDOW,DEFAULT_PROFILE_WINDOW,history;
 

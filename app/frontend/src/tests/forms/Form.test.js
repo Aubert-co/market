@@ -4,10 +4,10 @@ import { render,fireEvent, screen, waitFor } from "@testing-library/react";
 import {Router} from 'react-router-dom'
 
 import { createMemoryHistory } from "history";
-import { Form } from "../Components/Form";
-import { MessageContext } from "../Contexts";
+import { Form } from "../../Components/Form";
+import { MessageContext } from "../../Contexts";
 import '@testing-library/jest-dom';
-import { mockContextValue,setMessageParams } from "./mocks";
+import { mockContextValue,setMessageParams } from "../mocks";
 
 var DEFAULT_VALUES,event;
 var content = ["Voce fez o login com sucesso","Nome muito curto","Senha muito curta","Nome inválido, digite apenas números e letras","Senha inválida, digite apenas números e letras","Cadastrado com sucesso","Nome muito curto","Senha muito curta","As senhas não concindem","Nome inválido, digite apenas números e letras","Senha inválida, digite apenas números e letras"]

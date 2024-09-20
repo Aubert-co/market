@@ -1,5 +1,5 @@
 const  headers ={'Content-Type':'application/json'}
-const url = "http://localhost:8080"
+export const url = "http://localhost:8080"
 export const serviceDecreaseCart = async({cart_id})=>{
 
 }
@@ -21,21 +21,10 @@ export const addToCart = async({product_id,quantity})=>{
         return {datas:[],status:500}
     }
 }
-export const serviceGetCart =async()=>{
-    try{
-        const token = localStorage.getItem('token')
-        if(!token)return {datas:[],status:401}
-        
-        const response= await fetch(url+'/cart/items',{
-            method:'GET',
-            headers:{'Authorization':`Bearer ${token}`}
-        })
-        return {datas:[],status:response.status}
-    }catch(err){
-        return {datas:[],status:500}
-    }
-}
+
 export const serviceRemoveFromCart = async({product_id})=>{
+
+    
     try{
         const response= await fetch(url+'/cart/delete',{
             method:'POST',
