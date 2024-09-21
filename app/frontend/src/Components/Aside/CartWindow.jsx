@@ -62,10 +62,12 @@ export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
 export const ListCartItems = ({datas,status})=>{
   if (datas === "carregando" && !status) return <div className="loading" data-testid="window_loading">Carregando...</div>;
   
-  if (Array.isArray(datas) && datas.length === 0 && status === 201) return <div className="error-message" data-testid="error_message">Adicione items ao seu carrinho!</div>;
+  if (Array.isArray(datas) && datas.length === 0 && status === 201) return <div className="error_message" data-testid="error_message">Adicione items ao seu carrinho!</div>;
   
 
-  if (status >= 401) return <div className="login-message" data-testid="login_message">Faça login para adicionar items ao seu carrinho!</div>;
+  if (status === 401) return <div className="error_message" data-testid="error_message">Faça login para adicionar items ao seu carrinho!</div>;
+
+  if (status > 401) return <div className="error_message" data-testid="error_message">Algo deu errado enquanto buscavamos seu carrinho , tente mais tarde!</div>;
 
   const totally = datas.length === 1  ? getTotally(datas) : datas.price
 
