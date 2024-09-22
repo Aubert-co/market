@@ -158,5 +158,42 @@ describe("CartWIndow",()=>{
         
         })
     })
+    it.only("When the request is sucessful , should save the datas in localStorage",async()=>{
+        const DEFAULT_WINDOW ={
+            isWindowOpen:true, setIsWindowOpen:jest.fn()
+        }
+        const service = jest.spyOn(Services,'serviceGetCart').mockResolvedValue({message:'sucess',status:201,datas:[items[0]]})
+        
+        render(
+            <MessageContext.Provider value={DEFAULT_MESSAGE}>
+                <CartWindow isWindowOpen={DEFAULT_WINDOW.isWindowOpen} setIsWindowOpen={DEFAULT_WINDOW.setIsWindowOpen}/>
+            </MessageContext.Provider>
+        )
+        
+        await waitFor(()=>{
+            expect(screen.getByTestId('overlay')).toBeInTheDocument()
+       
+          
+            expect(screen.queryByTestId("list_items")).toBeInTheDocument()
+            expect(document.body.style.overflow).toEqual('hidden')
+
+            const cart_total = screen.getByTestId("cart_total")
+            const decrease_btn = screen.getByTestId("decrease_btn")
+            const increase_btn = screen.getByTestId("increase_btn")
+            const input_quantity = screen.getByTestId("input_quantity")
     
+          //  expect(cart_total.textContent).toEqual(`R$${items[0].price* items[0].quantity}`)
+            expect(input_quantity.value).toEqual(`${items[0].quantity}`)
+    
+            fireEvent.click(decrease_btn)
+            const cartLocal = JSON.parse( localStorage.getItem('cart') )
+    
+           
+           
+            expect(cartLocal[0].quantity).not.toEqual(data[0].quantity)
+            expect(cartLocal[0].price).toEqual(data[0].price)
+            expect(cartLocal[0].name).toEqual(data[0].name)
+            expect(cartLocal[0].quantity+1).toEqual(data[0].quantity)
+        })
+    })
 })

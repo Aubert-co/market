@@ -23,3 +23,6 @@ export const isAlphanumeric = (input)=>{
 }
 export const existValue = (datas,id)=> datas.some((val)=>val.id === id)
 
+export const roundANumber = (number) => {
+    return Math.round(number);
+};

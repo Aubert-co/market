@@ -412,8 +412,7 @@ position:hidden;
 }
 
 .list_cart button {
-  padding: 10px 15px;
-  margin: 10px 5px;
+ 
   background-color: #007bff;
   color: white;
   border: none;
@@ -484,6 +483,9 @@ position:hidden;
 
 .list_cart .list_items .item svg {
   fill: #ff4d4d;
+}
+input{
+  width:10%;
 }
 `
 

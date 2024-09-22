@@ -6,8 +6,8 @@ import { CartActions } from "./Aside/CartWindow";
 
 
 
-const listItems = ({ datas, typeComponent,redirectToProduct }) => {
- 
+export const ListItems = ({ datas, typeComponent,redirectToProduct }) => {
+  
     return datas.map(({ id, name, price, imgPath, quantity }) => {
       const img = imgPath.replace('../public', '');
       const src = `http://localhost:8080/static${img}`;
@@ -38,8 +38,4 @@ const listItems = ({ datas, typeComponent,redirectToProduct }) => {
     });
   };
   
-export const ListItems = ({typeComponent,datas,redirectToProduct})=>{
-
-  return listItems({datas,typeComponent,redirectToProduct});
-};
 

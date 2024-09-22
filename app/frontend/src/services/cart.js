@@ -1,17 +1,21 @@
 import { url } from "."
 import { getCart, GetTimeCached, saveCart, saveTime } from "../Cache"
+import { items } from "../tests/fixtures";
 
 export const serviceGetCart = async () => {
     const time = GetTimeCached();
     const date = new Date().getTime();
     const cacheDuration = 1000 * 60 * 10; 
-   
+  
     if (time['cart'] && date < time['cart'] + cacheDuration) {
         const datas = getCart();  
+    
         return { datas, status: 201 }; 
     }
-
-
+    /*saveTime({typeItem:'cart'})
+    saveCart(items)
+    return { datas:items,status:201}
+    */
     try {
         const token = localStorage.getItem('token');
      

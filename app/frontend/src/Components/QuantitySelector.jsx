@@ -5,26 +5,22 @@ export const QuantitySelector = ({quantity,setQuantity,id})=>{
 
     const changeQuantity = (type, value) => {
         let newQuantity = Number(quantity);
-       // if(type==="decrease" && newQuantity -1 ===0)return
-        if (type === "increase") {
-            newQuantity += 1;
-            setQuantity(newQuantity);
-        }
-        
-        if (type === "decrease" && quantity > 1) {
-            newQuantity -= 1;
-            setQuantity(newQuantity);
-        }
+       
+        if(type==="decrease" && newQuantity -1 ===0)return
+        if (type === "increase") newQuantity += 1;
+  
+        if (type === "decrease" && quantity > 1) newQuantity -= 1;
+            
       
-        if (value >= 1 && !type) {
-            newQuantity = Number(value);
-            setQuantity(newQuantity);
+        if (value >= 1 && !type) newQuantity = Number(value);
+            
            
-        }
-     
+        
+        setQuantity(newQuantity);
         if (id) {
           const cartCache = cacheChangeQuantity({ quantity: newQuantity, id });
           saveCart(cartCache);
+      
         }
     };
   
