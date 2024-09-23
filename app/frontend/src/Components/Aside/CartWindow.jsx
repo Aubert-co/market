@@ -13,6 +13,7 @@ import { roundANumber } from "../Utils";
 export const CartActions = ({quantity,id,price})=>{
   const [stateQuantity,setQuantity] = useState(quantity)
   const roundPrice= roundANumber(Number(price * stateQuantity))
+
   return(
     <>
      <QuantitySelector id={id} quantity={stateQuantity} setQuantity={setQuantity}/>
@@ -28,7 +29,7 @@ export const CartActions = ({quantity,id,price})=>{
 export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
     const { setMessageParams } = useContext(MessageContext);
     const [items, setItems] = useState({ datas: 'carregando', status: '' });
-
+    
     useEffect(() => {
       
       if (isWindowOpen) {

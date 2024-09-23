@@ -7,11 +7,11 @@ import { CartActions } from "./Aside/CartWindow";
 
 
 export const ListItems = ({ datas, typeComponent,redirectToProduct }) => {
-  
+   
     return datas.map(({ id, name, price, imgPath, quantity }) => {
       const img = imgPath.replace('../public', '');
       const src = `http://localhost:8080/static${img}`;
-  
+      
       return (
         <div
           className="product"
