@@ -36,11 +36,19 @@ export const  items = [
       }
 ]
 
-export const mapExpect = (array1,array2,price)=>{
+export const mapExpectAll = (array1,array2,price)=>{
   array1.map((_,ind,array)=>{
       expect(array[ind].name).toEqual(array2[ind].name)
       expect(array[ind].id).toEqual(array2[ind].id)
       expect(array[ind].quantity).toEqual(array2[ind].quantity)
       if(price)expect(array[ind].price).toEqual(array2[ind].price)
     })
+}
+export const mapExpectDiferentQnt = (array1,array2,quantity)=>{
+  array1.map((_,ind,array)=>{
+    expect(array[ind].name).toEqual(array2[ind].name)
+    expect(array[ind].id).toEqual(array2[ind].id)
+    expect(array[ind].price).toEqual(array2[ind].price)
+    expect(array[ind].quantity).toEqual(quantity)
+  })
 }

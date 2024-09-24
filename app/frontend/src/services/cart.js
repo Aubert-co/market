@@ -13,8 +13,8 @@ export const serviceGetCart = async () => {
         return { datas, status: 201 }; 
     }
     saveTime({typeItem:'cart'})
-    saveCart(items)
-    return { datas:items,status:201}
+    saveCart([items[0]])
+    return { datas:[items[0]],status:201}
     
     try {
         const token = localStorage.getItem('token');

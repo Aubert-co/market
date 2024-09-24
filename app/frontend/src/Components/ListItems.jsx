@@ -1,17 +1,14 @@
 import React,{useContext,useState,useEffect} from "react";
-import { addToCart,serviceGetCart, serviceRemoveFromCart,serviceDecreaseCart,serviceIncreaseCart } from "../services";
-import { MessageContext } from "../Contexts";
-import { BtnAction } from "./BtnAction";
 import { CartActions } from "./Aside/CartWindow";
 
 
 
-export const ListItems = ({ datas, typeComponent,redirectToProduct }) => {
-   
-    return datas.map(({ id, name, price, imgPath, quantity }) => {
+export const ListItems = ({ datas, typeComponent,redirectToProduct,setTottaly }) => {
+  
+    return datas.map(({ id, name, price, imgPath, quantity },ind) => {
       const img = imgPath.replace('../public', '');
       const src = `http://localhost:8080/static${img}`;
-      
+   
       return (
         <div
           className="product"
@@ -30,7 +27,7 @@ export const ListItems = ({ datas, typeComponent,redirectToProduct }) => {
             <p className="item_price" data-testid="item_price">{price}</p>
           )}
           {typeComponent === 'Cart' && (
-           <CartActions id={id} quantity={quantity} price={price}/>
+           <CartActions id={id} quantity={quantity} price={price} setTottaly={setTottaly}/>
           )}
       
         </div>

@@ -6,22 +6,39 @@ import { serviceGetCart } from "../../services/cart";
 import { items } from "../../tests/fixtures";
 import {FaTrash} from 'react-icons/fa';
 import { QuantitySelector } from "../QuantitySelector";
-import { ListItems } from "../ListItems";
+
 import { roundANumber } from "../Utils";
+import { ListItems } from "../ListItems";
 
 
-export const CartActions = ({quantity,id,price})=>{
+export const CartActions = ({quantity,id,price,setTottaly})=>{
   const [stateQuantity,setQuantity] = useState(quantity)
   const roundPrice= roundANumber(Number(price * stateQuantity))
-
+  useEffect(() => {
+    
+    setTottaly((val=[]) => {
+      
+      const exists = val.some(item => item.id === id);
+   
+      if (exists) {
+     
+        return val.map(item => 
+          item.id === id ? { ...item, total: roundPrice } : item
+        );
+      } 
+     
+        return [...val, { id, total: roundPrice }];
+      
+    });
+  }, [stateQuantity]); 
   return(
     <>
      <QuantitySelector id={id} quantity={stateQuantity} setQuantity={setQuantity}/>
      <p className="total" data-testid="cart_total">
       R${roundPrice}
      </p>
- 
      <FaTrash />
+
    </>
   )
  }
@@ -60,14 +77,31 @@ export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
   };
 
  const getTotally = (datas)=>{
-  
-  return datas.reduce((tr, vl) => {
-    const totally =vl.price * vl.quantity
-    return tr + totally;
-  }, 0);
-}
-export const ListCartItems = ({datas,status})=>{
 
+  if(datas.length === 1)return datas[0].total
+  return datas.reduce((acc, val) => acc + val.total, 0);
+}
+export const CartListItems = ({ datas ,setTottaly}) => {
+  return datas.map(({ id, name, price, imgPath, quantity }) => {
+    
+    const img = imgPath.replace('../public', '');
+    const src = `http://localhost:8080/static${img}`;
+
+    return (
+      <div className="cart_product" data-testid="cart_item" key={id}>
+        {src && (
+          <div className="img">
+            <img alt={name} src={src} data-testid="cart_item_img"></img>
+          </div>
+        )}
+        {name && <p className="item_name" data-testid="cart_item_name">{name}</p>}
+        <CartActions id={id} quantity={quantity} price={price} setTottaly={setTottaly} />
+      </div>
+    );
+  });
+};
+export const ListCartItems = ({datas,status})=>{
+  const [changeTotally,setTottaly] = useState([])
   if (datas === "carregando" && !status) return <div className="loading" data-testid="window_loading">Carregando...</div>;
   
   if (Array.isArray(datas) && datas.length === 0 && status === 201) return <div className="error_message" data-testid="error_message">Adicione items ao seu carrinho!</div>;
@@ -77,16 +111,15 @@ export const ListCartItems = ({datas,status})=>{
 
   if (status > 401) return <div className="error_message" data-testid="error_message">Algo deu errado enquanto buscavamos seu carrinho , tente mais tarde!</div>;
 
-  const totally = datas.length === 1  ?  Number(datas[0].price*datas[0].quantity) :  getTotally(datas)
+  const totally = getTotally( changeTotally )
   
-  const roundTotally = roundANumber(totally)
+ 
   return (
-  <div className="list_cart" data-testid="list_items">
-    <ListItems typeComponent={'Cart'} datas={datas} />
-    <h4>Total {roundTotally}</h4>
-    <button>Limpar Carrinho</button>  
-    <button> FInalizar Compra</button>
-    
-  </div>
-)
+    <div className="list_cart" data-testid="list_items">
+      <ListItems typeComponent={'Cart'} datas={datas} setTottaly={setTottaly}/>
+      <h4>Total {totally  }</h4>
+      <button>Limpar Carrinho</button>  
+      <button> FInalizar Compra</button>
+    </div>
+  )
 }
