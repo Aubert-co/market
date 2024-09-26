@@ -4,18 +4,20 @@ import { CartActions } from "./Aside/CartWindow";
 
 
 export const ListItems = ({ datas, typeComponent,redirectToProduct,setTottaly }) => {
-  
-    return datas.map(({ id, name, price, imgPath, quantity },ind) => {
+    
+    return datas.map(({ id, name, price, imgPath, quantity,deleted },ind) => {
       const img = imgPath.replace('../public', '');
       const src = `http://localhost:8080/static${img}`;
-   
+
+      if(typeComponent === 'Cart' && deleted)return 
+      const typeClassName= typeComponent === 'Cart' ? `Cart_${id}`: 'product'
       return (
-        <div
-          className="product"
-          data-testid="item"
-          key={id}
-          {...(redirectToProduct && { onClick: () => redirectToProduct(id) })}
-        >
+          <div
+            className={typeClassName}
+            data-testid="item"
+            key={id}
+            {...(redirectToProduct && { onClick: () => redirectToProduct(id) })}
+          >
       
           {src && (
             <div className="img">

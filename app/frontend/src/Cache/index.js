@@ -16,7 +16,16 @@ export const cacheChangeQuantity = ({cart,quantity,id})=>{
       return val
   })
 }
-
+export const deleteItemCart = (id)=>{
+  const cart = getCart()
+  console.log(id)
+  return cart.map((val)=>{
+    if(id === val.id ){
+      val.deleted = true
+    }
+    return val
+  })
+}
 export const GetTimeCached = ()=>JSON.parse(localStorage.getItem('times')) || {}
  
 export const saveTime = ({typeItem,dateNow})=>{

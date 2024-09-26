@@ -9,11 +9,22 @@ import { QuantitySelector } from "../QuantitySelector";
 
 import { roundANumber } from "../Utils";
 import { ListItems } from "../ListItems";
+import { deleteItemCart, saveCart } from "../../Cache";
+
 
 
 export const CartActions = ({quantity,id,price,setTottaly})=>{
   const [stateQuantity,setQuantity] = useState(quantity)
   const roundPrice= roundANumber(Number(price * stateQuantity))
+
+  const deleteItem= (id)=>{
+ 
+    const cart =deleteItemCart(id)
+    saveCart( cart )
+    setQuantity(0)
+    document.querySelector(`.Cart_${id}`).style.display="none"
+  }
+  
   useEffect(() => {
     
     setTottaly((val=[]) => {
@@ -37,7 +48,7 @@ export const CartActions = ({quantity,id,price,setTottaly})=>{
      <p className="total" data-testid="cart_total">
       R${roundPrice}
      </p>
-     <FaTrash />
+     <FaTrash onClick={()=>deleteItem(id)}/>
 
    </>
   )
@@ -83,7 +94,7 @@ export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
 }
 export const CartListItems = ({ datas ,setTottaly}) => {
   return datas.map(({ id, name, price, imgPath, quantity }) => {
-    
+
     const img = imgPath.replace('../public', '');
     const src = `http://localhost:8080/static${img}`;
 
@@ -102,6 +113,7 @@ export const CartListItems = ({ datas ,setTottaly}) => {
 };
 export const ListCartItems = ({datas,status})=>{
   const [changeTotally,setTottaly] = useState([])
+  console.log(datas)
   if (datas === "carregando" && !status) return <div className="loading" data-testid="window_loading">Carregando...</div>;
   
   if (Array.isArray(datas) && datas.length === 0 && status === 201) return <div className="error_message" data-testid="error_message">Adicione items ao seu carrinho!</div>;
