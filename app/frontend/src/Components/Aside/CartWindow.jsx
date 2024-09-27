@@ -7,9 +7,9 @@ import { items } from "../../tests/fixtures";
 import {FaTrash} from 'react-icons/fa';
 import { QuantitySelector } from "../QuantitySelector";
 
-import { roundANumber } from "../Utils";
+import { changeDisplayToNone, existValue, roundANumber } from "../Utils";
 import { ListItems } from "../ListItems";
-import { deleteItemCart, saveCart } from "../../Cache";
+import { ClearAllCart, deleteItemCart, saveCart } from "../../Cache";
 
 
 
@@ -22,23 +22,22 @@ export const CartActions = ({quantity,id,price,setTottaly})=>{
     const cart =deleteItemCart(id)
     saveCart( cart )
     setQuantity(0)
-    document.querySelector(`.Cart_${id}`).style.display="none"
+    changeDisplayToNone(`.Cart_${id}`)
   }
   
   useEffect(() => {
     
     setTottaly((val=[]) => {
       
-      const exists = val.some(item => item.id === id);
+      const exists = existValue(val,id)
    
       if (exists) {
-     
         return val.map(item => 
           item.id === id ? { ...item, total: roundPrice } : item
         );
       } 
      
-        return [...val, { id, total: roundPrice }];
+      return [...val, { id, total: roundPrice }];
       
     });
   }, [stateQuantity]); 
@@ -111,9 +110,22 @@ export const CartListItems = ({ datas ,setTottaly}) => {
     );
   });
 };
+const CleanALlCart = ({setTottaly,datas})=>{
+  
+  const clean = ()=>{
+    setTottaly([])
+    ClearAllCart()
+    datas.forEach(({id})=>{
+      changeDisplayToNone(`.Cart_${id}`)
+    })
+  }
+  
+
+  return <button onClick={clean}>Limpar carrinho</button>
+}
 export const ListCartItems = ({datas,status})=>{
   const [changeTotally,setTottaly] = useState([])
-  console.log(datas)
+  
   if (datas === "carregando" && !status) return <div className="loading" data-testid="window_loading">Carregando...</div>;
   
   if (Array.isArray(datas) && datas.length === 0 && status === 201) return <div className="error_message" data-testid="error_message">Adicione items ao seu carrinho!</div>;
@@ -129,9 +141,13 @@ export const ListCartItems = ({datas,status})=>{
   return (
     <div className="list_cart" data-testid="list_items">
       <ListItems typeComponent={'Cart'} datas={datas} setTottaly={setTottaly}/>
-      <h4>Total {totally  }</h4>
-      <button>Limpar Carrinho</button>  
-      <button> FInalizar Compra</button>
+      {totally !== 0 ? (
+        <>
+          <h4>Total { totally  }</h4>
+          <CleanALlCart totally={totally} setTottaly={setTottaly} datas={datas} />
+          <button>Finalizar Compra</button>
+        </>
+      ): <h1>Adicione items ao seu carrinho</h1>}
     </div>
   )
 }

@@ -13,8 +13,8 @@ export const serviceGetCart = async () => {
         return { datas, status: 201 }; 
     }
     saveTime({typeItem:'cart'})
-    saveCart([items[0]])
-    return { datas:[items[0]],status:201}
+    saveCart(items)
+    return { datas:items,status:201}
     
     try {
         const token = localStorage.getItem('token');
@@ -39,3 +39,12 @@ export const serviceGetCart = async () => {
         return { datas: [], status: 500 }; 
     }
 };
+
+export const serviceUpdateCart = async()=>{
+    const cart = getCart();
+    const newArray = cart.filter((val)=>!val.saved)
+    .map((val)=>{
+        if(val.deleted)return {deteled:true,id:val.id}
+        return {id:val.id,quantity:val.quantity}
+    })
+}

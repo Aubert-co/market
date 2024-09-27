@@ -26,3 +26,16 @@ export const existValue = (datas,id)=> datas.some((val)=>val.id === id)
 export const roundANumber = (number) => {
     return Math.round(number);
 };
+
+export const changeDisplayToNone = (className)=>{
+    const divClass = document.querySelector(className)
+    if( divClass )divClass.style.display="none"
+}
+
+export const returnNewArray =(array)=>{
+    const newArray = cart.filter((val)=>!val.saved)
+    .map((val)=>{
+        if(val.deleted)return {deteled:true,id:val.id}
+        return {id:val.id,quantity:val.quantity}
+    })
+}

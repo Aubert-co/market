@@ -2,7 +2,7 @@ import React, {  useState ,useContext} from "react";
 import { MainContainer } from "../../style/product";
 import { MessageContext } from "../../Contexts";
 import { cacheChangeQuantity, getCart, saveCart } from "../../Cache";
-import { existValue } from "../Utils";
+import { existValue, roundANumber } from "../Utils";
 import {QuantitySelector} from "../QuantitySelector";
 
 
@@ -11,14 +11,24 @@ export const Actions = ({quantity,datas,setMessage})=>{
  
   const addCart  =()=>{
     const cart = getCart()
+
     setMessage({content:'Adicionado com sucesso'})
     if(cart.length >0 && existValue(cart,datas.id)){
-      const value = cacheChangeQuantity({cart,quantity,id:datas.id})
+      const value = cart.map((val)=>{
+        if(val.id === datas.id){
+          val.quantity = quantity
+          val.saved =  false
+          val.deleted = false
+        }
+        return val
+      })
+      //const value = cacheChangeQuantity({cart,quantity,id:datas.id,deleted:true})
       saveCart(value)
       return
     }
     datas.quantity = quantity
     datas.saved = false
+    datas.deleted = false
     cart.push(datas)
     saveCart(cart)
   }
@@ -31,10 +41,11 @@ export const Actions = ({quantity,datas,setMessage})=>{
 }
 
 export const ProductContainer = ({datas})=>{
-   const [quantity,setQuantity] = useState(1)
-    const {setMessageParams} = useContext(MessageContext)
-   
+  const [quantity,setQuantity] = useState(1)
+  const {setMessageParams} = useContext(MessageContext)
+ 
    if(!datas)return
+   const finalPrice = roundANumber(quantity* datas.price)
    return( 
    <MainContainer>
      <div className="product-container">
@@ -46,7 +57,7 @@ export const ProductContainer = ({datas})=>{
       <p>{datas.description}</p>
     </div>
     <div className="purchase-section">
-      <p className="price">{datas.price}</p>
+      <p className="price">{finalPrice}</p>
 
       <div className="quantity-control">
           <QuantitySelector quantity={quantity} setQuantity={setQuantity} />

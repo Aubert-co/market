@@ -12,6 +12,7 @@ export const ListSettings =()=>{
     <div className="set_windows">
       <Link to={'/user/compras'}>Minhas Compras</Link>
       <Link to={'/user/cupons'}>Meus Cupons</Link>
+      <Link to={'/store'}>Acessar sua loja!</Link>
     </div>
   )
 };

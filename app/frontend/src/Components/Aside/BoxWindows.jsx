@@ -2,12 +2,14 @@ import React,{useEffect} from "react";
 import {ListCartItems} from "./CartWindow"
 import { ListSettings } from "./SettingsWindow";
 
-export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas,status }) => {
-    const closeWindow = () => {
-      setIsWindowOpen(false);
-    
-    }
+
+export const closeWindow = ({typeWindow,setIsWindowOpen})=>{
+  setIsWindowOpen( false );
+  if(typeWindow !== 'Cart')return ;
   
+}
+export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas,status }) => {
+
     useEffect(() => {
       if (isWindowOpen) {
         document.body.style.overflow = 'hidden';
@@ -21,7 +23,7 @@ export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas,sta
   
     const handleOverlayClick = (e) => {
       if (e.target.classList.contains('overlay')) {
-        closeWindow();
+        closeWindow({setIsWindowOpen,typeWindow});
       }
     };
   
@@ -31,7 +33,7 @@ export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas,sta
       <div onClick={handleOverlayClick} data-testid="overlay" className="overlay">
         <div className="window">
           <div className="window_content">
-          <button onClick={closeWindow} className="close-button">×</button>
+          <button onClick={()=>closeWindow({setIsWindowOpen,typeWindow})} className="close-button">×</button>
             {typeWindow === 'Cart' ? (
               <ListCartItems datas={datas} status={status}/>
             ) : (
