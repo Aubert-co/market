@@ -1,12 +1,14 @@
 import React,{useEffect} from "react";
 import {ListCartItems} from "./CartWindow"
 import { ListSettings } from "./SettingsWindow";
+import { serviceUpdateCart } from "../../services/cart";
 
 
-export const closeWindow = ({typeWindow,setIsWindowOpen})=>{
+export const closeWindow = async({typeWindow,setIsWindowOpen})=>{
   setIsWindowOpen( false );
   if(typeWindow !== 'Cart')return ;
   
+  await serviceUpdateCart()
 }
 export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas,status }) => {
 
@@ -33,7 +35,7 @@ export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas,sta
       <div onClick={handleOverlayClick} data-testid="overlay" className="overlay">
         <div className="window">
           <div className="window_content">
-          <button onClick={()=>closeWindow({setIsWindowOpen,typeWindow})} className="close-button">×</button>
+          <button onClick={()=>closeWindow({setIsWindowOpen,typeWindow})} className="close-button" data-testid="window_close">×</button>
             {typeWindow === 'Cart' ? (
               <ListCartItems datas={datas} status={status}/>
             ) : (

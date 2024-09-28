@@ -2,7 +2,10 @@ export const getCart = ()=>JSON.parse( localStorage.getItem('cart')) || []
 
 export const saveCart = (cart)=>{
   const value = JSON.stringify(cart)
+  
   localStorage.setItem('cart',value)
+
+  
 }
 
 export const cacheChangeQuantity = ({cart,quantity,id,deleted})=>{
@@ -12,7 +15,6 @@ export const cacheChangeQuantity = ({cart,quantity,id,deleted})=>{
       if(id === val.id && val.quantity !== quantity){
         val.quantity= quantity
         val.saved = false
-        console.log("here")
       }
      
       return val

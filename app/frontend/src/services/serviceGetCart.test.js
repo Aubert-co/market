@@ -3,7 +3,7 @@ import { serviceGetCart } from "./cart";
 
 
 
-describe("test",()=>{
+describe("serviceGetCart",()=>{
     beforeEach(()=>{
         global.fetch = jest.fn()
         jest.clearAllMocks()

@@ -32,10 +32,17 @@ export const changeDisplayToNone = (className)=>{
     if( divClass )divClass.style.display="none"
 }
 
-export const returnNewArray =(array)=>{
-    const newArray = cart.filter((val)=>!val.saved)
+export const filterArray =(array)=>{
+    return array.filter((val)=>!val.saved)
     .map((val)=>{
-        if(val.deleted)return {deteled:true,id:val.id}
+        if(val.deleted)return {id:val.id,deleted:true}
         return {id:val.id,quantity:val.quantity}
+    })
+}
+
+export const filterNotDeleteItems = (array)=>{
+    return array.filter((val)=>!val.deleted)
+    .map((val)=>{
+        return {...val,saved:true}
     })
 }

@@ -1,5 +1,6 @@
-import { url } from "."
+import { url } from "./index"
 import { getCart, GetTimeCached, saveCart, saveTime } from "../Cache"
+import { filterArray, filterNotDeleteItems } from "../Components/Utils";
 import { items } from "../tests/fixtures";
 
 export const serviceGetCart = async () => {
@@ -41,10 +42,37 @@ export const serviceGetCart = async () => {
 };
 
 export const serviceUpdateCart = async()=>{
+    
+ 
+    const token =localStorage.getItem('token')
+    if(!token)return {status:401}
+
     const cart = getCart();
-    const newArray = cart.filter((val)=>!val.saved)
-    .map((val)=>{
-        if(val.deleted)return {deteled:true,id:val.id}
-        return {id:val.id,quantity:val.quantity}
+    const newArray = filterArray(cart);
+    
+    if(newArray.length ===0 )return 
+    
+    try{
+    const response= await fetch(url+'/cart/changes',{
+        method:'PUT',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body:JSON.stringify(newArray)
     })
+    
+    if(response.ok && response.status === 201){
+        
+        const savedItems = filterNotDeleteItems( cart )
+     
+        saveCart(savedItems)
+     
+        return {status:201}
+    }
+   
+    return {status:504}
+}catch(err){
+    return {status:504}
+}
 }

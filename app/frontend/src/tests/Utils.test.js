@@ -1,14 +1,112 @@
 import { screen } from "@testing-library/react";
-import { getInputValue ,isAlphanumeric,getMultiInputValues,existValue, changeDisplayToNone,roundANumber} from "../Components/Utils";
+import { filterNotDeleteItems,getInputValue ,isAlphanumeric,getMultiInputValues,existValue, changeDisplayToNone,filterArray} from "../Components/Utils";
 import '@testing-library/jest-dom';
 
 var newDiv
 
-describe.only('roundANumber',()=>{
-  it("when send ",()=>{
-    expect(roundANumber(1.3)).toEqual(1)
+describe("filterNotDeleteItems",()=>{
+  it("Should not include items marked as deleted in the array.",()=>{
+    const array = [
+      { id: 53, name: 'camisa', saved: false, quantity: 55 ,deleted:true},
+      { id: 55, name: 'shorts', saved: false, quantity: 53 ,deleted:false},
+      { id: 66, name: 'pantas', saved: false, quantity: 45 ,deleted:true},
+      { id: 15, name: 'lorem', saved: false, quantity: 3 ,deleted:false}
+    ];
+
+    const newArray = filterNotDeleteItems( array )
+
+    expect(newArray).toHaveLength(2)
+    expect(newArray).not.toBe(array[0])
+    expect(newArray).not.toBe(array[2])
+    expect(newArray[0].id).toEqual(array[1].id)
+    expect(newArray[1].id).toEqual(array[3].id)
+    expect(newArray[0].saved).toBeTruthy()
+    expect(newArray[1].saved).toBeTruthy()
 
   })
+  it("Should return an empty array when all items are marked as deleted.",()=>{
+    const array = [
+      { id: 53, name: 'camisa', saved: false, quantity: 55 ,deleted:true},
+      { id: 55, name: 'shorts', saved: false, quantity: 53 ,deleted:true},
+      { id: 66, name: 'pantas', saved: false, quantity: 45 ,deleted:true},
+      { id: 15, name: 'lorem', saved: false, quantity: 3 ,deleted:true}
+    ];
+
+    const newArray = filterNotDeleteItems( array )
+    expect(newArray).toEqual([])
+
+  })
+  it("should return the original array when all items are marked as deleted: false.",()=>{
+    const array = [
+      { id: 53, name: 'camisa', saved: false, quantity: 55 ,deleted:false},
+      { id: 55, name: 'shorts', saved: false, quantity: 53 ,deleted:false},
+      { id: 66, name: 'pantas', saved: false, quantity: 45 ,deleted:false},
+      { id: 15, name: 'lorem', saved: false, quantity: 3 ,deleted:false}
+    ];
+
+    const newArray = filterNotDeleteItems( array )
+    expect(newArray).toHaveLength(4)
+    newArray.map((val)=>{
+      expect(val.saved).toBeTruthy()
+      expect(val.deleted).toBeFalsy()
+    })
+
+  })
+})
+describe('filterArray',()=>{
+  it("should filter out saved items and return array with id and quantity for non-deleted items", () => {
+    const array = [
+      { id: 53, name: 'camisa', saved: true, quantity: 55 },
+      { id: 55, name: 'shorts', saved: false, quantity: 53 },
+      { id: 66, name: 'pantas', saved: false, quantity: 45 },
+      { id: 15, name: 'lorem', saved: false, quantity: 3 }
+    ];
+
+    const result = filterArray(array);
+
+    expect(result).toEqual([
+      { id: 55, quantity: 53 },
+      { id: 66, quantity: 45 },
+      { id: 15, quantity: 3 }
+    ]);
+  });
+
+  it("should include 'deleted' flag for deleted items", () => {
+    const array = [
+      { id: 53, name: 'camisa', saved: true, quantity: 55 },
+      { id: 55, name: 'shorts', saved: false, quantity: 53, deleted: true },
+      { id: 66, name: 'pantas', saved: false, quantity: 45 },
+      { id: 15, name: 'lorem', saved: false, quantity: 3 }
+    ];
+
+    const result = filterArray(array);
+
+    expect(result).toEqual([
+      {  id: 55, deleted: true},
+      { id: 66, quantity: 45 },
+      { id: 15, quantity: 3 }
+    ]);
+  });
+
+  it("should return an empty array when all items are saved", () => {
+    const array = [
+      { id: 53, name: 'camisa', saved: true, quantity: 55 },
+      { id: 55, name: 'shorts', saved: true, quantity: 53 },
+      { id: 66, name: 'pantas', saved: true, quantity: 45 }
+    ];
+
+    const result = filterArray(array);
+
+    expect(result).toEqual([]);
+  });
+
+  it("should return an empty array when the input array is empty", () => {
+    const array = [];
+
+    const result = filterArray(array);
+
+    expect(result).toEqual([]);
+  });
 })
 describe('changeDisplayToNone',()=>{
   beforeEach(()=>{
