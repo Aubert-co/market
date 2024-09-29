@@ -1,9 +1,31 @@
 import { screen } from "@testing-library/react";
-import { filterNotDeleteItems,getInputValue ,isAlphanumeric,getMultiInputValues,existValue, changeDisplayToNone,filterArray} from "../Components/Utils";
+import { getTotally,filterNotDeleteItems,getInputValue ,isAlphanumeric,getMultiInputValues,existValue, changeDisplayToNone,filterArray} from "../Components/Utils";
 import '@testing-library/jest-dom';
 
-var newDiv
 
+describe("getTotally",()=>{
+  it("Should sum the values in the array correctly.",()=>{
+    const array  =[{id:3,name:'lucas',total:10},{id:2,name:'mat',total:25},{id:13,name:'lucas',total:15},{id:33,name:'jose',total:5}]
+    
+    expect( getTotally(array)).toEqual(55)
+  })
+  it("When the array has only one element, it should return the total of that item.",()=>{
+    const array = [{id:3,total:10}]
+
+    expect( getTotally( array )).toEqual(10)
+  })
+  it("When an empty array is sent, it should return 0.",()=>{
+    const array = []
+
+    expect( getTotally( array )).toEqual( 0 )
+  })
+  it("When the values in the array do not have the total key, it should return 0 instead.",()=>{
+    const array = [{id:3},{id:5,total:10}]
+    
+    expect( getTotally(array)).toEqual(10)
+  })
+
+})
 describe("filterNotDeleteItems",()=>{
   it("Should not include items marked as deleted in the array.",()=>{
     const array = [
@@ -109,6 +131,7 @@ describe('filterArray',()=>{
   });
 })
 describe('changeDisplayToNone',()=>{
+  let newDiv;
   beforeEach(()=>{
     newDiv = document.createElement('div');
     newDiv.classList.add('testClass');

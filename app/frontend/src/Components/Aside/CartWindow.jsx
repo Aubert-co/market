@@ -3,66 +3,19 @@ import { BoxWindow } from "./BoxWindows";
 import { fetchData } from "../../Hooks";
 import { MessageContext } from "../../Contexts";
 import { serviceGetCart } from "../../services/cart";
-import { items } from "../../tests/fixtures";
-import {FaTrash} from 'react-icons/fa';
-import { QuantitySelector } from "../QuantitySelector";
-
-import { changeDisplayToNone, existValue, roundANumber } from "../Utils";
-import { ListItems } from "../ListItems";
-import { ClearAllCart, deleteItemCart, saveCart } from "../../Cache";
 
 
-
-export const CartActions = ({quantity,id,price,setTottaly})=>{
-  const [stateQuantity,setQuantity] = useState(quantity)
-  const roundPrice= roundANumber(Number(price * stateQuantity))
-
-  const deleteItem= (id)=>{
- 
-    const cart =deleteItemCart(id)
-    saveCart( cart )
-    setQuantity(0)
-    changeDisplayToNone(`.Cart_${id}`)
-  }
-  
-  useEffect(() => {
-    
-    setTottaly((val=[]) => {
-      
-      const exists = existValue(val,id)
-   
-      if (exists) {
-        return val.map(item => 
-          item.id === id ? { ...item, total: roundPrice } : item
-        );
-      } 
-     
-      return [...val, { id, total: roundPrice }];
-      
-    });
-  }, [stateQuantity]); 
-  return(
-    <>
-     <QuantitySelector id={id} quantity={stateQuantity} setQuantity={setQuantity}/>
-     <p className="total" data-testid="cart_total">
-      R${roundPrice}
-     </p>
-     <FaTrash onClick={()=>deleteItem(id)}/>
-
-   </>
-  )
- }
 
 export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
     const { setMessageParams } = useContext(MessageContext);
-    const [items, setItems] = useState({ datas: 'carregando', status: '' });
+    const [items, setItems] = useState({ datas: 'loading', status: '' });
     
     useEffect(() => {
       
       if (isWindowOpen) {
         fetchData({ service:serviceGetCart, setItems });
       }
-      return ()=>setItems({datas:'carregando',status:''})
+      return ()=>setItems({datas:'loading',status:''})
     }, [isWindowOpen]);
   
     useEffect(() => {
@@ -73,7 +26,7 @@ export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
     }, [items.status, setMessageParams]);
   
     
-    if (!isWindowOpen || items.datas === 'carregando') return null;
+    if (!isWindowOpen || items.datas === 'loading') return null;
   
     return (
       <BoxWindow
@@ -86,11 +39,7 @@ export const CartWindow = ({ setIsWindowOpen, isWindowOpen }) => {
     );
   };
 
- const getTotally = (datas)=>{
 
-  if(datas.length === 1)return datas[0].total
-  return datas.reduce((acc, val) => acc + val.total, 0);
-}
 export const CartListItems = ({ datas ,setTottaly}) => {
   return datas.map(({ id, name, price, imgPath, quantity }) => {
 
@@ -110,44 +59,4 @@ export const CartListItems = ({ datas ,setTottaly}) => {
     );
   });
 };
-const CleanALlCart = ({setTottaly,datas})=>{
-  
-  const clean = ()=>{
-    setTottaly([])
-    ClearAllCart()
-    datas.forEach(({id})=>{
-      changeDisplayToNone(`.Cart_${id}`)
-    })
-  }
-  
 
-  return <button onClick={clean}>Limpar carrinho</button>
-}
-export const ListCartItems = ({datas,status})=>{
-  const [changeTotally,setTottaly] = useState([])
-  
-  if (datas === "carregando" && !status) return <div className="loading" data-testid="window_loading">Carregando...</div>;
-  
-  if (Array.isArray(datas) && datas.length === 0 && status === 201) return <div className="error_message" data-testid="error_message">Adicione items ao seu carrinho!</div>;
-  
-
-  if (status === 401) return <div className="error_message" data-testid="error_message">Faça login para adicionar items ao seu carrinho!</div>;
-
-  if (status > 401) return <div className="error_message" data-testid="error_message">Algo deu errado enquanto buscavamos seu carrinho , tente mais tarde!</div>;
-
-  const totally = getTotally( changeTotally )
-  
- 
-  return (
-    <div className="list_cart" data-testid="list_items">
-      <ListItems typeComponent={'Cart'} datas={datas} setTottaly={setTottaly}/>
-      {totally !== 0 ? (
-        <>
-          <h4>Total { totally  }</h4>
-          <CleanALlCart totally={totally} setTottaly={setTottaly} datas={datas} />
-          <button>Finalizar Compra</button>
-        </>
-      ): <h1>Adicione items ao seu carrinho</h1>}
-    </div>
-  )
-}

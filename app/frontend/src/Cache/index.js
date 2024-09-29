@@ -36,7 +36,6 @@ export const ClearAllCart = ()=>{
   
   saveCart(cart)
 
-
 }
 export const GetTimeCached = ()=>JSON.parse(localStorage.getItem('times')) || {}
  

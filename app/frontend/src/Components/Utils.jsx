@@ -24,6 +24,7 @@ export const isAlphanumeric = (input)=>{
 export const existValue = (datas,id)=> datas.some((val)=>val.id === id)
 
 export const roundANumber = (number) => {
+   
     return Math.round(number);
 };
 
@@ -46,3 +47,11 @@ export const filterNotDeleteItems = (array)=>{
         return {...val,saved:true}
     })
 }
+export const getTotally = (datas)=>{
+    if(datas.length === 1)return datas[0].total || 0
+    return datas.reduce((acc, val) => {
+        const total = val.total || 0
+       return acc + total
+    }, 0);
+  }
+  

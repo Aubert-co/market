@@ -1,5 +1,5 @@
 import React,{useEffect} from "react";
-import {ListCartItems} from "./CartWindow"
+import {ListCartItems} from "./ListCartItems"
 import { ListSettings } from "./SettingsWindow";
 import { serviceUpdateCart } from "../../services/cart";
 

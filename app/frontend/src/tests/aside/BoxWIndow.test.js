@@ -14,7 +14,7 @@ describe('BoxWindow',()=>{
         setIsWindowOpen = jest.fn();
         serviceUpdateCart= jest.spyOn(Service,'serviceUpdateCart')
     })
-    it("When the window is closet should not render nothing",()=>{
+    it("When the window is closed, it should not render items from the cart or settings.",()=>{
         render(
             <BoxWindow setIsWindowOpen={setIsWindowOpen} isWindowOpen={false} datas={items} typeWindow={'Cart'} status={201}/>
         )
@@ -27,7 +27,7 @@ describe('BoxWindow',()=>{
         expect(document.body).toHaveStyle("overflow:auto")
         
     })
-    it("When the window is open ,and the type is 'Cart' should render items from cart",()=>{
+    it("When the window is open and the type is 'Cart', it should render items from the cart.",()=>{
         render(
             <BoxWindow setIsWindowOpen={setIsWindowOpen} isWindowOpen={true} datas={items} typeWindow={'Cart'} status={201}/>
         )
@@ -47,11 +47,11 @@ describe('BoxWindow',()=>{
         expect( serviceUpdateCart ).toHaveBeenCalledTimes(1)
         expect(document.body).toHaveStyle("overflow:hidden")
     })
-    it("When the window is open ,and the type is not 'Cart' should render items from cart",()=>{
+    it("When the window is open and the type is 'Settings', it should render items from 'Settings'.",()=>{
        const history = createMemoryHistory();
         render(
             <Router location={history.location} navigator={history}>
-                <BoxWindow setIsWindowOpen={setIsWindowOpen} isWindowOpen={true} datas={items} typeWindow={'Product'} status={201}/>
+                <BoxWindow setIsWindowOpen={setIsWindowOpen} isWindowOpen={true} datas={items} typeWindow={'Settings'} status={201}/>
             </Router>
         )
         const window_close = screen.queryByTestId("window_close")
@@ -70,16 +70,16 @@ describe('BoxWindow',()=>{
         expect( serviceUpdateCart ).toHaveBeenCalledTimes(0)
         expect(document.body).toHaveStyle("overflow:hidden")
     })
-    it("When click in overlay and the type window is not cart should close the window",()=>{
+    it("When clicking on the overlay and the type of window is 'Settings', it should close the window.",()=>{
         const history = createMemoryHistory();
          render(
              <Router location={history.location} navigator={history}>
-                 <BoxWindow setIsWindowOpen={setIsWindowOpen} isWindowOpen={true} datas={items} typeWindow={'Product'} status={201}/>
+                 <BoxWindow setIsWindowOpen={setIsWindowOpen} isWindowOpen={true} datas={items} typeWindow={'Settings'} status={201}/>
              </Router>
          )
          const window_close = screen.queryByTestId("window_close")
          const overlay = screen.queryByTestId("overlay")
-         
+
          expect( setIsWindowOpen ).not.toHaveBeenCalled()
          expect( screen.queryByTestId("list_settings") ).toBeInTheDocument()
          expect( screen.queryByTestId("list_items") ).not.toBeInTheDocument()
@@ -92,7 +92,7 @@ describe('BoxWindow',()=>{
          expect( serviceUpdateCart ).toHaveBeenCalledTimes(0)
          expect(document.body).toHaveStyle("overflow:hidden")
      })
-    it("When click in overlay and the type window is Cart should close the window",()=>{
+    it("When clicking on the overlay and the type of window is 'Cart', it should close the window.",()=>{
         render(
             <BoxWindow setIsWindowOpen={setIsWindowOpen} isWindowOpen={true} datas={items} typeWindow={'Cart'} status={201}/>
         )
