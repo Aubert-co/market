@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render ,screen, waitFor} from "@testing-library/react";
-import { FilterBar } from "../Components/Aside/FilterBar";
-import { SearchContext } from "../Contexts";
+import { FilterBar } from "../../Components/Aside/FilterBar";
+import { SearchContext } from "../../Contexts";
 var DEFAULT_SEARCH;
 
 describe.skip("FilterBar",()=>{

@@ -33,11 +33,11 @@ export const ListCartItems = ({datas,status})=>{
       <div className="list_cart" data-testid="list_items">
         <ListItems typeComponent={'Cart'} datas={datas} setTottaly={setTottaly}/>
         {totally !== 0 ? (
-          <>
+          <div data-testid="cart_actions">
             <h4 data-testid="cart_tottally">Total { totally  }</h4>
             <CleanALlCart totally={totally} setTottaly={setTottaly} datas={datas} />
             <button>Finalizar Compra</button>
-          </>
+          </div>
         ): <h1 data-testid="msg_add_cart">Adicione items ao seu carrinho</h1>}
       </div>
     )

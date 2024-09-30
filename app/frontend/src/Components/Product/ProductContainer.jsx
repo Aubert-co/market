@@ -6,7 +6,6 @@ import { existValue, roundANumber } from "../Utils";
 import {QuantitySelector} from "../QuantitySelector";
 
 
-
 export const Actions = ({quantity,datas,setMessage})=>{
  
   const addCart  =()=>{
@@ -22,7 +21,7 @@ export const Actions = ({quantity,datas,setMessage})=>{
         }
         return val
       })
-      //const value = cacheChangeQuantity({cart,quantity,id:datas.id,deleted:true})
+    
       saveCart(value)
       return
     }
@@ -35,7 +34,7 @@ export const Actions = ({quantity,datas,setMessage})=>{
   return (
     <>
         <button>Comprar Agora</button>
-        <button  onClick={addCart}> Adicionar ao Carrinho</button>
+        <button data-testid="add_productCart" onClick={addCart}>Adicionar ao Carrinho</button>
     </>
   )
 }

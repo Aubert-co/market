@@ -13,10 +13,10 @@ export const serviceGetCart = async () => {
     
         return { datas, status: 201 }; 
     }
-    saveTime({typeItem:'cart'})
+   /* saveTime({typeItem:'cart'})
     saveCart(items)
     return { datas:items,status:201}
-    
+    */
     try {
         const token = localStorage.getItem('token');
      
@@ -24,7 +24,10 @@ export const serviceGetCart = async () => {
 
         const response = await fetch(url + '/cart/items', {
             method: 'GET',
-            headers: { 'Authorization': `Bearer ${token}` }
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
         });
 
         if (response.ok && response.status === 201) { 
@@ -43,7 +46,7 @@ export const serviceGetCart = async () => {
 
 export const serviceUpdateCart = async()=>{
     
- 
+  
     const token =localStorage.getItem('token')
     if(!token)return {status:401}
 

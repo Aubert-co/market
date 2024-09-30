@@ -7,11 +7,12 @@ import {  deleteItemCart, saveCart } from "../../Cache";
 
 export const deleteItem= ({id,setQuantity})=>{
    
-    const cart =deleteItemCart(id)
-    saveCart( cart )
-    setQuantity(0)
-    changeDisplayToNone(`.Cart_${id}`)
-  }
+  const cart =deleteItemCart(id)
+  saveCart( cart )
+  setQuantity(0)
+  changeDisplayToNone(`.Cart_${id}`)
+}
+
 export const CartActions = ({quantity,id,price,setTottaly})=>{
     const [stateQuantity,setQuantity] = useState(quantity)
     const roundPrice= roundANumber(Number(price * stateQuantity))
@@ -38,7 +39,7 @@ export const CartActions = ({quantity,id,price,setTottaly})=>{
        <p className="total" data-testid="cart_total">
         R${roundPrice}
        </p>
-       <FaTrash onClick={()=>deleteItem({id,setQuantity})}/>
+       <FaTrash data-testid="delete_cartItem" onClick={()=>deleteItem({id,setQuantity})}/>
   
      </>
     )

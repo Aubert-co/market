@@ -3,6 +3,7 @@ import { BoxWindow } from "./BoxWindows";
 import { fetchData } from "../../Hooks";
 import { MessageContext } from "../../Contexts";
 import { serviceGetCart } from "../../services/cart";
+import { CartActions } from "./CartActions";
 
 
 

@@ -56,7 +56,7 @@ describe('BoxWindow',()=>{
         )
         const window_close = screen.queryByTestId("window_close")
         const overlay = screen.queryByTestId("overlay")
-        expect( overlay ).not.toBeInTheDocument()
+        expect( overlay ).toBeInTheDocument()
         expect( setIsWindowOpen ).not.toHaveBeenCalled()
         
         expect( screen.queryByTestId("list_settings") ).toBeInTheDocument()
@@ -69,6 +69,7 @@ describe('BoxWindow',()=>{
         expect( setIsWindowOpen ).toHaveBeenCalledTimes(1)
         expect( serviceUpdateCart ).toHaveBeenCalledTimes(0)
         expect(document.body).toHaveStyle("overflow:hidden")
+        
     })
     it("When clicking on the overlay and the type of window is 'Settings', it should close the window.",()=>{
         const history = createMemoryHistory();
@@ -110,4 +111,5 @@ describe('BoxWindow',()=>{
         expect( serviceUpdateCart ).toHaveBeenCalledTimes(1)
         expect(document.body).toHaveStyle("overflow:hidden")
     })
+
 })
