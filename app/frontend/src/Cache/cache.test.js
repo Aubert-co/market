@@ -1,4 +1,4 @@
-import { mapExpect } from "../tests/fixtures"
+import { mapExpectAll } from "../tests/fixtures"
 import { getCart, GetTimeCached, saveCart, saveTime ,cacheChangeQuantity} from "./index"
 
 
@@ -20,9 +20,9 @@ describe("test",()=>{
 
         expect(localStorageDatas).toHaveLength(2)
         
-        mapExpect(localStorageDatas,cart)
-        mapExpect(localStorageDatas,funcionGetCart)
-        mapExpect(funcionGetCart,cart)
+        mapExpectAll(localStorageDatas,cart)
+        mapExpectAll(localStorageDatas,funcionGetCart)
+        mapExpectAll(funcionGetCart,cart)
        
 
     })
@@ -37,11 +37,11 @@ describe("test",()=>{
         const getLocalDate = getCart()
         const localStorageDatas = JSON.parse(localStorage.getItem('cart'))
         
-        mapExpect(getLocalDate,localStorageDatas)
+        mapExpectAll(getLocalDate,localStorageDatas)
 
         expect(localStorageDatas[0].quantity).not.toEqual(cart[0].quantity)
-        mapExpect([cart[1]],[getLocalDate[1]])
-        mapExpect([cart[1]],[localStorageDatas[1]])
+        mapExpectAll([cart[1]],[getLocalDate[1]])
+        mapExpectAll([cart[1]],[localStorageDatas[1]])
     })
     it("When saving a new item, it should be saved correctly in localStorage.",()=>{
         expect(GetTimeCached()).toEqual({})

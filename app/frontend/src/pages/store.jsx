@@ -1,6 +1,6 @@
 import React, { useEffect, useState ,useRef} from "react";
 import { fetchData } from "../Hooks";
-import { serviceStore } from "../services";
+import { serviceStore } from "../services/store";
 import { BoxBenefits } from "../Components/BoxBenefits";
 import { AdminStore } from "../Components/Store/adminStore";
 import { FormCreateStore } from "../Components/Store/FormCreateStore";
@@ -23,12 +23,12 @@ export const Store = () => {
     
     if(store.datas === 'Carregando' && !store.status)return <StatusBox/>;
 
-    if (showCreateStore) return (
+    /*if (showCreateStore) return (
         <StyleCreateStore>
             <BoxBenefits benefits={benefitsCreateStore} adText={adTextStore} adLink={adLinkStore} formRef={formRef}/>
             <FormCreateStore formRef={formRef}/>
         </StyleCreateStore>
-    );
+    );*/
     
     
     return (

@@ -5,21 +5,22 @@ import '@testing-library/jest-dom'
 import { CartActions } from "../../Components/Aside/CartActions";
 import { mapExpectAll, mapExpectDiferentQnt } from "../fixtures";
 
-var data = [{id:3,quantity:45,name:"shirt",price:39},{id:45,quantity:89,name:"short",price:19}]
-var setTottally;
+var    data = [{id:3,quantity:45,name:"shirt",price:39},{id:45,quantity:89,name:"short",price:19}];
 describe('Componente CartActions',()=>{
+    var setTottally;
     beforeEach(()=>{
         localStorage.setItem('cart',JSON.stringify(data))
         jest.clearAllMocks()
         setTottally= jest.spyOn(React,'useState')
-
+     
         setTottally.mockImplementation((init) => [init, jest.fn()]);
     })
     it("When decrease only the firts element should update only the quantity from the firts element",()=>{
-       
+        console.log( data )
         render(
             <CartActions setTottaly={setTottally} id={data[0].id} price={data[0].price} quantity={data[0].quantity}/>
         )
+
         const cart_total = screen.getByTestId("cart_total")
         const decrease_btn = screen.getByTestId("decrease_btn")
         const increase_btn = screen.getByTestId("increase_btn")
@@ -132,7 +133,7 @@ describe('Componente CartActions',()=>{
         expect(cart_total[0].textContent).toEqual(`R$${ cartLocal3[0].price * cartLocal3[0].quantity}`)
         expect(input_quantity[1].value).toEqual(`${data[1].quantity}`)
     })
-    it.skip("When two elements are rendered and change the values from the second the firts must remain the same",()=>{
+    it.only("When two elements are rendered and change the values from the second the firts must remain the same",()=>{
         render(
             <>
                 <CartActions id={data[0].id} price={data[0].price} quantity={data[0].quantity} setTottaly={setTottally}/>

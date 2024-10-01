@@ -47,25 +47,27 @@ export const ProductContainer = ({datas})=>{
    const finalPrice = roundANumber(quantity* datas.price)
    return( 
    <MainContainer>
-     <div className="product-container">
-    <div className="image-section">
-      <img src="url-da-imagem" alt="Nome do Produto" />
-    </div>
-    <div className="info-section">
-      <h1>{datas.product_name}</h1>
-      <p>{datas.description}</p>
-    </div>
-    <div className="purchase-section">
-      <p className="price">{finalPrice}</p>
+    <div className="product-container">
+      <div className="image-section">
+        <img src="url-da-imagem" alt="Nome do Produto" />
+      </div>
 
-      <div className="quantity-control">
-          <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+      <div className="info-section">
+        <h1>{datas.product_name}</h1>
+        <p>{datas.description}</p>
       </div>
-      <div className="actions">
-          <Actions setMessage={setMessageParams} datas={datas} quantity={quantity}/>
+      
+      <div className="purchase-section">
+        <p className="price">{finalPrice}</p>
+
+        <div className="quantity-control">
+            <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+        </div>
+        <div className="actions">
+            <Actions setMessage={setMessageParams} datas={datas} quantity={quantity}/>
+        </div>
       </div>
     </div>
-  </div>
     </MainContainer>
    )
 }

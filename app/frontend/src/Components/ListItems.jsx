@@ -10,7 +10,7 @@ export const ListItems = ({ datas, typeComponent,redirectToProduct,setTottaly })
       const src = `http://localhost:8080/static${img}`;
 
       if(typeComponent === 'Cart' && deleted)return 
-      const typeClassName= typeComponent === 'Cart' ? `Cart_${id}`: 'product'
+      const typeClassName= typeComponent === 'Cart' ? `Cart_${id} `: 'product'
       return (
           <div
             className={typeClassName}
