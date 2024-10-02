@@ -265,7 +265,7 @@ background-color: #2196f3;
 
 
 .form-product {
-  max-width: 700px;
+  max-width: 90%;
   margin: 50px auto;
   padding: 30px;
   background: #fff;
@@ -378,4 +378,87 @@ background-color: #2196f3;
 .close-button:hover {
   color: #dc3545;
 }
+.product-table {
+  width: 50%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+}
+
+.product-table thead {
+  background-color: #0e1420; /* Título de fundo escuro */
+  color: white;
+  text-align: left;
+}
+
+.product-table th,
+.product-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.product-table th {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.product-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Alterna as cores das linhas */
+}
+
+.product-table tbody tr:hover {
+  background-color: #eaeaea; /* Efeito de hover */
+}
+
+.product-table td button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.product-table td button:first-of-type {
+  background-color: #4caf50; /* Botão de atualização verde */
+  color: white;
+  margin-right: 5px;
+}
+
+.product-table td button:last-of-type {
+  background-color: #f44336; /* Botão de exclusão vermelho */
+  color: white;
+}
+
+.product-table td button:hover {
+  opacity: 0.9;
+}
+
+
+
+
+  .product-table td {
+    padding: 10px;
+    text-align: right;
+    position: relative;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .product-table td::before {
+    content: attr(data-label); /* Exibe o rótulo da coluna como um pseudo-elemento */
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 10px;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .product-table td:last-of-type {
+    border-bottom: 2px solid #ddd;
+  }
+
+
+
 `

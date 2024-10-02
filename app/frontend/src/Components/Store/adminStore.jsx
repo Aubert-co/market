@@ -6,6 +6,7 @@ import { StatusBox } from "../Utils"
 import { Link } from "react-router-dom";
 import { FaHome} from 'react-icons/fa';
 import { FormCreateProducr } from "./FormCreateProduct"
+import ProductTable from "../Product/tables"
 const datas = 
     {views:1000,totally_orders:500,opened_orders:3999,closed_orders:1000,canceled_orders:5000,store_ratting:2999}
 
@@ -14,15 +15,14 @@ const service = async()=>{
 }
 export const AdminStore = ()=>{
     const [items,setItems] =  useState({datas:'Carregando',status:''});
-    const [formAddProduct,setFormAddProduct] =useState( false )
+    const [formAddProduct,setFormAddProduct] =useState( false );
+    const [updateProduct , setUpdateProduct] = useState( [] )
+    const [showFormUpdate,setShowUpdate] = useState( false )
     useEffect(()=>{
         fetchData({service,setItems});
     },[])
 
-    const addNewProduct = ()=>{
-
-    }
-  
+   
     if( items === 'Carregando' && !items.status )return <StatusBox text={'Carregando...'}/>
     return (
     
@@ -74,7 +74,9 @@ export const AdminStore = ()=>{
                 </button>
             </Link>
         </div>
-        {formAddProduct && <FormCreateProducr  setShowForm={setFormAddProduct}/>} 
+        {formAddProduct && <FormCreateProducr formAddProduct={formAddProduct}  setShowForm={setFormAddProduct}/>} 
+        {showFormUpdate && <FormCreateProducr formAddProduct={updateProduct} setShowForm={setShowUpdate} product={updateProduct}/>}
+        <ProductTable setUpdateProduct={setUpdateProduct} setShowUpdate={setShowUpdate} />
         </AdminContainer>
     )
 };

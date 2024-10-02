@@ -1,7 +1,8 @@
-import React,{useEffect} from "react";
+import React from "react";
 import {ListCartItems} from "./ListCartItems"
 import { ListSettings } from "./SettingsWindow";
 import { serviceUpdateCart } from "../../services/cart";
+import useLockBodyScroll from "../../Hooks";
 
 
 export const closeWindow = async({typeWindow,setIsWindowOpen})=>{
@@ -12,16 +13,7 @@ export const closeWindow = async({typeWindow,setIsWindowOpen})=>{
 }
 export const BoxWindow = ({ isWindowOpen, setIsWindowOpen, typeWindow, datas,status }) => {
 
-    useEffect(() => {
-      if (isWindowOpen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
-      }
-      return () => {
-        document.body.style.overflow = 'auto';
-      };
-    }, [isWindowOpen]);
+    useLockBodyScroll( isWindowOpen )
   
     const handleOverlayClick = (e) => {
       if (e.target.classList.contains('overlay')) {
