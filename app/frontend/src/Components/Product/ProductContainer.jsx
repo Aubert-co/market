@@ -68,6 +68,7 @@ export const ProductContainer = ({datas})=>{
         </div>
       </div>
     </div>
+    <Comment/>
     </MainContainer>
    )
 }
