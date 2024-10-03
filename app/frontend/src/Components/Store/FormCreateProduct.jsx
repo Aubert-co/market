@@ -5,7 +5,7 @@ import useLockBodyScroll from "../../Hooks";
 
 
 export const FormCreateProducr = ({setShowForm,formAddProduct,type,product})=>{
-  console.log( product )
+ 
  const refs = {
   productName: useRef(product?.name || "Adicione um nome"),
   productDescription: useRef(product?.description || "Adicone uma descrição"),
@@ -14,15 +14,15 @@ export const FormCreateProducr = ({setShowForm,formAddProduct,type,product})=>{
   productQuantity: useRef(product?.quantity || "Adicione a quantidade disponivel"),
   productImage:useRef("")
 };
-useEffect(() => {
-  if (product) {
-    refs.productName.current = product.name;
-    refs.productDescription.current = product?.description;
-    refs.productPrice.current = product.price;
-    refs.productCategory.current = product.category;
-    refs.productQuantity.current = product.quantity;
-  }
-}, [product]);
+  /*useEffect(() => {
+    if (product) {
+      refs.productName.current = product.name;
+      refs.productDescription.current = product?.description;
+      refs.productPrice.current = product.price;
+      refs.productCategory.current = product.category;
+      refs.productQuantity.current = product.quantity;
+    }
+  }, [product]);*/
   useLockBodyScroll( formAddProduct)
   const onChange =()=>{
     console.log( refs )

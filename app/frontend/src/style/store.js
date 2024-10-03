@@ -11,36 +11,7 @@ body {
     text-align: center;
 }
 
-.header {
-    background: linear-gradient(to right, #6ec1e4, #8e44ad);
-    padding: 50px 20px;
-    border-bottom-left-radius: 50% 20%;
-    border-bottom-right-radius: 50% 20%;
-    color: white;
-    position: relative;
-}
 
-.header-content {
-    position: relative;
-    z-index: 2;
-}
-
-.header-image {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-}
-
-.header h1 {
-    font-size: 2em;
-    margin: 0;
-}
-
-.header p {
-    font-size: 1.2em;
-    margin-top: 10px;
-}
 
 .benefits {
     padding: 20px;
@@ -119,28 +90,28 @@ body {
     height: 100vh;
     background-color: #f7f7f7;
     margin-bottom:2%
-  }
-  .form_store {
-    display:flex;
-    justify-content:center;
-    flex-direction:column;
-    text-align:center;
-    width: 500px;
-    padding: 40px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-    height:100%;
-  }
-  .form{
-    display:flex;
-    flex-direction:column;
-    margin:3%;
-    align-items: center;
-  }
-  .message h3{
-    color:red
-  }
+}
+.form_store {
+  display:flex;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  width: 500px;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  height:100%;
+}
+.form{
+  display:flex;
+  flex-direction:column;
+  margin:3%;
+  align-items: center;
+}
+.message h3{
+  color:red
+}
  input,textarea,select,button{
 
   padding: 12px;
@@ -167,26 +138,28 @@ padding: 0;
 display: flex;
 justify-content: center;
 align-items: center;
-height: 100vh;
+height: auto;
 flex-direction:column;
 
 .dashboard-container {
-width: 90%;
-max-width: 1200px;
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-gap: 20px;
+  width: 90%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top:5%;
+  margin-bottom:5%
 }
 
 .dashboard-box {
-    background-color: #1a1a2e;
-    color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    transition: transform 0.3s ease;
-    cursor:pointer
+  background-color: #1a1a2e;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: transform 0.3s ease;
+  cursor:pointer
 }
 
 .dashboard-box:hover {
@@ -236,15 +209,15 @@ background-color: #2196f3;
 }
 
 .dashboard-button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: white;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
 }
 
 .dashboard-button:hover {
@@ -420,20 +393,6 @@ background-color: #2196f3;
   font-size: 14px;
 }
 
-.product-table td button:first-of-type {
-  background-color: #4caf50; /* Botão de atualização verde */
-  color: white;
-  margin-right: 5px;
-}
-
-.product-table td button:last-of-type {
-  background-color: #f44336; /* Botão de exclusão vermelho */
-  color: white;
-}
-
-.product-table td button:hover {
-  opacity: 0.9;
-}
 
 
 
@@ -461,4 +420,29 @@ background-color: #2196f3;
 
 
 
+  .product-table td button:first-of-type {
+    background-color: #4caf50; /* Botão de atualização verde */
+    color: white;
+    margin-right: 5px;
+}
+
+.product-table td button:last-of-type {
+    background-color: #f44336; /* Botão de exclusão vermelho */
+    color: white;
+}
+
+.product-table td button:hover {
+    opacity: 0.8;
+}
+
+.product-table td svg {
+    font-size: 20px;
+    color: #000;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.product-table td svg:hover {
+    color: #4caf50; /* Mudança de cor no hover */
+}
 `

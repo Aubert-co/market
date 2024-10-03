@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaEye } from 'react-icons/fa';
 
 const products = [
     { id: 1, name: 'Produto A',description:"o1p3j4nerjkqekrb qekhr bqekhr qekjrqe", category:"house",quantity: 10, price: 100, visits: 150,status:"closed",score:5 },
@@ -11,8 +12,14 @@ const ProductTable = ({ setUpdateProduct ,setShowUpdate }) => {
     setUpdateProduct( ...values )
     setShowUpdate( true )
   }
+  const onDelete =(id)=>{
+    
+  }
+  const viewItem = ()=>{
+
+  }
   return (
-    <table className="product-table">
+    <table className="product-table" onClick={ viewItem }>
       <thead>
         <tr>
           <th>Nome</th>
@@ -38,6 +45,7 @@ const ProductTable = ({ setUpdateProduct ,setShowUpdate }) => {
             <td>{product.category}</td>
             <td>{product.score}</td>
             <td>
+              <FaEye/>
               <button onClick={()=>{ onUpdate(product)}} >Atualizar</button>
               <button >Excluir</button>
             </td>
