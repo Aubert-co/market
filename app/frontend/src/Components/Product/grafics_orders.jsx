@@ -2,12 +2,12 @@ import React from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const data = [
-  { name: 'Vendas Concluídas', value: 60 }, // Verde
-  { name: 'Cancelamentos', value: 15 },     // Vermelho
-  { name: 'Total de Pedidos', value: 25 },  // Cinza
+  { name: 'Vendas Concluídas', value: 60 },
+  { name: 'Cancelamentos', value: 15 },     
+  { name: 'Total de Pedidos', value: 25 }, 
 ];
 
-const COLORS = ['#4caf50', '#f44336', '#808080']; // Verde, Vermelho e Cinza
+const COLORS = ['#4caf50', '#f44336', '#808080'];
 
 export const PieGraph = () => {
   return (

@@ -348,6 +348,7 @@ grid-area:aside2;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   z-index: 998;
+  backdrop-filter: blur(5px);
 }
 
 .window_content {

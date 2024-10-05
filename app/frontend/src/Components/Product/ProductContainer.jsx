@@ -64,11 +64,11 @@ export const ProductContainer = ({datas})=>{
             <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
         </div>
         <div className="actions">
-            <Actions setMessage={setMessageParams} datas={datas} quantity={quantity}/>
+          <Actions setMessage={setMessageParams} datas={datas} quantity={quantity}/>
         </div>
       </div>
     </div>
-    <Comment/>
+
     </MainContainer>
    )
 }

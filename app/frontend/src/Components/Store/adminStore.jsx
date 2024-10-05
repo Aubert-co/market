@@ -9,6 +9,7 @@ import { FormCreateProducr } from "./FormCreateProduct"
 import ProductTable from "../Product/tables"
 import PieGraph from "../Product/grafics_orders"
 import MostAccessedProductsChart from "../Product/grafics"
+import { ViewItem } from "./ViewItem"
 const datas = 
     {views:1000,totally_orders:500,opened_orders:3999,closed_orders:1000,canceled_orders:5000,store_ratting:2999}
 
@@ -18,8 +19,9 @@ const service = async()=>{
 export const AdminStore = ()=>{
     const [items,setItems] =  useState({datas:'Carregando',status:''});
     const [formAddProduct,setFormAddProduct] =useState( false );
-    const [updateProduct , setUpdateProduct] = useState( [] )
+    const [getProduct , setProduct] = useState( [] )
     const [showFormUpdate,setShowUpdate] = useState( false )
+    const [viewProduct,setViewProduct] = useState( false )
     useEffect(()=>{
         fetchData({service,setItems});
     },[])
@@ -79,8 +81,9 @@ export const AdminStore = ()=>{
         <PieGraph/>
         <MostAccessedProductsChart/>
         {formAddProduct && <FormCreateProducr formAddProduct={formAddProduct}  setShowForm={setFormAddProduct}/>} 
-        {showFormUpdate && <FormCreateProducr formAddProduct={updateProduct} setShowForm={setShowUpdate} product={updateProduct}/>}
-        <ProductTable setUpdateProduct={setUpdateProduct} setShowUpdate={setShowUpdate} />
+        {showFormUpdate && <FormCreateProducr formAddProduct={showFormUpdate} setShowForm={setShowUpdate} product={getProduct}/>}
+        {viewProduct && <ViewItem product={getProduct} isOpen={viewProduct} setShow={setViewProduct}/>}
+        <ProductTable setUpdateProduct={setProduct} setViewProduct={setViewProduct} setShowUpdate={setShowUpdate} />
          
         </AdminContainer>
     )

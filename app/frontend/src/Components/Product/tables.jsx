@@ -6,7 +6,9 @@ const products = [
     { id: 2, name: 'Produto B',description:"o1p3j4nerjkqekrb eqreqreqr33r4312rqerqe",category:"tech" ,quantity: 5, price: 200, visits: 300 ,status:"opened",score:5 },
     { id: 3, name: 'Produto C',description:"óqkewonqwekbqekhqbwekqweqwe",category:"clothes" ,quantity: 8, price: 150, visits: 120,status:"cancelled",score:5  },
   ];
-const ProductTable = ({ setUpdateProduct ,setShowUpdate }) => {
+  const description = (text)=>text.substring(0,10)+"..."
+
+const ProductTable = ({ setUpdateProduct ,setShowUpdate ,setViewProduct}) => {
   const onUpdate = (...values)=>{
 
     setUpdateProduct( ...values )
@@ -15,11 +17,12 @@ const ProductTable = ({ setUpdateProduct ,setShowUpdate }) => {
   const onDelete =(id)=>{
     
   }
-  const viewItem = ()=>{
-
+  const onViewProduct = (values)=>{
+    setViewProduct( true )
+    setUpdateProduct( values )
   }
   return (
-    <table className="product-table" onClick={ viewItem }>
+    <table className="product-table" >
       <thead>
         <tr>
           <th>Nome</th>
@@ -35,9 +38,10 @@ const ProductTable = ({ setUpdateProduct ,setShowUpdate }) => {
       </thead>
       <tbody>
         {products.map((product) => (
+          
           <tr key={product.id}>
             <td>{product.name}</td>
-            <td>{product.description}</td>
+            <td>{description( product.description )}</td>
             <td>{product.quantity}</td>
             <td>{`R$ ${product.price.toFixed(2)}`}</td>
             <td>{product.visits}</td>
@@ -45,7 +49,7 @@ const ProductTable = ({ setUpdateProduct ,setShowUpdate }) => {
             <td>{product.category}</td>
             <td>{product.score}</td>
             <td>
-              <FaEye/>
+              <FaEye onClick={()=>onViewProduct(product)}/>
               <button onClick={()=>{ onUpdate(product)}} >Atualizar</button>
               <button >Excluir</button>
             </td>

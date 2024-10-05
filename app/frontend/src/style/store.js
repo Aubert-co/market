@@ -1,14 +1,14 @@
 import styled from "styled-components";
 export const StyleCreateStore = styled.div`
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
 }
 
 .main-container {
-    text-align: center;
+  text-align: center;
 }
 
 
@@ -25,71 +25,69 @@ body {
 }
 
 .benefits h2 {
-    font-size: 1.8em;
-    color: #333;
-    margin-bottom: 20px;
+  font-size: 1.8em;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 .benefits-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
 .benefit-box {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 500px;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor:pointer;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 500px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor:pointer;
 }
 
 .benefit-box img {
-    max-width: 100%;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    
+  max-width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .benefit-box p {
-    font-size: 1em;
-    color: #555;
-    margin-top: 10px; 
-    margin-bottom: 0; 
-
+  font-size: 1em;
+  color: #555;
+  margin-top: 10px; 
+  margin-bottom: 0; 
 }
 
 
 .benefit-box:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {
-    .benefit-box {
-        width: 45%;
-       
-    }
+  .benefit-box {
+      width: 45%;
+      
+  }
 }
 
 @media (max-width: 480px) {
-    .benefit-box {
-        width: 100%;
-    }
+  .benefit-box {
+      width: 100%;
+  }
 }
 .create_store {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f7f7f7;
-    margin-bottom:2%
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+  margin-bottom:2%
 }
 .form_store {
   display:flex;
@@ -163,49 +161,49 @@ flex-direction:column;
 }
 
 .dashboard-box:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .dashboard-box h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
 .dashboard-box p {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
 }
 
 .visits-box {
-    background-color: #00adb5;
+  background-color: #00adb5;
 }
 
 .total-orders-box {
-    background-color: #393e46;
+  background-color: #393e46;
 }
 
 .open-orders-box {
-    background-color: #f8b400;
+  background-color: #f8b400;
 }
 
 .closed-orders-box {
-    background-color: #4caf50;
+  background-color: #4caf50;
 }
 
 .canceled-orders-box {
-    background-color: #e94560;
+  background-color: #e94560;
 }
 
 .store-rating-box {
-    background-color: #6a0572;
+  background-color: #6a0572;
 }
 .add-product-box {
-background-color: #2196f3;
+  background-color: #2196f3;
 }
 
 .check-products-box {
-    background-color: #ff5722;
+  background-color: #ff5722;
 }
 
 .dashboard-button {
@@ -400,7 +398,7 @@ background-color: #2196f3;
   .product-table td {
     padding: 10px;
     text-align: right;
-    position: relative;
+ 
     border-bottom: 1px solid #ddd;
   }
 

@@ -1,5 +1,6 @@
 import React, { useRef,useEffect } from "react";
 import useLockBodyScroll from "../../Hooks";
+import { handleOverlayClick } from "../Utils";
 
 
 
@@ -27,16 +28,11 @@ export const FormCreateProducr = ({setShowForm,formAddProduct,type,product})=>{
   const onChange =()=>{
     console.log( refs )
   }
-  const handleOverlayClick = (e) => {
-    if (e.target.classList.contains('form-overlay')) {
-       setShowForm( false )
-       
-    }
-  };
+  
 
   if (!formAddProduct) return null; 
     return (
-      <div className="form-overlay" onClick={ handleOverlayClick }>
+      <div className="form-overlay" onClick={(event)=> handleOverlayClick({event,setShow:setShowForm,className:"form-overlay"}) }>
         <button className="close-button" onClick={() => setShowForm(false)}>
           &times;
         </button>

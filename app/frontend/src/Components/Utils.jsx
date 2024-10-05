@@ -52,4 +52,9 @@ export const getTotally = (datas)=>{
        return acc + total
     }, 0);
   }
-  
+export const handleOverlayClick = ({event,setShow,className}) => {
+    if (event.target.classList.contains( className )) {
+      setShow( false )
+       
+    }
+};
