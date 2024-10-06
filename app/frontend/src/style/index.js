@@ -79,23 +79,23 @@ padding: 20px;
 cursor:pointer;
 .promo-box {
     
-    flex: 1;
-    padding: 15px;
-    background-color: ${brandColor};
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    text-align: center;
+  flex: 1;
+  padding: 15px;
+  background-color: ${brandColor};
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  text-align: center;
 }
 
 .promo-box h2 {
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: #ffffff;
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #ffffff;
 }
 
 .promo-box p {
-    font-size: 14px;
-    color: #ffffff;
+  font-size: 14px;
+  color: #ffffff;
 }
 
 `

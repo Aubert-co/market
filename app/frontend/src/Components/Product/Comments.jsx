@@ -1,8 +1,10 @@
 import React from "react";
 
+const comments = [
+  {text:"ok"},{text:"tudo certo"},{text:"ola"}
+]
 
-
-export const Comments = ({ comments }) => {
+export const Comments = () => {
   return (
     <div>
       <h3>Comentários</h3>

@@ -4,7 +4,7 @@ import { MessageContext } from "../../Contexts";
 import { cacheChangeQuantity, getCart, saveCart } from "../../Cache";
 import { existValue, roundANumber } from "../Utils";
 import {QuantitySelector} from "../QuantitySelector";
-
+import { Comments } from "./Comments";
 
 export const Actions = ({quantity,datas,setMessage})=>{
  
@@ -68,7 +68,7 @@ export const ProductContainer = ({datas})=>{
         </div>
       </div>
     </div>
-
+    <Comments/>
     </MainContainer>
    )
 }

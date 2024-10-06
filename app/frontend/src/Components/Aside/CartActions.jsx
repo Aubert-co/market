@@ -14,25 +14,25 @@ export const deleteItem= ({id,setQuantity})=>{
 }
 
 export const CartActions = ({quantity,id,price,setTottaly})=>{
-    const [stateQuantity,setQuantity] = useState(quantity)
-    const roundPrice= roundANumber(Number(price * stateQuantity))
+  const [stateQuantity,setQuantity] = useState(quantity)
+  const roundPrice= roundANumber(Number(price * stateQuantity))
   
-    useEffect(() => {
+  useEffect(() => {
+    
+    setTottaly((val=[]) => {
       
-      setTottaly((val=[]) => {
-        
-        const exists = existValue(val,id)
-     
-        if (exists) {
-          return val.map(item => 
-            item.id === id ? { ...item, total: roundPrice } : item
-          );
-        } 
-       
-        return [...val, { id, total: roundPrice }];
-        
-      });
-    }, [stateQuantity]); 
+      const exists = existValue(val,id)
+    
+      if (exists) {
+        return val.map(item => 
+          item.id === id ? { ...item, total: roundPrice } : item
+        );
+      } 
+      
+      return [...val, { id, total: roundPrice }];
+      
+    });
+  }, [stateQuantity]); 
     return(
       <>
        <QuantitySelector id={id} quantity={stateQuantity} setQuantity={setQuantity}/>
