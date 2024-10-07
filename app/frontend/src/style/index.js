@@ -7,7 +7,6 @@ export const GlobalStyles = createGlobalStyle`
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-
   }
 `;
 export const Container = styled.div`
@@ -20,8 +19,6 @@ grid-template-columns: 10% 70% 5%;
 grid-template-rows: auto 1fr auto; 
 column-gap: 1%;
 background-color: #f4f7f9;
-
- 
     
 `
 export const Aside = styled.aside`
@@ -78,7 +75,6 @@ padding: 20px;
 
 cursor:pointer;
 .promo-box {
-    
   flex: 1;
   padding: 15px;
   background-color: ${brandColor};
@@ -88,9 +84,9 @@ cursor:pointer;
 }
 
 .promo-box h2 {
-      margin-bottom: 10px;
-      font-size: 18px;
-      color: #ffffff;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #ffffff;
 }
 
 .promo-box p {
@@ -117,38 +113,20 @@ background-color: #f7f9fc;
   border: 1px solid #ccc;
   border-radius: 10px;
   text-align: start;
-  background-color: #fff; /* Fundo branco para destacar */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  background-color: #fff; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .product:hover {
-  transform: translateY(-5px); /* Efeito de elevação ao passar o mouse */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Aumenta a sombra */
-}
-
-.product h3 {
-  margin: 10px;
-  font-size: 1.2rem;
-  color: #333;
+  transform: translateY(-5px); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); 
 }
 
 .product p {
   margin: 10px;
   color: #666;
   font-size: 0.95rem;
-}
-
-.product a {
-  display: block;
-  margin: 10px;
-  text-align: center;
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 16px;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s;
 }
 
 .product a:hover {
@@ -161,23 +139,7 @@ background-color: #f7f9fc;
   height: 250px;
   border-radius: 10px 10px 0 0;
 }
-
-.product button {
-  width: 100%;
-  background-color: #144c86;
-  border-radius: 0 0 10px 10px;
-  border: none;
-  text-transform: uppercase;
-  height: 40px;
-  color: white;
-  transition: background-color 0.3s;
-}
-
-.product button:hover {
-  cursor: pointer;
-  color: #e6dede;
-  background-color: #0056b3;
-}`
+  `
 export const Header = styled.header`
 grid-area: header;
 width: 95%;
@@ -392,9 +354,6 @@ grid-area:aside2;
   height:90%;
   overflow-y: auto;  
   overflow-x: hidden;
-  
-  
- 
 }
 i{
 position:hidden;

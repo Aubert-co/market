@@ -67,11 +67,11 @@ export const FormCreateProducr = ({setShowForm,formAddProduct,type,product})=>{
       
           <div className="form-group">
             <h3 className="form-title">Qual o preço você deseja escolher para o seu produto</h3>
-            <input defaultValue={refs.productPrice.current} ref={refs.productPrice} type="number" className="form-input" />
+            <input defaultValue={refs.productPrice.current} ref={refs.productPrice} type="text" className="form-input" />
           </div>
           <div className="form-group">
             <h3 className="form-title">Qual a quantidade de produtos disponiveis</h3>
-            <input type="number" defaultValue={refs.productQuantity.current} ref={refs.productQuantity}  className="form-input" />
+            <input type="text" defaultValue={refs.productQuantity.current} ref={refs.productQuantity}  className="form-input" />
           </div>
   
         </div>

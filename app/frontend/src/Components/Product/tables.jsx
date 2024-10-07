@@ -15,7 +15,7 @@ const ProductTable = ({ setUpdateProduct ,setShowUpdate ,setViewProduct}) => {
     setShowUpdate( true )
   }
   const onDelete =(id)=>{
-    
+    console.log( id ) 
   }
   const onViewProduct = (values)=>{
     setViewProduct( true )
@@ -50,8 +50,8 @@ const ProductTable = ({ setUpdateProduct ,setShowUpdate ,setViewProduct}) => {
             <td>{product.score}</td>
             <td>
               <FaEye onClick={()=>onViewProduct(product)}/>
-              <button onClick={()=>{ onUpdate(product)}} >Atualizar</button>
-              <button >Excluir</button>
+              <button onClick={()=> onUpdate(product)} >Atualizar</button>
+              <button onClick={()=>onDelete(product.id)} >Excluir</button>
             </td>
           </tr>
         ))}

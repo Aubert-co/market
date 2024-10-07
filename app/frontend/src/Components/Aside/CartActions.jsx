@@ -6,7 +6,6 @@ import {  deleteItemCart, saveCart } from "../../Cache";
 
 
 export const deleteItem= ({id,setQuantity})=>{
-   
   const cart =deleteItemCart(id)
   saveCart( cart )
   setQuantity(0)
@@ -43,4 +42,4 @@ export const CartActions = ({quantity,id,price,setTottaly})=>{
   
      </>
     )
-   }
+  }
