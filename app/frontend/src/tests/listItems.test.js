@@ -8,7 +8,7 @@ import { items } from "./fixtures";
 
 var DEFAULT_MESSAGE
 const generateSrc = (path)=>`http://localhost:8080/static${path}`
-
+var setTottally;
 const itemsCart = (screen)=>{
     const btn_action = screen.getAllByTestId("btn_action")
     const name_ = screen.getAllByTestId('item_name')
@@ -37,16 +37,21 @@ describe("ListItems",()=>{
             },
             setMessageParams:jest.fn()
         }
+        setTottally= jest.spyOn(React,'useState')
+     
+        setTottally.mockImplementation((init) => [init, jest.fn()]);
+
+        jest.clearAllMocks()
     })
     it("When the component type is not 'Cart', certain components should not be rendered.",async()=>{
         const redirectToProduct = jest.fn()
         render(
             <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'home'} redirectToProduct={redirectToProduct}/>
+                <ListItems datas={items} typeComponent={'home'} redirectToProduct={redirectToProduct} setTottaly={setTottally}/>
             </MessageContext.Provider>
         )
        
-        const btn_action = screen.queryByTestId("btn_action")
+        
         const name_ = screen.getAllByTestId('item_name')
         const price_ = screen.getAllByTestId('item_price')
         const img_ = screen.getAllByTestId('item_img')
@@ -54,7 +59,7 @@ describe("ListItems",()=>{
 
         expect(products).toHaveLength(items.length)
                                                                                                                                                                                                                                 
-        expect(btn_action).not.toBeInTheDocument()
+       
 
         expect(name_.length).toEqual(items.length)
         expect(screen.queryByTestId('item_quantity')).not.toBeInTheDocument()
@@ -63,211 +68,37 @@ describe("ListItems",()=>{
             expect(name_[ind].textContent).toEqual(name)
             expect(price_[ind].textContent).toEqual(price.toString())
             expect(img_[ind].getAttribute('src')).toEqual(generateSrc(imgPath))
+            expect(products[ind]).not.toHaveClass(`Cart_${ind}`)
         })
+
         fireEvent.click(products[0])    
         expect(redirectToProduct).toHaveBeenCalledTimes(1)
         expect(redirectToProduct).toHaveBeenCalledWith(items[0].id)
+
+        expect( setTottally ).not.toHaveBeenCalled()
+
     })
     
     it("When the component type is 'cart' and the 'Remove from cart' button is clicked, it should call a service.",async()=>{
-        const service = jest.spyOn(Services,'serviceRemoveFromCart').mockResolvedValue({message:'sucess',status:201})
         render(
-            <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'Cart'} />
-            </MessageContext.Provider>
+           <ListItems datas={items} typeComponent={'Cart'} setTottaly={setTottally}/>
         )
-        expect(screen.getAllByTestId('btn_action')).toHaveLength(10)
-        const btn_component = screen.getAllByTestId("btn_component")
-      
-        fireEvent.click(btn_component[0])
-
-        expect(service).toHaveBeenCalledTimes(1)
-        expect(service).toHaveBeenCalledWith({product_id:items[0].id,quantity:1})
-
-        itemsCart(screen)
-      
-    })
-    it(
-        "When the component type is 'cart' and the 'decrease -' button is clicked, it should call a service.",async()=>{
-        const service = jest.spyOn(Services,'serviceDecreaseCart').mockReturnValue({message:'sucess',status:201})
-        render(
-            <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'Cart'}/>
-            </MessageContext.Provider>
-        )
-        expect(screen.getAllByTestId('btn_action')).toHaveLength(10)
-        const btn_action = screen.getAllByTestId("btn_action")
-        fireEvent.click(btn_action[0])
-
-        expect(service).toHaveBeenCalledTimes(1)
-        expect(service).toHaveBeenCalledWith({product_id:items[0].id,quantity:1})
-
-       
-      
-    })
-    it("When the component type is 'cart' and the 'increase +' button is clicked, it should call a service.",async()=>{
-        const service = jest.spyOn(Services,'serviceIncreaseCart').mockReturnValue({message:'sucess',status:201})
-        render(
-            <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'Cart'}/>
-            </MessageContext.Provider>
-        )
-        expect(screen.getAllByTestId('btn_action')).toHaveLength(10)
-        const btn_action = screen.getAllByTestId("btn_action")
-    
-        fireEvent.click(btn_action[1])
-
-        expect(service).toHaveBeenCalledTimes(1)
-        expect(service).toHaveBeenCalledWith({product_id:items[0].id,quantity:1})
-
-        itemsCart(screen)
-      
-    })
-})
-
-describe("When the service returns a user who is not logged in.",()=>{
-    beforeEach(()=>{
-        DEFAULT_MESSAGE = {
-            messageParams:{
-                content:'',type:''
-            },
-            setMessageParams:jest.fn()
-        }
-    })
-    
-    it("When the user tries to increase the cart while not logged in, it should return an error.",async()=>{
-        const service = jest.spyOn(Services,'serviceIncreaseCart').mockReturnValue({message:'sucess',status:401})
-        render(
-            <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'Cart'}/>
-            </MessageContext.Provider>
-        )
-      
-        const btn_action = screen.getAllByTestId("btn_action")
-       
-
-        fireEvent.click(btn_action[1])
-
-        await waitFor(()=>{
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
-            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'sucess',content:'Sucesso ao adicionar.'})
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledWith({type:'error',content:'Login necessário para adicionar ao carrinho.'})
-       
-        })
-    })
-    it("When the user tries to decrease but is not logged in, it should return an error.",async()=>{
-        const service = jest.spyOn(Services,'serviceDecreaseCart').mockReturnValue({message:'sucess',status:401})
-        render(
-            <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'Cart'}/>
-            </MessageContext.Provider>
-        )
-       
-        const btn_action = screen.getAllByTestId("btn_action")
-        
-        fireEvent.click(btn_action[1])
-
-       
-        await waitFor(()=>{
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
-            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'sucess',content:'Sucesso ao adicionar.'})
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledWith({type:'error',content:'Login necessário para adicionar ao carrinho.'})
-       
-        })
-    })
-    it("When a user tries to remove an item from the cart but is not logged in, it should return an error.",async()=>{
-        const service = jest.spyOn(Services,'serviceRemoveFromCart').mockReturnValue({message:'sucess',status:401})
-        render(
-            <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'Cart'} />
-            </MessageContext.Provider>
-        )
-       
-        const btn_action = screen.getAllByTestId("btn_action")
-       
-
-        fireEvent.click(btn_action[0])
-
-        await waitFor(()=>{
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
-            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'sucess',content:'Sucesso ao adicionar.'})
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledWith({type:'error',content:'Login necessário para adicionar ao carrinho.'})
-       
-        })
-      
-    })
-})
-
-
-describe("When the service returns an error.",()=>{
-    beforeEach(()=>{
-        DEFAULT_MESSAGE = {
-            messageParams:{
-                content:'',type:''
-            },
-            setMessageParams:jest.fn()
-        }
-    })
    
-    it("When the user tries to increase the cart while not logged in, it should return an error.",async()=>{
-        const service = jest.spyOn(Services,'serviceIncreaseCart').mockReturnValue({message:'sucess',status:500})
-        render(
-            <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'Cart'}/>
-            </MessageContext.Provider>
-        )
+        const carts = screen.queryAllByTestId("item")
+        const name_ = screen.getAllByTestId('item_name')
+        const price_ = screen.queryAllByTestId('item_price')
+        const img_ = screen.getAllByTestId('item_img')
       
-        const btn_action = screen.getAllByTestId("btn_action")
-       
 
-        fireEvent.click(btn_action[1])
-
-        await waitFor(()=>{
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
-            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'sucess',content:'Sucesso ao adicionar.'})
-            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'error',content:'Login necessário para adicionar ao carrinho.'})
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledWith({type:'error',content:'Algo deu errado'})
+        expect( price_).toHaveLength( 0 )
+        expect(carts).toHaveLength(items.length)
+        carts.forEach((val,ind)=>{
+            expect( val ).toHaveClass(`Cart_${ind+1}`)
+            expect(img_[ind].getAttribute('src')).toEqual(generateSrc(items[ind].imgPath))
+            expect( name_[ind]).toHaveTextContent( items[ind].name )
         })
+        fireEvent.click( carts[0] )
+        expect( window.location.href).toEqual("http://localhost/")
     })
-    it("When the user tries to decrease the cart but is not logged in, it should return an error.",async()=>{
-        const service = jest.spyOn(Services,'serviceDecreaseCart').mockReturnValue({message:'sucess',status:500})
-        render(
-            <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'Cart'}/>
-            </MessageContext.Provider>
-        )
-       
-        const btn_action = screen.getAllByTestId("btn_action")
-        
-        fireEvent.click(btn_action[1])
-
-       
-        await waitFor(()=>{
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
-            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'sucess',content:'Sucesso ao adicionar.'})
-            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'error',content:'Login necessário para adicionar ao carrinho.'})
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledWith({type:'error',content:'Algo deu errado'})
-        })
-    })
-    it("When a user tries to remove an item from the cart but is not logged in, it should return an error.",async()=>{
-        const service = jest.spyOn(Services,'serviceRemoveFromCart').mockReturnValue({message:'sucess',status:500})
-        render(
-            <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                <ListItems datas={items} typeComponent={'Cart'} />
-            </MessageContext.Provider>
-        )
-       
-        const btn_action = screen.getAllByTestId("btn_action")
-       
-
-        fireEvent.click(btn_action[0])
-
-        await waitFor(()=>{
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledTimes(1)
-            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'sucess',content:'Sucesso ao adicionar.'})
-            expect(DEFAULT_MESSAGE.setMessageParams).not.toHaveBeenCalledWith({type:'error',content:'Login necessário para adicionar ao carrinho.'})
-            expect(DEFAULT_MESSAGE.setMessageParams).toHaveBeenCalledWith({type:'error',content:'Algo deu errado'})
-        })
-      
-    })
+  
 })

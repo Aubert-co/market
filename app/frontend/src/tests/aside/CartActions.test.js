@@ -4,6 +4,7 @@ import '@testing-library/jest-dom'
 
 import { CartActions } from "../../Components/Aside/CartActions";
 import { mapExpectAll, mapExpectDiferentQnt } from "../fixtures";
+import { getCart } from '../../Cache';
 
 var    data = [{id:3,quantity:45,name:"shirt",price:39},{id:45,quantity:89,name:"short",price:19}];
 describe('Componente CartActions',()=>{
@@ -16,7 +17,7 @@ describe('Componente CartActions',()=>{
         setTottally.mockImplementation((init) => [init, jest.fn()]);
     })
     it("When decrease only the firts element should update only the quantity from the firts element",()=>{
-        console.log( data )
+       
         render(
             <CartActions setTottaly={setTottally} id={data[0].id} price={data[0].price} quantity={data[0].quantity}/>
         )
@@ -25,6 +26,7 @@ describe('Componente CartActions',()=>{
         const decrease_btn = screen.getByTestId("decrease_btn")
         const increase_btn = screen.getByTestId("increase_btn")
         const input_quantity = screen.getByTestId("input_quantity")
+        const delete_cartItem = screen.queryByTestId("delete_cartItem")
 
         expect(cart_total.textContent).toEqual(`R$${data[0].price* data[0].quantity}`)
         expect(input_quantity.value).toEqual(`${data[0].quantity}`)
@@ -40,7 +42,12 @@ describe('Componente CartActions',()=>{
        
         expect(setTottally.mock.calls[1][0]()[0]).toEqual({"id":data[0].id,"total":data[0].price*(data[0].quantity-1)})
       
-       expect(setTottally).toHaveBeenCalledTimes(2)
+        expect(setTottally).toHaveBeenCalledTimes(2)
+
+        fireEvent.click( delete_cartItem )
+
+        const localCart = getCart()
+        expect( localCart[0].deleted).toBeTruthy()
     })
     it("When decrease , increase and change the value input from the firts element should update only the firts element",()=>{
         render(
@@ -133,7 +140,7 @@ describe('Componente CartActions',()=>{
         expect(cart_total[0].textContent).toEqual(`R$${ cartLocal3[0].price * cartLocal3[0].quantity}`)
         expect(input_quantity[1].value).toEqual(`${data[1].quantity}`)
     })
-    it.only("When two elements are rendered and change the values from the second the firts must remain the same",()=>{
+    it("When two elements are rendered and change the values from the second the firts must remain the same",()=>{
         render(
             <>
                 <CartActions id={data[0].id} price={data[0].price} quantity={data[0].quantity} setTottaly={setTottally}/>
@@ -145,7 +152,7 @@ describe('Componente CartActions',()=>{
         const increase_btn = screen.getAllByTestId("increase_btn")
         const input_quantity = screen.getAllByTestId("input_quantity")
 
-        
+
         expect(cart_total[0].textContent).toEqual(`R$${data[0].price* data[0].quantity}`)
         expect(input_quantity[0].value).toEqual(`${data[0].quantity}`)
         expect(cart_total[1].textContent).toEqual(`R$${data[1].price* data[1].quantity}`)
@@ -184,6 +191,7 @@ describe('Componente CartActions',()=>{
         expect(cartLocal3[1].quantity).toEqual(193)
         expect(input_quantity[1].value).toEqual(`${193}`)
         expect(cart_total[1].textContent).toEqual(`R$${ cartLocal3[1].price * cartLocal3[1].quantity}`)
-        expect(input_quantity[1].value).toEqual(`${data[1].quantity}`)
+        expect(input_quantity[1].value).not.toEqual(`${data[1].quantity}`)
     })
+  
 })

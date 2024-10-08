@@ -39,7 +39,7 @@ export const CartActions = ({quantity,id,price,setTottaly})=>{
         R${roundPrice}
        </p>
        <FaTrash data-testid="delete_cartItem" onClick={()=>deleteItem({id,setQuantity})}/>
-  
+
      </>
     )
   }
