@@ -25,9 +25,7 @@ export default function Home(){
     const [currentPage, setCurrentPage] = useState(1 || pages);
     const navigate = useNavigate()
   
-    useEffect(()=>{
-        //service here
-    },[currentPage])
+   
     const service =async()=>{
         return {datas:items,status:200};
     };
@@ -52,7 +50,7 @@ export default function Home(){
                     </PromoContainer>
    
                     <ProductSection>
-                        <BoxItems searchParams={searchParams} service={service}/>
+                        <BoxItems currentPage={currentPage} searchParams={searchParams} service={service}/>
                     </ProductSection>
                     <Pagination currentPage={currentPage} totalPages={10} onPageChange={handlePageChange}/>
                 </Main>

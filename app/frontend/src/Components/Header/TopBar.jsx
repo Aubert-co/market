@@ -8,7 +8,7 @@ export const TopBar = ({isWindowCart,setIsWindowCart,isWindowProfile,setIsWindow
     return (
        <>
             <div className="logo">
-                <Link to="/" data-testid="home">SUPERSTORE</Link>
+                <Link to="/index/pages" data-testid="home">SUPERSTORE</Link>
             </div>
             <SearchBar  />
             <nav>
