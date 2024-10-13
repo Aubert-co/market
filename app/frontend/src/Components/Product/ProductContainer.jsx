@@ -5,6 +5,7 @@ import { cacheChangeQuantity, getCart, saveCart } from "../../Cache";
 import { existValue, roundANumber } from "../Utils";
 import {QuantitySelector} from "../QuantitySelector";
 import { Comments } from "./Comments";
+import { FaStar } from "react-icons/fa";
 
 export const Actions = ({quantity,datas,setMessage})=>{
  
@@ -53,12 +54,17 @@ export const ProductContainer = ({datas})=>{
       </div>
 
       <div className="info-section">
-        <h1>{datas.product_name}</h1>
-        <p>{datas.description}</p>
+        <FaStar/>
+        <h1>qiwenhkjqweqwejkqejknqel</h1>
+        <p>Avalicações</p>
+        
+        <p>oqnwekbqwekjbqehjbqwehbqwjhebvqwjhyeqwyjegqiwehqileljqwnekhqwbvejhq  ejq 
+          qwjelqeuqhwekuqhekuq  keqkeuk
+        </p>
       </div>
       
       <div className="purchase-section">
-        <p className="price">{finalPrice}</p>
+        <p className="price">Total R${finalPrice}</p>
 
         <div className="quantity-control">
             <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
@@ -68,7 +74,7 @@ export const ProductContainer = ({datas})=>{
         </div>
       </div>
     </div>
-    <Comments/>
+    
     </MainContainer>
    )
 }

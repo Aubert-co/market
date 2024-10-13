@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { MainContainer } from "../style/product";
 import { ProductContainer } from "../Components/Product/ProductContainer";
 import { fetchData } from "../Hooks/index";
-
+import { Comments } from "../Components/Product/Comments";
 export default function Product(){
     const {isWindowCart,setIsWindowCart} = useContext(CartWindowCtx);
     const {isWindowProfile,setIsWindowProfile} = useContext(SetttingsWindowCtx);
@@ -38,6 +38,7 @@ export default function Product(){
           
                 <Main>
                    <ProductContainer datas={items.datas}/>
+                   <Comments/>
                 </Main>
 
                 <Aside2>

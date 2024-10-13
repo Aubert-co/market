@@ -35,10 +35,11 @@ export const MainContainer = styled.div`
 
 .info-section {
   width:40%;
+  max-width:40%;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  
 }
 
 .info-section h1 {
@@ -49,6 +50,8 @@ export const MainContainer = styled.div`
 .info-section p {
   font-size: 16px;
   color: #666;
+   word-wrap: break-word; 
+  overflow-wrap: break-word; 
 }
 
 .purchase-section {
@@ -62,8 +65,9 @@ export const MainContainer = styled.div`
 
 .price {
   font-size: 28px;
-  color: #ff6347;
   margin-bottom: 10px;
+  border: solid 1px;
+  padding: 15%;
 }
 
 .quantity-control {
