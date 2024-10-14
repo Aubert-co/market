@@ -67,7 +67,7 @@ export const ProductContainer = ({datas})=>{
         <p className="price">Total R${finalPrice}</p>
 
         <div className="quantity-control">
-            <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
+            <QuantitySelector limit={5} quantity={quantity} setQuantity={setQuantity} />
         </div>
         <div className="actions">
           <Actions setMessage={setMessageParams} datas={datas} quantity={quantity}/>

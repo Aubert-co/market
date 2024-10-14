@@ -66,8 +66,9 @@ export const MainContainer = styled.div`
 .price {
   font-size: 28px;
   margin-bottom: 10px;
-  border: solid 1px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   padding: 15%;
+  border-radius: 16px;
 }
 
 .quantity-control {

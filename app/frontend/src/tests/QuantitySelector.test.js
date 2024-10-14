@@ -111,7 +111,68 @@ describe('QuantitySelector',()=>{
         expect(cart).toHaveLength(1)
         
     })
+    it("when pass a limit and try to increase abose the limit it not should do it",()=>{
+        quantity =4
+        localStorage.setItem('cart',JSON.stringify([{id:3,quantity:1}]))
+       
+        render(
+            <QuantitySelector limit={5}  quantity={quantity} setQuantity={setQuantity} />
+        )
+        const btn_increase = screen.getByTestId("increase_btn")
+        const btn_decrease = screen.getByTestId("decrease_btn")
+        const input = screen.getByTestId("input_quantity")
+        
+        fireEvent.click(btn_increase)
+        cart =JSON.parse(localStorage.getItem('cart'))
+        expect(cart).toHaveLength(1)
+        expect(setQuantity).toHaveBeenLastCalledWith(5)
+        expect(cart[0].quantity).toEqual(1)
+
+
     
+        fireEvent.change(input,{target:{value:55}})
+      
+        expect(cart).toHaveLength(1)
+
+        expect(setQuantity).toHaveBeenCalledTimes(1)
+        cart =JSON.parse(localStorage.getItem('cart'))
+        expect(cart[0].quantity).toEqual(1)
+        expect(cart).toHaveLength(1)
+        
+       
+      
+    })
+    it.only("when pass a limit and try to increase abose the limit it not should do it",()=>{
+        quantity =4
+        localStorage.setItem('cart',JSON.stringify([{id:3,quantity:1}]))
+       
+        render(
+            <QuantitySelector limit={5}  quantity={quantity} setQuantity={setQuantity} />
+        )
+        const btn_increase = screen.getByTestId("increase_btn")
+        const btn_decrease = screen.getByTestId("decrease_btn")
+        const input = screen.getByTestId("input_quantity")
+        
+        fireEvent.click(btn_increase)
+        cart =JSON.parse(localStorage.getItem('cart'))
+        expect(cart).toHaveLength(1)
+        expect(setQuantity).toHaveBeenLastCalledWith(5)
+        expect(cart[0].quantity).toEqual(1)
+
+
+    
+        fireEvent.change(input,{target:{value:55}})
+      
+        expect(cart).toHaveLength(1)
+
+        expect(setQuantity).toHaveBeenCalledTimes(1)
+        cart =JSON.parse(localStorage.getItem('cart'))
+        expect(cart[0].quantity).toEqual(1)
+        expect(cart).toHaveLength(1)
+        
+       
+      
+    })
 })
 
 
