@@ -6,7 +6,7 @@ import { existValue, roundANumber } from "../Utils";
 import {QuantitySelector} from "../QuantitySelector";
 import { Comments } from "./Comments";
 import { FaStar } from "react-icons/fa";
-
+import {ProductReview} from "./ProductReview"
 export const Actions = ({quantity,datas,setMessage})=>{
  
   const addCart  =()=>{
@@ -54,7 +54,7 @@ export const ProductContainer = ({datas})=>{
       </div>
 
       <div className="info-section">
-        <FaStar/>
+        <ProductReview/>
         <h1>qiwenhkjqweqwejkqejknqel</h1>
         <p>Avalicações</p>
         

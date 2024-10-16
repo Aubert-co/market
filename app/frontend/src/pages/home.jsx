@@ -36,26 +36,25 @@ export default function Home(){
     return (
         <Container>
            
-                <Header>
-                    <TopBar isWindowCart={isWindowCart} setIsWindowCart={setIsWindowCart} isWindowProfile={isWindowProfile} setIsWindowProfile={setIsWindowProfile}/>
-               
+                <Header data-testid="header">
+                    <TopBar  isWindowCart={isWindowCart} setIsWindowCart={setIsWindowCart} isWindowProfile={isWindowProfile} setIsWindowProfile={setIsWindowProfile}/>
                 </Header>
-               <Aside>
+               <Aside data-tesit="aside">
                  
                 </Aside>
           
                 <Main>
-                    <PromoContainer>
+                    <PromoContainer data-testid="promo_container">
                         <BoxPromotion/>
                     </PromoContainer>
    
-                    <ProductSection>
+                    <ProductSection data-testid="product_section">
                         <BoxItems currentPage={currentPage} searchParams={searchParams} service={service}/>
                     </ProductSection>
-                    <Pagination currentPage={currentPage} totalPages={10} onPageChange={handlePageChange}/>
+                    <Pagination data-testid="pagination" currentPage={currentPage} totalPages={10} onPageChange={handlePageChange}/>
                 </Main>
 
-                <Aside2>
+                <Aside2 data-testid="aside2">
                     <BoxMessage/>
                     <CartWindow setIsWindowOpen={setIsWindowCart} isWindowOpen={isWindowCart}/>
                     <SettingsWindow setIsSettingsOpen={setIsWindowProfile} isSettingsOpen={isWindowProfile}/>
