@@ -5,8 +5,8 @@ import { cacheChangeQuantity, getCart, saveCart } from "../../Cache";
 import { existValue, roundANumber } from "../Utils";
 import {QuantitySelector} from "../QuantitySelector";
 import { Comments } from "./Comments";
-import { FaStar } from "react-icons/fa";
-import {ProductReview} from "./ProductReview"
+
+import {StarRating} from "./StarRating"
 export const Actions = ({quantity,datas,setMessage})=>{
  
   const addCart  =()=>{
@@ -54,7 +54,7 @@ export const ProductContainer = ({datas})=>{
       </div>
 
       <div className="info-section">
-        <ProductReview/>
+        <StarRating/>
         <h1>qiwenhkjqweqwejkqejknqel</h1>
         <p>Avalicações</p>
         
