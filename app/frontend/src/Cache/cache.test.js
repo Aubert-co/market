@@ -1,5 +1,5 @@
 import { mapExpectAll } from "../tests/fixtures"
-import { getCart, GetTimeCached, saveCart, saveTime ,cacheChangeQuantity} from "./index"
+import { getCart, GetTimeCached, saveCart, saveTime ,cacheChangeQuantity, saveProducts} from "./index"
 
 
 
@@ -56,5 +56,25 @@ describe("test",()=>{
 
         expect(GetTimeCached()).toHaveProperty(typeItem)
         expect(GetTimeCached()[typeItem]).toEqual(date)
+    })
+})
+
+
+describe.only("products",()=>{
+    beforeEach(()=>{
+        localStorage.clear()
+    })
+    it("test",()=>{
+        const products = ["camisa","shirt","tenis"]
+        saveProducts({products,page:1})
+
+        expect( JSON.parse( localStorage.getItem("products")) ).toEqual([{products,page:1}])
+
+        const newProducts = ["tenis",1,"bermuda"]
+        saveProducts({products,page:1})
+        const newCache = JSON.parse( localStorage.getItem("products") )
+
+        expect( newCache ).toHaveLength( 1 )
+        expect( newCache).toEqual([{products:newProducts,page:1}])
     })
 })

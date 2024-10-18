@@ -1,3 +1,5 @@
+import { getProducts, saveProducts, saveTime } from "../Cache"
+
 const  headers ={'Content-Type':'application/json'}
 export const url = "http://localhost:8080"
 export const serviceDecreaseCart = async({cart_id})=>{
@@ -40,13 +42,15 @@ export const serviceRemoveFromCart = async({product_id})=>{
 }
 export const serviceGetItems = async({body})=>{
     try{
+        
         const response = await fetch(url+'/',{
             method:'POST',
             headers,
             body:JSON.stringify (body )
         })
         const {datas}  = response.json()
-        
+        saveTime({typeItem:"products"})
+        saveProducts({products:datas,page:datas.page})
         return {datas,status:response.status}
     }catch(err){
         return {datas:[],status:404}
@@ -94,11 +98,11 @@ export const serviceGetProduct = async({product_id})=>{
     try{
         if(!product_id || typeof product_id !=='number')return {datas:[],status:401}
         
-        
+             
         
         const response= await fetch(url+`/products/info/${product_id}`)
         const json =await response.json()
-      
+    
         return {message:json.message,status:response.status}
     }catch(err){
        

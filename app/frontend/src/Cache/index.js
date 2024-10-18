@@ -4,8 +4,6 @@ export const saveCart = (cart)=>{
   const value = JSON.stringify(cart)
   
   localStorage.setItem('cart',value)
-
-  
 }
 
 export const cacheChangeQuantity = ({cart,quantity,id,deleted})=>{
@@ -46,18 +44,13 @@ export const saveTime = ({typeItem,dateNow})=>{
   localStorage.setItem('times',JSON.stringify(getTimes))
 }
 
-export const getProducts = ()=>{
-  return JSON.parse( localStorage.getItem('products') ) || []
-}
+export const getProducts = ()=> JSON.parse( localStorage.getItem('products') ) || []
+
 
 export const saveProducts = ({products,page})=>{
   const storagedProducts = getProducts()
-  if( storagedProducts.length ===0)return storagedProducts.push({products,page})
-  
-  const existsPage = storagedProducts.some((val)=>val.page === page)
-  if(existsPage)return 
-  
+ 
   storagedProducts.push({products,page})
  
-
+  localStorage.setItem('products',JSON.stringify( storagedProducts))
 } 
