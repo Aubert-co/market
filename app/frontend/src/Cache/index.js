@@ -47,10 +47,18 @@ export const saveTime = ({typeItem,dateNow})=>{
 export const getProducts = ()=> JSON.parse( localStorage.getItem('products') ) || []
 
 
-export const saveProducts = ({products,page})=>{
+export const verifyAndAdd =({products,page})=>{
   const storagedProducts = getProducts()
- 
-  storagedProducts.push({products,page})
- 
+  if(storagedProducts.length === 0)return storagedProducts.push({products,page})
+
+  return storagedProducts.map((val)=>{
+    if(val.page===page)return {products,page}
+
+    return val
+  })
+
+}
+export const saveProducts = ({products,page})=>{
+  const storagedProducts = verifyAndAdd({products,page})
   localStorage.setItem('products',JSON.stringify( storagedProducts))
 } 
