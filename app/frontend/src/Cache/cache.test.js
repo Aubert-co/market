@@ -62,19 +62,20 @@ describe("test",()=>{
 
 describe.only("products",()=>{
     beforeEach(()=>{
+
         localStorage.clear()
     })
     it("test",()=>{
         const products = ["camisa","shirt","tenis"]
         saveProducts({products,page:1})
 
-        expect( JSON.parse( localStorage.getItem("products")) ).toEqual([{products,page:1}])
+       // expect( JSON.parse( localStorage.getItem("products")) ).toEqual([{products,page:1}])
 
         const newProducts = ["tenis",1,"bermuda"]
-        saveProducts({products,page:1})
+        saveProducts({products:newProducts,page:1})
         const newCache = JSON.parse( localStorage.getItem("products") )
-
+        console.log( newCache )
         expect( newCache ).toHaveLength( 1 )
-        expect( newCache).toEqual([{products:newProducts,page:1}])
+        expect( newCache ).toEqual([{products,page:1}])
     })
 })

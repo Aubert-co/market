@@ -50,7 +50,7 @@ export const getProducts = ()=> JSON.parse( localStorage.getItem('products') ) |
 export const verifyAndAdd =({products,page})=>{
   const storagedProducts = getProducts()
   if(storagedProducts.length === 0)return storagedProducts.push({products,page})
-
+   
   return storagedProducts.map((val)=>{
     if(val.page===page)return {products,page}
 
