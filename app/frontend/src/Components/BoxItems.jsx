@@ -15,6 +15,7 @@ export const BoxItems = ({searchParams,typeComponent,service,currentPage})=>{
   
     useEffect(() => {
         fetchData({service,body:searchParams,setItems});
+        
     }, [searchParams,currentPage]);
     
     if(items.status !== '' && items.status >201 ) return <h1 data-testid="error">Não encontrado!</h1>;

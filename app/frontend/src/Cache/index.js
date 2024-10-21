@@ -44,21 +44,19 @@ export const saveTime = ({typeItem,dateNow})=>{
   localStorage.setItem('times',JSON.stringify(getTimes))
 }
 
-export const getProducts = ()=> JSON.parse( localStorage.getItem('products') ) || []
+export const getProducts = ()=> {
+  const parseJSON = JSON.parse( localStorage.getItem('products') )  
+  if(!parseJSON)return new Map()
+    
+  const mapedProducts = new Map( parseJSON )
 
-
-export const verifyAndAdd =({products,page})=>{
-  const storagedProducts = getProducts()
-  if(storagedProducts.length === 0)return storagedProducts.push({products,page})
-   
-  return storagedProducts.map((val)=>{
-    if(val.page===page)return {products,page}
-
-    return val
-  })
-
+  return mapedProducts
 }
+
+
 export const saveProducts = ({products,page})=>{
-  const storagedProducts = verifyAndAdd({products,page})
-  localStorage.setItem('products',JSON.stringify( storagedProducts))
+  const mapItems  = getProducts();
+
+  mapItems.set(`page-${page}`,products)
+  localStorage.setItem('products', JSON.stringify( [...mapItems] ) )
 } 

@@ -1,5 +1,5 @@
 import { mapExpectAll } from "../tests/fixtures"
-import { getCart, GetTimeCached, saveCart, saveTime ,cacheChangeQuantity, saveProducts} from "./index"
+import { getCart, GetTimeCached, saveCart, saveTime ,cacheChangeQuantity, saveProducts, getProducts} from "./index"
 
 
 
@@ -60,22 +60,51 @@ describe("test",()=>{
 })
 
 
-describe.only("products",()=>{
+describe("saveProducts and getProducts",()=>{
     beforeEach(()=>{
 
         localStorage.clear()
     })
-    it("test",()=>{
+    it("When inserting a new page with items into localStorage, it should save correctly.",()=>{
         const products = ["camisa","shirt","tenis"]
+   
+        saveProducts({products,page:1})
+        const getProducts1 = getProducts()
+        expect( getProducts1.get('page-1') ).toEqual(products)
+        expect( getProducts1.size ).toEqual( 1 )
+      
+    })
+    it("When a page already exists in localStorage and a new page is inserted, it should save correctly and retain the existing page.",()=>{
+        const products = ["camisa","shirt","tenis"]
+        const products1 = ["lorem","iptsu","1"]
         saveProducts({products,page:1})
 
-       // expect( JSON.parse( localStorage.getItem("products")) ).toEqual([{products,page:1}])
+   
+        const getProducts1 = getProducts()
 
-        const newProducts = ["tenis",1,"bermuda"]
-        saveProducts({products:newProducts,page:1})
-        const newCache = JSON.parse( localStorage.getItem("products") )
-        console.log( newCache )
-        expect( newCache ).toHaveLength( 1 )
-        expect( newCache ).toEqual([{products,page:1}])
+        expect( getProducts1.get('page-1') ).toEqual(products)
+        expect( getProducts1.size ).toEqual( 1 )
+        saveProducts({products:products1,page:2})
+
+        const getProducts2 = getProducts()
+        expect( getProducts2.size).toEqual(2)
+        expect( getProducts2 .get('page-1')).toEqual(products)
+        expect( getProducts2.get('page-2')).toEqual( products1 )
+    })
+    it("When inserting a new page that already exists, it should update the items on that page.",()=>{
+        const products = ["camisa","shirt","tenis"]
+        const products1 = ["lorem","iptsu","1"]
+
+        saveProducts({products,page:1})
+        const getProducts1 = getProducts()
+        expect( getProducts1.get('page-1') ).toEqual(products)
+        expect( getProducts1.size ).toEqual( 1 )
+
+        saveProducts({products:products1,page:1})
+        
+        const getProducts2 = getProducts()
+
+        expect( getProducts2.size).toEqual( 1 )
+        expect( getProducts2.get('page-1')).toEqual(products1)
     })
 })

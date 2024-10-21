@@ -126,4 +126,48 @@ flex-direction:row;
   
 `
 
-  
+export const CommentStyle = styled.div`
+background-color: #f9f9f9;
+padding: 20px;
+border-radius: 8px;
+max-width: 700px;
+margin: auto;
+
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+small {
+  font-size: 12px;
+  color: #888;
+}
+
+.no-comments {
+  font-size: 16px;
+  color: #999;
+  text-align: center;
+}
+`;
