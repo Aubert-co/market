@@ -1,9 +1,4 @@
-const v = new Map()
-
-v.set('page-1',[19.3,5,6,7,7,])
+const dates = "04/10/2020"
 
 
-v.set('page-1',[1])
-
-
-console.log(v.get("page-1"))
+console.log( new Date(dates).toLocaleDateString())

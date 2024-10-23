@@ -2,26 +2,27 @@ import React from "react";
 import { StarRating } from "./StarRating";
 import {CommentStyle} from '../../style/product'
 
-const comments = [
-  {text:"Producto Incrivel",rating:1},{text:"Produto horrivel",rating:4},{text:"Nada a reclamar",rating:5}
-]
+/*const comments = [
+  {text:"Producto Incrivel",rating:1,username:'josefa',date:'2020-04-10'},{text:"Produto horrivel",rating:4,username:'maria',date:"2021-03-07"}
+  ,{text:"Nada a reclamar",rating:5,username:'marieta',date:'2021-03-11'}
+]*/
 
-export const Comments = () => {
+export const Comments = ({comments}) => {
   return (
     <CommentStyle>
-      <h3>Comentários</h3>
+      <h3 >Comentários</h3>
     
-      <ul>
+      <ul >
         {comments && comments.length > 0 ? (
           comments.map((comment, index) => (
-            <li key={index}>
+            <li data-testid="list_comments" key={index}>
               <StarRating reviews={[{ratings:comment.rating}]}/>
               <p>{comment.text}</p>
-              <small>{new Date(comment.date).toLocaleString()}</small>
+              <small>{comment.username} {new Date(comment.date).toLocaleDateString()}</small>
             </li>
           ))
         ) : (
-          <p>Sem comentários ainda.</p>
+          <p data-testid="no_comments">Sem comentários ainda.</p>
         )}
       </ul>
     </CommentStyle>
