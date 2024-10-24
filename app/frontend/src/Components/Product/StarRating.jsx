@@ -2,7 +2,7 @@ import React from "react";
 import { FaStarHalfAlt,FaStar ,FaRegStar} from "react-icons/fa";
 
 
-const getValues = (values) => {
+const getStars = (values) => {
     if (values > 5) return 5;
     if (values < 0) return 0;
     return values;
@@ -13,7 +13,7 @@ export const StarRating = ({reviews}) => {
     
     const totally = reviews.reduce((total, review) => total + review.ratings, 0);
     const values = totally / reviews.length;
-    const totalStars = getValues(values); 
+    const totalStars = getStars(values); 
 
  
     const array = Array.from({ length: 5 }, (_, index) => {
