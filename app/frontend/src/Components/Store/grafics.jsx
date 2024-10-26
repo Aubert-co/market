@@ -4,9 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Cart
 const data = [
   { name: 'Produto A', visits: 1500 },
   { name: 'Produto B', visits: 1200 },
-  { name: 'Produto C', visits: 900 },
-  { name: 'Produto D', visits: 1300 },
-  { name: 'Produto E', visits: 600 },
+    
 ];
 
 export const MostAccessedProductsChart = () => {

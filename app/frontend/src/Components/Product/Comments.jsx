@@ -2,12 +2,12 @@ import React from "react";
 import { StarRating } from "./StarRating";
 import {CommentStyle} from '../../style/product'
 
-/*const comments = [
+const comments = [
   {text:"Producto Incrivel",rating:1,username:'josefa',date:'2020-04-10'},{text:"Produto horrivel",rating:4,username:'maria',date:"2021-03-07"}
   ,{text:"Nada a reclamar",rating:5,username:'marieta',date:'2021-03-11'}
-]*/
+]
 
-export const Comments = ({comments}) => {
+export const Comments = () => {
   return (
     <CommentStyle>
       <h3 >Comentários</h3>

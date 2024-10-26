@@ -6,9 +6,9 @@ import { StatusBox } from "../Utils"
 import { Link } from "react-router-dom";
 import { FaHome} from 'react-icons/fa';
 import { FormCreateProducr } from "./FormCreateProduct"
-import ProductTable from "../Product/tables"
-import PieGraph from "../Product/grafics_orders"
-import MostAccessedProductsChart from "../Product/grafics"
+import ProductTable from "./tables"
+import PieGraph from "./grafics_orders"
+import MostAccessedProductsChart from "./grafics"
 import { ViewItem } from "./ViewItem"
 const datas = 
     {views:1000,totally_orders:500,opened_orders:3999,closed_orders:1000,canceled_orders:5000,store_ratting:2999}
