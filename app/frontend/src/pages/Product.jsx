@@ -12,6 +12,11 @@ import { MainContainer } from "../style/product";
 import { ProductContainer } from "../Components/Product/ProductContainer";
 import { fetchData } from "../Hooks/index";
 import { Comments } from "../Components/Product/Comments";
+
+const datas = {name:'camisa azul',price:55,description:'qoweqbwehbqwjehbqwe  kquwekqbwehqw qbwekqbeb',
+        ratings:5
+    }
+
 export default function Product(){
     const {isWindowCart,setIsWindowCart} = useContext(CartWindowCtx);
     const {isWindowProfile,setIsWindowProfile} = useContext(SetttingsWindowCtx);
@@ -20,7 +25,7 @@ export default function Product(){
     const [items,setItems] = useState({datas:'',status:''});
     
     const service =async()=>{
-        return {datas:values.items[0],status:200};
+        return {datas    ,status:200};
     };
     useEffect(()=>{
      fetchData({service,setItems})

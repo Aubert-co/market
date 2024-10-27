@@ -4,9 +4,10 @@ import { MessageContext } from "../../Contexts";
 import { cacheChangeQuantity, getCart, saveCart } from "../../Cache";
 import { existValue, roundANumber } from "../Utils";
 import {QuantitySelector} from "../QuantitySelector";
-import { Comments } from "./Comments";
 
+import freteGratisImg from '../../Assets/facil.png'
 import {StarRating} from "./StarRating"
+
 export const Actions = ({quantity,datas,setMessage})=>{
  
   const addCart  =()=>{
@@ -34,8 +35,8 @@ export const Actions = ({quantity,datas,setMessage})=>{
   }
   return (
     <>
-        <button>Comprar Agora</button>
         <button data-testid="add_productCart" onClick={addCart}>Adicionar ao Carrinho</button>
+        <button>Comprar</button>
     </>
   )
 }
@@ -50,21 +51,19 @@ export const ProductContainer = ({datas})=>{
    <MainContainer>
     <div className="product-container">
       <div className="image-section">
-        <img src="url-da-imagem" alt="Nome do Produto" />
+        <img src={freteGratisImg} alt="Nome do Produto" />
       </div>
 
       <div className="info-section">
-        <StarRating/>
-        <h1>qiwenhkjqweqwejkqejknqel</h1>
-        <p>Avalicações</p>
-        
+        <h1>{datas.name}</h1>
+        <StarRating reviews={[{ratings: datas.ratings}]}/> 
         <p>oqnwekbqwekjbqehjbqwehbqwjhebvqwjhyeqwyjegqiwehqileljqwnekhqwbvejhq  ejq 
           qwjelqeuqhwekuqhekuq  keqkeuk
         </p>
       </div>
       
       <div className="purchase-section">
-        <p className="price">Total R${finalPrice}</p>
+        <p className="price">R${finalPrice}</p>
 
         <div className="quantity-control">
             <QuantitySelector limit={5} quantity={quantity} setQuantity={setQuantity} />

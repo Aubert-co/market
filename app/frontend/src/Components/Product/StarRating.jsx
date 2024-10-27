@@ -42,5 +42,5 @@ export const StarRating = ({reviews}) => {
         
     });
 
-    return <>{array}</>;
+    return <div className="stars">{array}</div>
 };

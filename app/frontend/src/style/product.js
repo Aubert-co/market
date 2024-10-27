@@ -7,35 +7,42 @@ export const MainContainer = styled.div`
   justify-content: center;
   padding: 20px;
   background-color: #f5f5f5;
-    width:100%;
-    margin-top:5%;
+  width:100%;
+  margin-top:5%;
 
-.product-container {
-  display: flex;
-  flex-direction: row; 
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  height:500px;
-}
-
-.image-section {
-  background-color:red;
-  display: flex;
-  justify-content: center;
-  width:40%;
-}
-
+  .product-container {
+    display: flex;
+    flex-direction: row; 
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height:auto;
+    min-height:400px;
+  }
+  
+  .image-section {
+    display: flex;
+    justify-content: center;
+    width:40%;
+    align-items:center;
+    
+  }
+    
 .image-section img {
-  max-width: 100%;
+  width: 100%;
+  max-width: 90vw;  /* Adapta a largura ao viewport para telas grandes */
   height: auto;
+  max-height: 70vh;  /* Limita a altura para caber bem em qualquer tela */
+  object-fit: contain; /* Mantém a proporção sem cortar partes da imagem */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
  
 }
 
 .info-section {
   width:40%;
-  max-width:40%;
+
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -65,10 +72,7 @@ export const MainContainer = styled.div`
 
 .price {
   font-size: 28px;
-  margin-bottom: 10px;
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  padding: 15%;
-  border-radius: 16px;
+ 
 }
 
 .quantity-control {
@@ -123,6 +127,28 @@ flex-direction:row;
 .actions button:first-of-type:hover {
   background-color: #218838; /* Cor de hover para 'Comprar Agora' */
 }
+ @media (max-width: 1024px) {
+  .product-container{
+    display:flex;
+    flex-direction:column;
+    
+    height:auto;
+  }
+  .info-section{
+    display:flex;
+    flex-direction:column;
+    width:100%;
+   
+    max-width:100%;
+  }
+  .image-section{
+    width:100%;
+    height:100%;
+  }
+    .image-section img {
+      heigth:200px;
+    }
+ }
   
 `
 
