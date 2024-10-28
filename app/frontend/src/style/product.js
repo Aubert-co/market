@@ -19,6 +19,7 @@ export const MainContainer = styled.div`
     width: 100%;
     height:auto;
     min-height:400px;
+    justify-content: space-between; 
   }
   
   .image-section {
@@ -30,13 +31,12 @@ export const MainContainer = styled.div`
   }
     
 .image-section img {
-  width: 100%;
+  width: 90%;
   max-width: 90vw;  /* Adapta a largura ao viewport para telas grandes */
   height: auto;
   max-height: 70vh;  /* Limita a altura para caber bem em qualquer tela */
   object-fit: contain; /* Mantém a proporção sem cortar partes da imagem */
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
  
 }
 
@@ -55,11 +55,15 @@ export const MainContainer = styled.div`
 }
 
 .info-section p {
-  font-size: 16px;
+  font-size: 14px;            /* Reduz ligeiramente o tamanho da fonte */
   color: #666;
-   word-wrap: break-word; 
-  overflow-wrap: break-word; 
+  line-height: 1.5;           /* Aumenta o espaçamento entre linhas */
+  text-align: justify;        /* Justifica o texto para melhor alinhamento */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin-top: 10px;           /* Adiciona um leve espaçamento superior */
 }
+
 
 .purchase-section {
 

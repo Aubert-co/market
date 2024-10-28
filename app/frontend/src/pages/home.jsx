@@ -49,7 +49,7 @@ export default function Home(){
                     </PromoContainer>
    
                     <ProductSection data-testid="product_section">
-                        <BoxItems currentPage={currentPage} searchParams={searchParams} service={service}/>
+                        <BoxItems typeComponent={"product"} currentPage={currentPage} searchParams={searchParams} service={service}/>
                     </ProductSection>
                     <Pagination data-testid="pagination" currentPage={currentPage} totalPages={10} onPageChange={handlePageChange}/>
                 </Main>

@@ -4,7 +4,7 @@ import { TopBar } from "../Components/Header/TopBar";
 import {   CartWindowCtx,SetttingsWindowCtx} from "../Contexts";
 import { BoxMessage } from "../Components/BoxMessage";
 import {  serviceGetProduct } from "../services";
-import *as values from '../tests/fixtures';
+
 import { CartWindow } from "../Components/Aside/CartWindow";
 import { SettingsWindow } from "../Components/Aside/SettingsWindow";
 import { useParams } from "react-router-dom";
@@ -13,13 +13,17 @@ import { ProductContainer } from "../Components/Product/ProductContainer";
 import { fetchData } from "../Hooks/index";
 import { Comments } from "../Components/Product/Comments";
 
-const datas = {name:'camisa azul',price:55,description:'qoweqbwehbqwjehbqwe  kquwekqbwehqw qbwekqbeb',
+
+import { RecommendedProducts } from "../Components/Product/RecommendedProducts";
+
+const datas = {name:'camisa azul',price:55,description:` t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).`,
         ratings:5
     }
 
 export default function Product(){
     const {isWindowCart,setIsWindowCart} = useContext(CartWindowCtx);
     const {isWindowProfile,setIsWindowProfile} = useContext(SetttingsWindowCtx);
+    
    
     const {id} = useParams()
     const [items,setItems] = useState({datas:'',status:''});
@@ -42,8 +46,10 @@ export default function Product(){
                 </Aside>
           
                 <Main>
-                   <ProductContainer datas={items.datas}/>
-                   <Comments/>
+                    <ProductContainer datas={items.datas}/>
+                    <RecommendedProducts/>
+                    <Comments/>
+                    <RecommendedProducts/>
                 </Main>
 
                 <Aside2>

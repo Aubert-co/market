@@ -57,9 +57,7 @@ export const ProductContainer = ({datas})=>{
       <div className="info-section">
         <h1>{datas.name}</h1>
         <StarRating reviews={[{ratings: datas.ratings}]}/> 
-        <p>oqnwekbqwekjbqehjbqwehbqwjhebvqwjhyeqwyjegqiwehqileljqwnekhqwbvejhq  ejq 
-          qwjelqeuqhwekuqhekuq  keqkeuk
-        </p>
+        <p>{datas.description}</p>
       </div>
       
       <div className="purchase-section">

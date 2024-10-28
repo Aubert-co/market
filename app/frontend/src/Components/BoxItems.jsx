@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 
 const IsLoading = ()=><h1 data-testid="loading">carregando...</h1>;
 
-export const BoxItems = ({searchParams,typeComponent,service,currentPage})=>{
+export const BoxItems = ({searchParams,service,currentPage})=>{
     const [items, setItems] = useState({ datas: 'carregando', status:''});
     const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ export const BoxItems = ({searchParams,typeComponent,service,currentPage})=>{
     return (
      <div className="product-container">   {items.datas === 'carregando' ?
         <IsLoading/>: 
-        <ListItems datas={items.datas} typeComponent={typeComponent} redirectToProduct={redirectToProduct}/>}
+        <ListItems datas={items.datas} typeComponent={'product'} redirectToProduct={redirectToProduct}/>}
     </div>
     );
 };
