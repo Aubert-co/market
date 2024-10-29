@@ -32,10 +32,10 @@ export const MainContainer = styled.div`
     
 .image-section img {
   width: 90%;
-  max-width: 90vw;  /* Adapta a largura ao viewport para telas grandes */
+  max-width: 90vw; 
   height: auto;
-  max-height: 70vh;  /* Limita a altura para caber bem em qualquer tela */
-  object-fit: contain; /* Mantém a proporção sem cortar partes da imagem */
+  max-height: 70vh;  
+  object-fit: contain; 
   border-radius: 8px;
  
 }
@@ -55,13 +55,13 @@ export const MainContainer = styled.div`
 }
 
 .info-section p {
-  font-size: 14px;            /* Reduz ligeiramente o tamanho da fonte */
+  font-size: 14px;           
   color: #666;
-  line-height: 1.5;           /* Aumenta o espaçamento entre linhas */
-  text-align: justify;        /* Justifica o texto para melhor alinhamento */
+  line-height: 1.5;           
+  text-align: justify;      
   word-wrap: break-word;
   overflow-wrap: break-word;
-  margin-top: 10px;           /* Adiciona um leve espaçamento superior */
+  margin-top: 10px;         
 }
 
 
@@ -155,7 +155,25 @@ flex-direction:row;
  }
   
 `
+export const ContainerInfo = styled.div` 
+  display: flex;
+  
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+ 
+  
 
+`
+export const StyleH3 = styled.h3` 
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  margin-top:2%;
+`
 export const CommentStyle = styled.div`
 background-color: #f9f9f9;
 padding: 20px;
@@ -163,13 +181,9 @@ border-radius: 8px;
 max-width: 700px;
 margin: auto;
 
-h3 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
-  text-align: center;
-}
+ background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
 ul {
   list-style-type: none;

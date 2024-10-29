@@ -47,9 +47,9 @@ export default function Product(){
           
                 <Main>
                     <ProductContainer datas={items.datas}/>
-                    <RecommendedProducts/>
+                    <RecommendedProducts text={"Produtos recomendados"}/>
                     <Comments/>
-                    <RecommendedProducts/>
+                    <RecommendedProducts text={"Produtos mais vistos"}/>
                 </Main>
 
                 <Aside2>
