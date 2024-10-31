@@ -1,19 +1,44 @@
-import React from "react";
-import {  render,screen } from "@testing-library/react";
+import React, { act } from "react";
+import {  render,screen, waitFor } from "@testing-library/react";
 import '@testing-library/jest-dom';
 import { RecommendedProducts } from "../../Components/Product/RecommendedProducts";
 import { Router} from 'react-router-dom'
 import { createMemoryHistory } from "history";
+import { items } from "../fixtures";
 
 
 describe("RecommendedProdutcts",()=>{
-    it("Should render the items correcly",()=>{
+    it("Should render the items correcly",async ()=>{
         const history = createMemoryHistory();
-         render(  
+        const serviceGet = jest.fn().mockReturnValue({status:201,datas:items})
+       render(  
              <Router location={history.location} navigator={history}>
-                <RecommendedProducts text={"Os Produtos mais vistos"}/>
+                <RecommendedProducts service={serviceGet} text={"Os Produtos mais vistos"}/>
             </Router>
-        )
-        expect(screen.queryByTestId("styled_h3")).toEqual("Os Produtos mais vistos")
+        ) 
+        
+       await waitFor(()=>{
+        expect(screen.queryByTestId("styled_h3").textContent).toEqual("Os Produtos mais vistos")
+  
+        expect(serviceGet).toHaveBeenCalledTimes(1)
+        expect( screen.queryByTestId("product-container")).toBeInTheDocument()
+       })
+    })
+    it("Should render the items correcly",async ()=>{
+        const history = createMemoryHistory();
+        const serviceGet = jest.fn().mockReturnValue({status:201,datas:[]})
+       render(  
+             <Router location={history.location} navigator={history}>
+                <RecommendedProducts service={serviceGet} text={"Os Produtos mais vistos"}/>
+            </Router>
+        ) 
+        
+       await waitFor(()=>{
+        expect(screen.queryByTestId("styled_h3").textContent).toEqual("Os Produtos mais vistos")
+  
+        expect(serviceGet).toHaveBeenCalledTimes(1)
+        expect( screen.queryByTestId("item")).not.toBeInTheDocument()
+        expect( screen.queryByTestId("product-container")).toBeInTheDocument()
+       })
     })
 })

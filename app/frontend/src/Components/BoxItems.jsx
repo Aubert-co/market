@@ -19,9 +19,10 @@ export const BoxItems = ({searchParams,service,currentPage})=>{
     }, [searchParams,currentPage]);
     
     if(items.status !== '' && items.status >201 ) return <h1 data-testid="error">Não encontrado!</h1>;
-    
+    if(Array.isArray(items.datas) && items.datas.length <0)return 
     return (
-     <div className="product-container">   {items.datas === 'carregando' ?
+     <div className="product-container" data-testid="product-container">  
+      {items.datas === 'carregando' ?
         <IsLoading/>: 
         <ListItems datas={items.datas} typeComponent={'product'} redirectToProduct={redirectToProduct}/>}
     </div>
