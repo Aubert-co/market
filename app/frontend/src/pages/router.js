@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import { Route, BrowserRouter as Router ,Routes  } from "react-router-dom";
+import { Route, BrowserRouter as Router ,Routes ,Navigate } from "react-router-dom";
 import  Home  from "./home";
 import { Login } from "./login";
 import {  CartWindowCtx, SearchContext, SetttingsWindowCtx ,MessageContext} from "../Contexts";
@@ -7,6 +7,7 @@ import { Register } from "./register";
 import {GlobalStyles} from '../style/index'
 import { Store } from "./store";
 import Product from "./Product";
+
 const DEFAULT_MESSAGE = {content:'',type:''};
 const DEFAULT_SEARCH= {name:'',lowPrice:0,highPrice:1000};
 export const App = () => {
@@ -22,6 +23,8 @@ export const App = () => {
       <GlobalStyles/>
       <Router >
           <Routes >
+              <Route path="/" element={<Navigate to={"/index/pages"} />}/>
+              <Route path="/index" element={<Navigate to="/index/pages"/>} />
               <Route path="/index/pages" element={<Home />} />
               <Route path="/store"  element={<Store/>}/>
               <Route path="/login" element={<Login/>}/>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState ,useRef} from "react";
 import { ProductSection } from "../../style";
 import *as values from '../../tests/fixtures';
 import { BoxItems } from "../BoxItems";
@@ -8,13 +8,12 @@ import { fetchData } from "../../Hooks";
 
 
 export const RecommendedProducts = ({text,service})=>{
-   
+    
     return (
         <>
-        <ProductSection>
-        <StyleH3 data-testid="styled_h3">{text}</StyleH3>
-            <BoxItems searchParams={null} currentPage={null} service={service}></BoxItems>
-        </ProductSection>       
+            <ProductSection>
+                <BoxItems TextRecommended={text} searchParams={null} currentPage={null} service={service}></BoxItems>
+            </ProductSection>       
         </>
     )   
 }

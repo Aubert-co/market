@@ -1,11 +1,15 @@
 import React,{useEffect} from "react";
 
 
-export const fetchData = async ({body,setItems,service}) => {
-   
-    const {datas,status} = await service({ body })
-    setItems({datas,status})
-    return null
+export const fetchData = async ({ body, setItems, service }) => {
+  try {
+    const params = body ? { body } : undefined; 
+    const { datas, status } = await service(params);
+    
+    setItems({ datas, status });
+  } catch (error) {
+    setItems({ datas: [], status: 500 });
+  }
 };
 
 

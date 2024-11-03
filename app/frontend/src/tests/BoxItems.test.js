@@ -35,7 +35,7 @@ describe("BoxItems",()=>{
 
         expect(loading.textContent).toEqual('carregando...')
         expect(serviceGet).toHaveBeenCalledTimes(1)
-     
+        expect( serviceGet ).toHaveBeenCalledWith( {body:searchParams} )
    
     await waitFor(()=>{
         const name_ = screen.getAllByTestId('item_name')
@@ -43,7 +43,7 @@ describe("BoxItems",()=>{
         const img_ = screen.getAllByTestId('item_img')
         const product = screen.queryAllByTestId('item')
         const btn_action = screen.queryByTestId('btn_action')
-
+        expect(screen.queryByTestId("text_item")).not.toBeInTheDocument()
         expect(btn_action).not.toBeInTheDocument()
         items.map(({name,price,imgPath},ind)=>{
             expect(name_[ind].textContent).toEqual(name)
@@ -54,9 +54,6 @@ describe("BoxItems",()=>{
         expect(history.location.pathname).toEqual(`/product/${items[0].id}`)
     
     })
-        
-       
- 
         
     })
     it("When requisicion is not ok should return an error",async()=>{
@@ -74,15 +71,66 @@ describe("BoxItems",()=>{
         const loading = screen.getByTestId('loading')
 
         expect(loading.textContent).toEqual('carregando...')
+        expect( serviceGet ).toHaveBeenCalledWith( {body:searchParams} )
         await waitFor(()=>{
             const error = screen.getByTestId('error')
             const btn_action = screen.queryByTestId('btn_action')
-
+            expect(screen.queryByTestId("text_item")).not.toBeInTheDocument()
             expect(btn_action).not.toBeInTheDocument()
             expect( screen.queryByTestId("btn_action") ).not.toBeInTheDocument()
             expect(screen.queryByTestId('item')).not.toBeInTheDocument()
-            expect(error.textContent).toEqual('Não encontrado!')
+            expect(error.textContent).toEqual('Algo deu errado!')
         })
         
     })
+    it("When requisicion is ok but the array is empty should not render the items",async()=>{
+        
+        const serviceGet = jest.fn().mockReturnValue({status:201,datas:[]})
+        const searchParams = {price:32}
+        const history = createMemoryHistory();
+        render(
+            <Router location={history.location} navigator={history}>
+                <MessageContext.Provider value={DEFAULT_MESSAGE}>
+                    <BoxItems searchParams={searchParams} service={serviceGet}/>
+                </MessageContext.Provider>
+            </Router>
+        )
+        const loading = screen.getByTestId('loading')
+
+        expect(loading.textContent).toEqual('carregando...')
+        await waitFor(()=>{
+            expect(screen.queryByTestId("text_item")).not.toBeInTheDocument()
+            expect( screen.queryByTestId("item")).not.toBeInTheDocument()
+            expect( screen.queryByTestId("no_data")).toBeInTheDocument()
+        })
+        
+    })
+    it("When not send searchParams",async()=>{
+    
+        const serviceGet = jest.fn().mockReturnValue({status:500,datas:items})
+      
+        const history = createMemoryHistory();
+        render(
+            <Router location={history.location} navigator={history}>
+                <MessageContext.Provider value={DEFAULT_MESSAGE}>
+                    <BoxItems searchParams={null} service={serviceGet}/>
+                </MessageContext.Provider>
+            </Router>
+        )
+        const loading = screen.getByTestId('loading')
+    
+        expect(loading.textContent).toEqual('carregando...')
+        expect( serviceGet ).toHaveBeenCalledWith( undefined )
+        await waitFor(()=>{
+            const error = screen.getByTestId('error')
+            const btn_action = screen.queryByTestId('btn_action')
+            expect(screen.queryByTestId("text_item")).not.toBeInTheDocument()
+            expect(btn_action).not.toBeInTheDocument()
+            expect( screen.queryByTestId("btn_action") ).not.toBeInTheDocument()
+            expect(screen.queryByTestId('item')).not.toBeInTheDocument()
+            expect(error.textContent).toEqual('Algo deu errado!')
+        })
+        
+    })
+    
 })

@@ -24,7 +24,7 @@ describe("RecommendedProdutcts",()=>{
         expect( screen.queryByTestId("product-container")).toBeInTheDocument()
        })
     })
-    it("Should render the items correcly",async ()=>{
+    it("When the service no return empty datas should not render the items",async ()=>{
         const history = createMemoryHistory();
         const serviceGet = jest.fn().mockReturnValue({status:201,datas:[]})
        render(  
@@ -41,4 +41,5 @@ describe("RecommendedProdutcts",()=>{
         expect( screen.queryByTestId("product-container")).toBeInTheDocument()
        })
     })
+   
 })

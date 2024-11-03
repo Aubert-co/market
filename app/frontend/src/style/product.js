@@ -153,7 +153,7 @@ flex-direction:row;
       heigth:200px;
     }
  }
-  
+
 `
 export const ContainerInfo = styled.div` 
   display: flex;
