@@ -6,7 +6,7 @@ import { StyleH3 } from "../style/product";
 
 const IsLoading = ()=><h1 data-testid="loading">carregando...</h1>;
 
-export const BoxItems = ({searchParams,service,currentPage,TextRecommended})=>{
+export const BoxItems = ({searchParams,service,currentPage,text})=>{
     const [items, setItems] = useState({ datas: 'carregando', status:''});
     const navigate = useNavigate();
 
@@ -23,13 +23,13 @@ export const BoxItems = ({searchParams,service,currentPage,TextRecommended})=>{
     
     return (
       <>
-      {Array.isArray(items.datas) && items.datas.length !==0 && TextRecommended ?
-        <StyleH3 data-testid="text_item">{TextRecommended}</StyleH3>:""
+      {Array.isArray(items.datas) && items.datas.length !==0 && text ?
+        <StyleH3 data-testid="text_item">{text}</StyleH3>:""
       }
       <div className="product-container" data-testid="product-container">  
         {items.datas === 'carregando' ? (
           <IsLoading />
-        ) : Array.isArray(items.datas) && items.datas.length === 0 && !TextRecommended ? ( 
+        ) : Array.isArray(items.datas) && items.datas.length === 0 && !text ? ( 
           <p  className="no_data" data-testid="no_data">Nenhum dado disponível.</p>
         ) : (
           <ListItems datas={items.datas} typeComponent={'product'} redirectToProduct={redirectToProduct} />

@@ -19,7 +19,7 @@ describe("BoxItems",()=>{
             setMessageParams:jest.fn()
         }
     }) 
-    it("When requisicion is ok should render the items",async()=>{
+    it("When the request is successful, it should render the items.",async()=>{
 
         const serviceGet = jest.fn().mockReturnValue({status:201,datas:items})
         const searchParams = {price:32}
@@ -45,6 +45,7 @@ describe("BoxItems",()=>{
         const btn_action = screen.queryByTestId('btn_action')
         expect(screen.queryByTestId("text_item")).not.toBeInTheDocument()
         expect(btn_action).not.toBeInTheDocument()
+        expect( screen.queryByTestId("text_item") ).not.toBeInTheDocument()
         items.map(({name,price,imgPath},ind)=>{
             expect(name_[ind].textContent).toEqual(name)
             expect(price_[ind].textContent).toEqual(price.toString())
@@ -78,12 +79,13 @@ describe("BoxItems",()=>{
             expect(screen.queryByTestId("text_item")).not.toBeInTheDocument()
             expect(btn_action).not.toBeInTheDocument()
             expect( screen.queryByTestId("btn_action") ).not.toBeInTheDocument()
-            expect(screen.queryByTestId('item')).not.toBeInTheDocument()
+            expect(screen.queryAllByTestId('item')).toEqual( [] )
             expect(error.textContent).toEqual('Algo deu errado!')
+            expect( screen.queryByTestId("text_item") ).not.toBeInTheDocument()
         })
         
     })
-    it("When requisicion is ok but the array is empty should not render the items",async()=>{
+    it("When the request is successful but the array is empty, it should not render the items.",async()=>{
         
         const serviceGet = jest.fn().mockReturnValue({status:201,datas:[]})
         const searchParams = {price:32}
@@ -100,20 +102,21 @@ describe("BoxItems",()=>{
         expect(loading.textContent).toEqual('carregando...')
         await waitFor(()=>{
             expect(screen.queryByTestId("text_item")).not.toBeInTheDocument()
-            expect( screen.queryByTestId("item")).not.toBeInTheDocument()
+            expect(screen.queryAllByTestId('item')).toEqual( [] )
             expect( screen.queryByTestId("no_data")).toBeInTheDocument()
+            expect( screen.queryByTestId("text_item") ).not.toBeInTheDocument()
         })
         
     })
-    it("When not send searchParams",async()=>{
+    it("When searchParams are not provided.",async()=>{
     
-        const serviceGet = jest.fn().mockReturnValue({status:500,datas:items})
+        const serviceGet = jest.fn().mockReturnValue({status:200,datas:items})
       
         const history = createMemoryHistory();
         render(
             <Router location={history.location} navigator={history}>
                 <MessageContext.Provider value={DEFAULT_MESSAGE}>
-                    <BoxItems searchParams={null} service={serviceGet}/>
+                    <BoxItems currentPage={null} searchParams={null} service={serviceGet}/>
                 </MessageContext.Provider>
             </Router>
         )
@@ -122,15 +125,71 @@ describe("BoxItems",()=>{
         expect(loading.textContent).toEqual('carregando...')
         expect( serviceGet ).toHaveBeenCalledWith( undefined )
         await waitFor(()=>{
-            const error = screen.getByTestId('error')
+            const error = screen.queryByTestId('error')
             const btn_action = screen.queryByTestId('btn_action')
             expect(screen.queryByTestId("text_item")).not.toBeInTheDocument()
             expect(btn_action).not.toBeInTheDocument()
             expect( screen.queryByTestId("btn_action") ).not.toBeInTheDocument()
-            expect(screen.queryByTestId('item')).not.toBeInTheDocument()
-            expect(error.textContent).toEqual('Algo deu errado!')
+            expect(screen.queryAllByTestId('item')).toEqual( [] )
+            expect(error).not.toBeInTheDocument()
         })
         
     })
+    it("When 'text' is provided.",async()=>{
     
+        const serviceGet = jest.fn().mockReturnValue({status:200,datas:items})
+      
+        const history = createMemoryHistory();
+        const text = "texto recomended"
+        render(
+            <Router location={history.location} navigator={history}>
+                <MessageContext.Provider value={DEFAULT_MESSAGE}>
+                    <BoxItems text={text} currentPage={null} searchParams={null} service={serviceGet}/>
+                </MessageContext.Provider>
+            </Router>
+        )
+        const loading = screen.getByTestId('loading')
+    
+        expect(loading.textContent).toEqual('carregando...')
+        expect( serviceGet ).toHaveBeenCalledWith( undefined )
+        await waitFor(()=>{
+            const error = screen.queryByTestId('error')
+            const btn_action = screen.queryByTestId('btn_action')
+            expect(screen.queryByTestId("text_item")).toBeInTheDocument()
+            expect(btn_action).not.toBeInTheDocument()
+            expect( screen.queryByTestId("btn_action") ).not.toBeInTheDocument()
+            expect(screen.queryAllByTestId('item')).toHaveLength( items.length )
+            expect(error).not.toBeInTheDocument()
+        })
+        
+    })
+    it("When 'text' is provided but the request results in an error.",async()=>{
+    
+        const serviceGet = jest.fn().mockRejectedValue()
+      
+        const history = createMemoryHistory();
+        const text = "texto recomended"
+        render(
+            <Router location={history.location} navigator={history}>
+                <MessageContext.Provider value={DEFAULT_MESSAGE}>
+                    <BoxItems text={text} currentPage={null} searchParams={null} service={serviceGet}/>
+                </MessageContext.Provider>
+            </Router>
+        )
+        const loading = screen.getByTestId('loading')
+    
+        expect(loading.textContent).toEqual('carregando...')
+        expect( serviceGet ).toHaveBeenCalledWith( undefined )
+        await waitFor(()=>{
+            const error = screen.queryByTestId('error')
+            const btn_action = screen.queryByTestId('btn_action')
+            expect(screen.queryByTestId("text_item")).not.toBeInTheDocument()
+            expect(btn_action).not.toBeInTheDocument()
+            expect( screen.queryByTestId("btn_action") ).not.toBeInTheDocument()
+            expect(screen.queryAllByTestId('item')).toEqual( [] )
+            expect(error).toBeInTheDocument()
+          
+        })
+        
+    })
 })

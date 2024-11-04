@@ -12,7 +12,7 @@ describe('usefetchData', () => {
       useState: (initialState) => [initialState, mockSetState],
 }));
   })
-  it('should fetch and update data', async () => {
+  it("Should correctly fetch and update the data.", async () => {
     const body ={product_id:37,name:'lucas'}
     const mockService = jest.fn().mockReturnValue({datas:'value',status:200})
     const {rerender} = renderHook(() =>
@@ -27,7 +27,7 @@ describe('usefetchData', () => {
    
 
   });
-  it('When no send body should not pass it to service', async () => {
+  it("When body is not provided, it should not be passed to the service.", async () => {
     const body ={product_id:37,name:'lucas'}
     const mockService = jest.fn().mockReturnValue({datas:'value',status:200})
     const {rerender} = renderHook(() =>
@@ -42,17 +42,17 @@ describe('usefetchData', () => {
    
 
   });
-  it('When no send body should not pass it to service', async () => {
+  it("When the service throws an error, it should return a 500 status and an empty array.", async () => {
     const body ={product_id:37,name:'lucas'}
-    const mockService = jest.fn().mockReturnValue({datas:'value',status:500})
+    const mockService = jest.fn().mockRejectedValue()
     const {rerender} = renderHook(() =>
-      fetchData({service:mockService,setItems:mockSetState})
+      fetchData({body,service:mockService,setItems:mockSetState})
     );
     await waitFor(() => {
       expect(mockSetState).toHaveBeenCalledTimes(1)
       expect(mockSetState).toHaveBeenCalledWith({datas:[],status:500})
       expect(mockService).toHaveBeenCalledTimes(1)
-      expect(mockService).toHaveBeenCalledWith( undefined )
+      expect(mockService).toHaveBeenCalledWith( {body} )
     });
    
 

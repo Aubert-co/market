@@ -27,6 +27,7 @@ export default function Home(){
   
    
     const service =async()=>{
+       
         return {datas:items,status:200};
     };
     const handlePageChange = (page) => {
@@ -49,7 +50,7 @@ export default function Home(){
                     </PromoContainer>
    
                     <ProductSection data-testid="product_section">
-                        <BoxItems typeComponent={"product"} currentPage={currentPage} searchParams={searchParams} service={service}/>
+                        <BoxItems currentPage={currentPage} searchParams={searchParams} service={service}/>
                     </ProductSection>
                     <Pagination data-testid="pagination" currentPage={currentPage} totalPages={10} onPageChange={handlePageChange}/>
                 </Main>
