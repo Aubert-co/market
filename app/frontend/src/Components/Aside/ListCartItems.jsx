@@ -2,6 +2,7 @@ import React,{useState} from "react";
 import { ListItems } from "../ListItems";
 import { ClearAllCart } from "../../Cache";
 import { changeDisplayToNone, getTotally } from "../Utils";
+import styled from "styled-components";
 
 
 export const CleanALlCart = ({setTottaly,datas})=>{
@@ -14,6 +15,14 @@ export const CleanALlCart = ({setTottaly,datas})=>{
     }
     return <button data-testid="cleanAll_cart" onClick={clean}>Limpar carrinho</button>
 }
+const CartStyle = styled.div`
+ 
+`;
+
+
+
+
+
 export const ListCartItems = ({datas,status})=>{
     const [changeTotally,setTottaly] = useState([])
     
@@ -30,7 +39,8 @@ export const ListCartItems = ({datas,status})=>{
     
    
     return (
-      <div className="list_cart" data-testid="list_items">
+    
+      <CartStyle className="list_cart" data-testid="list_items">
         <ListItems typeComponent={'Cart'} datas={datas} setTottaly={setTottaly}/>
         {totally !== 0 ? (
           <div data-testid="cart_actions">
@@ -39,6 +49,7 @@ export const ListCartItems = ({datas,status})=>{
             <button>Finalizar Compra</button>
           </div>
         ): <h1 data-testid="msg_add_cart">Adicione items ao seu carrinho</h1>}
-      </div>
+      </CartStyle>
+   
     )
   }

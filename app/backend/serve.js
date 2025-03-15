@@ -16,7 +16,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(route)
 
 
-app.listen(8080,()=>console.log('rodando'))
+//app.listen(8080,()=>console.log('rodando'))
 
 
-//module.exports = app
+module.exports = app

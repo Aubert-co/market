@@ -83,10 +83,10 @@ export const serviceRegister = async({name,password})=>{
             body:JSON.stringify({name,password}),
             headers
         })
+        if(!response.ok)throw new Error();
         const {message} = await response.json()
         return {status:response.status,message} 
     }catch(err){
-
         return {message:'Algo deu errado!',status:500}
     }
 }
