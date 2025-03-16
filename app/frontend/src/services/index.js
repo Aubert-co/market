@@ -96,6 +96,7 @@ export const serviceRegister = async({name,password})=>{
 
 export const serviceGetProduct = async({product_id})=>{
     try{
+        console.log( product_id)
         if(!product_id || typeof product_id !=='number')return {datas:[],status:401}
         
              

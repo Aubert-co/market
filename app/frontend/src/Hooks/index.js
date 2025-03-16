@@ -3,6 +3,7 @@ import React,{useEffect} from "react";
 
 export const fetchData = async ({ body, setItems, service }) => {
   try {
+  
     const params = body ? { body } : undefined; 
     const { datas, status } = await service(params);
     

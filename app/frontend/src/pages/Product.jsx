@@ -36,8 +36,9 @@ export default function Product(){
         return {datas:newItesm,status:200};
     };
     useEffect(()=>{
-     fetchData({service,setItems})
-    },[])
+     fetchData({service:serviceGetProduct,setItems,body:id})
+ 
+    },[id])
 
     return (
         <Container>

@@ -34,7 +34,7 @@ export const CartActions = ({quantity,id,price,setTottaly})=>{
   }, [stateQuantity]); 
     return(
       <>
-       <QuantitySelector id={id} quantity={stateQuantity} setQuantity={setQuantity}/>
+       <QuantitySelector limit={10} id={id} quantity={stateQuantity} setQuantity={setQuantity}/>
        <p className="total" data-testid="cart_total">
         R${roundPrice}
        </p>
