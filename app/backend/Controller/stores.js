@@ -121,7 +121,7 @@ route
   
     const {name,category,description,price,store_id,product_id,quantity} =req.body
   
-   
+  
     try{
         const valuesToUpdate = updateWhere({name,category,description,price,quantity})
         

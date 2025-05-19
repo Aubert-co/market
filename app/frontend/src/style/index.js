@@ -291,7 +291,7 @@ grid-area:aside2;
   top: 100px;
   right: 20px; 
   width: auto; 
-  height: auto; 
+  height: 80%; 
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
@@ -443,10 +443,14 @@ input[type="number"] {
   background: #b71c1c;
 }
 .cart_finish{
-display:flex;
-flex-direction:column;
-align-items:center;
-text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.btn_finish{
+  width: 30%;
+    margin: 1%;
 }
 `
 

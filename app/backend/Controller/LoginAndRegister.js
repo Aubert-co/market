@@ -1,7 +1,7 @@
 const route = require('express').Router()
 const {Person} = require('../models/index')
 const bcrypt = require("bcrypt")
-
+const {isStringLengthAtLeast4} = require('../helpers/index')
 const jwt = require('jsonwebtoken')
 
 require('dotenv').config()
@@ -35,11 +35,15 @@ route
 .post('/register',async(req,res)=>{
     const {name,password} = req.body
     
-    if( !name || ! password )return res.status( 400 ).send({message:'Missing fields'})
+
+    if ( !isStringLengthAtLeast4(name) && !isStringLengthAtLeast4(password)) {
+        return res.status(400).send({ message: "Invalid username or password." });
+    }
+
     try{
         const nameCheck = await Person.findAll({where:{name}})
         
-        if (nameCheck.length > 0) return res.status(404).send({ message: 'User already exists' })
+        if (nameCheck.length > 0) return res.status(409).send({ message: 'User already exists' })
 
         const hashedPassword = await bcrypt.hash(password,10)
         
@@ -47,8 +51,7 @@ route
         
         res.status(201).send({message:'sucess'})
     }catch(err){
-        console.log(err)
-        res.status(500).send({message:'Oops, something went wrong! Please try again later.'+err})
+        res.status(500).send({message:'Oops, something went wrong! Please try again later.'})
     }
 })
 

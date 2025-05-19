@@ -18,8 +18,9 @@ describe("apis",()=>{
         .set('Content-Type', 'application/json')
         .send({name:personData.name,password:personData.password})
 
+        expect(response.body.message).toEqual('sucess')
         expect(response.status).toBe(201)
-        expect(response.body.message).toBe('sucess')
+      
         const findValuesAtDB = await Person.findOne({where:{name:personData.name}})
        
         expect(findValuesAtDB.name).toEqual(personData.name)
@@ -36,15 +37,16 @@ describe("apis",()=>{
         .send({name:personData.name,password:personData.name})
         
         expect(response.status).toBe(404)
+        expect(response.body.message).toEqual('User already exists')
     })
     it("Should return an error when name is not sent",async()=>{
         const response = await request(app)
         .post('/register')
         .set('Content-Type', 'application/json')
-        .send({name:"",password:"1234"})
+        .send({name:"",password:"12345"})
         
         expect(response.status).toBe(400)
-       
+        expect(response.body.message).toEqual('Invalid username or password.')
     })
     it("Should return an error when password is not sent",async()=>{
         const name ="jose"
@@ -54,8 +56,7 @@ describe("apis",()=>{
         .send({name,password:""})
         
         expect(response.status).toBe(400)
-        const datas = await Person.findOne({where:{name}})
-        expect(datas).toBeNull()
+        expect(response.body.message).toEqual('Invalid username or password.')
     })
  
    

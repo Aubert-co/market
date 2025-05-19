@@ -284,7 +284,7 @@ describe("API /store/product",()=>{
                 .field('price',newDatas.price)
                 .field('quantity',newDatas.quantity)
                 .field("description",newDatas.description)
-
+            
             expect(response.body.message).toEqual('Sucess')
             expect(response.status).toEqual(201)
             

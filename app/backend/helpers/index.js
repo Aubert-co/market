@@ -47,8 +47,12 @@ function updateWhere(params){
     
     return newObjet
 }
+const isStringLengthAtLeast4 = (str)=>{
+   return typeof str === 'string' && str.length >= 4;
+}
 
-module.exports = {generateWhereClause,setLimit,isValidNumber,sanitizeString,updateWhere,clampToRange }
+
+module.exports = {isStringLengthAtLeast4,generateWhereClause,setLimit,isValidNumber,sanitizeString,updateWhere,clampToRange }
 
 
 
