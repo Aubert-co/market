@@ -129,3 +129,8 @@ dist
 
 
 *insert
+prisma/generated/
+.prisma/
+.prisma/
+typescript/prisma/generated/
+typescript/prisma/.prisma/
