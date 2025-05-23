@@ -15,6 +15,7 @@ Funcionalidade: Registro de novo usuário
   Cenário: Usuário tenta registrar com email inválido
     Dado que o usuário acessa a página de registro
     Quando ele preenche o campo de email com "teste"
+    E preenche o campo de nome com "Lucas"
     E preenche o campo de senha com "SenhaForte123"
     E confirma o campo de senha com "SenhaForte123"
     E envia o formulário de registro
@@ -35,3 +36,31 @@ Funcionalidade: Registro de novo usuário
     E confirma o campo de senha com "SenhaErrada123"
     E envia o formulário de registro
     Então o sistema deve exibir a mensagem "As senhas não conferem"
+
+
+Cenário: Usuário tenta registrar com nome muito curto
+  Dado que o usuário acessa a página de registro
+  Quando ele preenche o campo de nome com "Ana"
+  E preenche o campo de email com "teste@exemplo.com"
+  E preenche o campo de senha com "SenhaForte123"
+  E confirma o campo de senha com "SenhaForte123"
+  E envia o formulário de registro
+  Então o sistema deve exibir a mensagem "Digite um nome valido"
+
+Cenário: Usuário tenta registrar com nome muito longo
+  Dado que o usuário acessa a página de registro
+  Quando ele preenche o campo de nome com "NomeExtremamenteGrande123"
+  E preenche o campo de email com "teste@exemplo.com"
+  E preenche o campo de senha com "SenhaForte123"
+  E confirma o campo de senha com "SenhaForte123"
+  E envia o formulário de registro
+  Então o sistema deve exibir a mensagem "Digite um nome valido"
+
+Cenário: Usuário tenta registrar sem preencher o nome
+  Dado que o usuário acessa a página de registro
+  Quando ele não preenche o campo de nome
+  E preenche o campo de email com "teste@exemplo.com"
+  E preenche o campo de senha com "SenhaForte123"
+  E confirma o campo de senha com "SenhaForte123"
+  E envia o formulário de registro
+  Então o sistema deve exibir a mensagem "Digite um nome valido"

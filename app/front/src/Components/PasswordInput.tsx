@@ -20,7 +20,7 @@ export const PasswordInput = ({ placeholder, refPassword ,id }: Props) => {
         required
         minLength={3}
         className="input-form"
-
+        maxLength={15}
       />
       <span
         data-testid="eye"

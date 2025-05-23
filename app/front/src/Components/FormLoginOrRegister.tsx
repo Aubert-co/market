@@ -69,12 +69,13 @@ export const FormLoginOrRegister = ({submitEvent,type,formRef}:PropsForm)=>{
               autoComplete="email"/>
 
               {type === "Register" &&
-               <input id="name" ref={refUserName}
+               <input id="name" 
+                ref={refUserName}
                 type="text" 
                 className="input-form" 
                 required minLength={3} 
                 placeholder="Digite seu nome"
-                
+                maxLength={15}
                 />
                 
                 }
