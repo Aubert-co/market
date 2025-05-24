@@ -6,7 +6,7 @@ interface registerUser {
     createUserAccount(email:string,name:string,password:string) : Promise<void>,
 
 }
-class RegisterUser implements registerUser {
+export class RegisterUser implements registerUser {
     protected userRepository:IUserRepository;
     constructor( userRepository :IUserRepository){
         this.userRepository = userRepository;
