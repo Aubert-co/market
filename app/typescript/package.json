@@ -3,7 +3,7 @@
   "scripts": {
   
     
-  "dev": "node dist/serve.js",
+  "dev": "ts-node-dev --respawn --transpile-only src/serve.ts",
   
     
   "build": "tsc --project ./tsconfig.json",
@@ -25,6 +25,9 @@
   "@types/express": "^5.0.2",
   
     
+  "@types/jest": "^29.5.14",
+  
+    
   "@types/jsonwebtoken": "^9.0.9",
   
     
@@ -34,13 +37,13 @@
   "@types/supertest": "^6.0.3",
   
     
-  "@types/validator": "^13.15.0",
-  
-    
   "dotenv": "^16.5.0",
   
     
   "express": "^5.1.0",
+  
+    
+  "supertest": "^7.1.1",
   
     
   "ts-node": "^10.9.2",
@@ -62,16 +65,7 @@
   "bcrypt": "^6.0.0",
   
     
-  "mysql2": "^3.14.1",
-  
-    
   "prisma": "^6.8.2",
-  
-    
-  "reflect-metadata": "^0.2.2",
-  
-    
-  "sequelize-typescript": "^2.1.6",
   
     
   "ts-jest": "^29.3.4",

@@ -15,11 +15,14 @@ const route = Router()
 app.use(express.json())
 
 
-route.get('/register',register.handler)
-route.get('/',register.handler)
+
+
+route.post('/register',(req,res)=>register.handler(req,res))
 
 app.use( route )
 
-app.listen(8080,()=>{
+/*app.listen(8080,()=>{
     console.log('server running')
-})
+})*/
+
+export default app
