@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client"
 
 export interface IUserRepository{
     findByEmail(email:string): Promise< boolean>,
-    create(datas:{email:string,hashedPassword:string,name:string}):Promise<void>
+    create(datas:{email:string,password:string,name:string}):Promise<void>
 }
 
 
@@ -14,23 +14,23 @@ export class UserRepository implements IUserRepository {
         this.prisma = prisma
     }
     public async findByEmail(email:string):Promise< boolean >{
+    
         try{
             const user = await this.prisma.user.findUnique({
-                where:{
-                    email
-                }
+                where:{email}
             });
+      
             if(user)return true;
             return false;
         }catch(err:any){
-            throw new Error('Failed to find an user');
+            throw new Error('Failed to find an user'+err);
         }
     }
-    public async create(datas:{email: string, hashedPassword: string, name: string}): Promise<void> {
+    public async create(data:{email: string, password: string, name: string}): Promise<void> {
         try{
-            await this.prisma.user.create({datas})
+            await this.prisma.user.create({data})
         }catch(err:any){
-            throw new Error('Failed to create a new user')
+            throw new Error('Failed to create a new user'+err)
         }
     }
 }

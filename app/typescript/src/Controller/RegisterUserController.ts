@@ -24,10 +24,12 @@ export class RegisterUserController{
                 });
                 return; 
             }
-            //await this.registerUser.createUserAccount(email,name,password)
+            const { email , name , password} = req.body
+
+            await this.registerUser.createUserAccount(email,name,password)
             res.status(201).json({ message: "User created successfully" });
         }catch(error:any){
-            res.status(400).send({error:error.message})
+            res.status(400).send({message:error.message})
         }
     }
 }

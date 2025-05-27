@@ -21,9 +21,13 @@ route.get('/',(req:Request,res:Response)=>{
 
 route.post('/register',(req,res)=>register.handler(req,res))
 
+
 app.use( route )
 
-app.listen(8080,()=>{
-    console.log('server running')
-})
+if(process.env.MODE !== "test"){
+    app.listen(8080,()=>{
+        console.log('server running')
+    })
 
+}
+export default app;

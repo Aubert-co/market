@@ -15,7 +15,12 @@ services:
       - postgres_data:/var/lib/postgresql/data
     mem_limit: 256m
     cpus: 0.25
-
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"] 
+      interval: 5s     
+      timeout: 5s     
+      retries: 5       #
+      start_period: 10s 
 
 
   api:
@@ -29,11 +34,13 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: sh -c "npm start"
+    command: sh -c "npx prisma migrate deploy && npm start"
     cpus: 0.50
     mem_limit: 512m
     depends_on: 
-      - postgres
-        
+      postgres:
+        condition: service_healthy
+    environment:
+      - MODE=development
 volumes:
   postgres_data:

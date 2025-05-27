@@ -18,6 +18,6 @@ export class RegisterUser implements registerUser {
         
         const hashedPassword =  await bcrypt.hash(password,10);
 
-        await this.userRepository.create({email,name,hashedPassword});
+        await this.userRepository.create({email,name,password:hashedPassword});
     }
 }
