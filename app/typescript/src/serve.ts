@@ -16,7 +16,7 @@ app.use(express.json())
 
 
 route.get('/',(req:Request,res:Response)=>{
-    res.status(200).send('hi')
+    res.status(200).send({message:'Hello world'})
 })
 
 route.post('/register',(req,res)=>register.handler(req,res))

@@ -1,21 +1,8 @@
 import { isAValidString } from "../../Helpers";
 
 
-
-
-/*
-    {name:'jose',expected:false},
-    {name:'',expected:false},
-    {name:null,expected:false},
-    {name:undefined,expected:false},
-    {name:false,expected:false},
-    {name:'testandoleqwerdsawerve',expected:false},
-    {name:'lucas',expected:false}
-*/
-
 describe("function isAValidString",()=>{
     test("When the name is smaller than 4 or equal 4 should return false",()=>{
-        
         expect(isAValidString('jose')).toBeFalsy()
     })
     test("When the name is a empty string should return false",()=>{
