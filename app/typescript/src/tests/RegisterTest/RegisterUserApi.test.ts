@@ -57,7 +57,7 @@ describe("Api post/register When the password is invalid",()=>{
     
         expect(response.body.message).toEqual("Invalid password. Please check and try again.");
     });
-    it("When the password is shorter than 4 characters should return status 422 and an 'Invalid password...' message", async () => {
+    it("When the password is empty  should return status 422 and an 'Invalid password...' message", async () => {
         const response = await request(app)
         .post('/register')
        
@@ -67,4 +67,8 @@ describe("Api post/register When the password is invalid",()=>{
     
         expect(response.body.message).toEqual("Invalid password. Please check and try again.");
     });
+})
+
+describe("Api post/register When the email is invalid",()=>{
+    
 })
