@@ -3,10 +3,15 @@ import { RegisterUserController } from './Controller/RegisterUserController'
 import { RegisterUser } from './Model/RegisterUser'
 import { UserRepository } from './Repository/UserRepository'
 import { prisma } from './lib/prima'
+import { LoginUser } from './Model/LoginUser'
+import { LoginController } from './Controller/LoginController'
 
-const repositoryRegister = new UserRepository( prisma)
-const registerUser = new RegisterUser(repositoryRegister)
+const userRepository = new UserRepository( prisma)
+const registerUser = new RegisterUser(userRepository)
 const register =new RegisterUserController(registerUser )
+
+const loginUser = new LoginUser(userRepository)
+const login = new LoginController(loginUser)
 const app = express()
 
 
@@ -20,7 +25,7 @@ route.get('/',(req:Request,res:Response)=>{
 })
 
 route.post('/register',(req,res)=>register.handler(req,res))
-
+route.post('/login',(req,res)=>login.handler(req,res))
 
 app.use( route )
 

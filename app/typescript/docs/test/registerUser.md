@@ -5,7 +5,7 @@ Cenário: Cadastrar usuário com dados válidos (nome, email ou senha)
   E informou um nome e uma senha válidos
   E não existe um usuário com esse nome
   Então a API deve retornar o status 201
-  E uma mensagem de sucesso: "success"
+  E uma mensagem de sucesso:"User created successfully"
 
 Cenário: Tentativa de cadastro com  nome vázio
   Dado que a API de registro está disponível
@@ -44,9 +44,35 @@ Cenário: Tentativa de cadastro com senha vázia
   Então a API deve retornar o status 422 Unprocessable Entity
   E a resposta deve conter a mensagem de erro 'Invalid password. Please check and try again.'
 
+Cenário: Tentativa de cadastro com email vázio
+  Dado que a API de registro está disponível
+  Quando o usuário envia uma requisição POST para "/register" com um email igual a "".
+  Então a API deve retornar o status 422 Unprocessable Entity
+  E a resposta deve conter a mensagem de erro 'Invalid email. Please check and try again.'
+
+Cenário: Tentativa de cadastro com email inválido
+  Dado que a API de registro está disponível
+  Quando o usuário envia uma requisição POST para "/register" com um email igual a "test@gmail".
+  Então a API deve retornar o status 422 Unprocessable Entity
+  E a resposta deve conter a mensagem de erro 'Invalid email. Please check and try again.'
+
 Cenário : Usuario tenta cadastrar ,mas já existe um usuario com aquele email
   Dado que um usuário envia uma requisição para a rota POST/register
   E informou um nome e uma senha válidos
   E existe um usuário com esse nome
-  Então a API deve retornar o status 409
+  Então a API deve retornar o status 500
   E uma mensagem de erro: "User already exists"
+
+Cenário : Usuario tenta cadastrar ,mas algo da errado no banco de dados
+  Dado que um usuário envia uma requisição para a rota POST/register
+  E informou um nome,email e uma senha válidos
+  E algo da errado na hora de checar se o email já existe
+  Então a API deve retornar o status 500
+  E uma mensagem de erro: "Failed to find an user"
+
+Cenário : Usuario tenta cadastrar ,mas algo da errado no banco de dados
+  Dado que um usuário envia uma requisição para a rota POST/register
+  E informou um nome,email e uma senha válidos
+  E algo da errado na hora de criar a conta
+  Então a API deve retornar o status 500
+  E uma mensagem de erro: "Failed to create a new user"
