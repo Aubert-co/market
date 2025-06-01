@@ -3,6 +3,7 @@ import { isAValidString, isValidEmail } from "../Helpers";
 
 import {Request,Response} from 'express'
 import { LoginUser } from "../Model/LoginUser";
+import { ErrorMessage } from "../Helpers/ErrorMessage";
 
 const SECRET_KEY = process.env.JWT_KEY
 export class LoginController{
@@ -12,27 +13,26 @@ export class LoginController{
         try{
           
             if(!isAValidString(req.body.password)){
-                  res.status(422).json({ 
-                    message: 'Invalid password. Please check and try again.'
-                });
-                return; 
+                throw new ErrorMessage("Invalid password. Please check and try again.",422)
+                
             }
             if(!isValidEmail(req.body.email)){
-                res.status(422).json({ 
-                    message: 'Invalid email. Please check and try again.'
-                });
-                return; 
+                throw new ErrorMessage("Invalid email. Please check and try again.",422)
             }
             const { email  , password} = req.body
 
-            if(!SECRET_KEY)throw new Error("Something went wrong.")
+            if(!SECRET_KEY)throw new ErrorMessage("Something went wrong",500)
 
             const userId = await this.login.login(email,password)
             const token = jwt.sign({userId},SECRET_KEY)
             res.status(201).json({ message: "Login successfully" ,token});
         }catch(error:any){
-            const message = error.message || "Something went wrong."
-            res.status(500).send({message})
+            if(error instanceof ErrorMessage){
+               
+                res.status(error.status).json({message:error.message})
+                return 
+            }
+            res.status(500).json({message:'Something went wrong'})
         }
     }
 }

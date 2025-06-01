@@ -1,4 +1,5 @@
 import { isAValidString, isValidEmail } from "../Helpers";
+import { ErrorMessage } from "../Helpers/ErrorMessage";
 import { RegisterUser } from "../Model/RegisterUser";
 import {Request,Response} from 'express'
 
@@ -8,30 +9,26 @@ export class RegisterUserController{
     public async handler(req:Request,res:Response):Promise<void>{
         try{
             if(!isAValidString(req.body.name)){
-                  res.status(422).json({ 
-                    message: 'Invalid name. Please check and try again.'
-                });
-                return;
+                throw new ErrorMessage("Invalid name. Please check and try again.",422);
             }
             if(!isAValidString(req.body.password)){
-                  res.status(422).json({ 
-                    message: 'Invalid password. Please check and try again.'
-                });
-                return; 
+                throw new ErrorMessage("Invalid password. Please check and try again.",422);
             }
             if(!isValidEmail(req.body.email)){
-                res.status(422).json({ 
-                    message: 'Invalid email. Please check and try again.'
-                });
-                return; 
+                throw new ErrorMessage("Invalid email. Please check and try again.",422)
             }
             const { email , name , password} = req.body
 
             await this.registerUser.createUserAccount(email,name,password)
             res.status(201).json({ message: "User created successfully" });
         }catch(error:any){
-            const message = error.message || "Something went wrong."
-            res.status(500).send({message})
+            if (error instanceof ErrorMessage) {
+                res.status(error.status).json({ message: error.message });
+                return;
+            } 
+            
+            res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
+            
         }
     }
 }

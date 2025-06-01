@@ -95,10 +95,17 @@ describe("API POST /register: When the email is invalid",()=>{
 })
 
 describe("API POST /register: Database Operations",()=>{
-    let data = {name:'lucas',password:'1234456',email:'jose@gmail.com'}
-    
+    let data = {name:'lucas',password:'1234456',email:'joses@gmail.com'}
+     
     beforeAll(async()=>{
         try{
+             await prisma.user.deleteMany({
+                    where:{
+                        id:{
+                            gt:0
+                        }
+                    }
+            })
             await prisma.user.create({data})
         }catch(err){
             throw err
@@ -113,6 +120,7 @@ describe("API POST /register: Database Operations",()=>{
                         }
                     }
             })
+            await prisma.$disconnect();
         }catch(err){
             throw err
         }
@@ -132,7 +140,7 @@ describe("API POST /register: Database Operations",()=>{
        
         .send(data); 
         expect(response.body.message).toEqual("User already exists");
-        expect(response.statusCode).toEqual(500);
+        expect(response.statusCode).toEqual(409);
     
         
     })
@@ -150,7 +158,7 @@ describe("Api post/register: When the database throws an error",()=>{
        
         .send({name:'beste',password:'12345678',email:'lucas@gmail.com'}); 
 
-        expect(response.statusCode).toEqual(500);
+        expect(response.statusCode).toEqual(409);
     
         expect(response.body.message).toEqual("Failed to create a new user");
     })
@@ -164,7 +172,7 @@ describe("Api post/register: When the database throws an error",()=>{
        
         .send({name:'beste',password:'12345678',email:'lucas@gmail.com'}); 
 
-        expect(response.statusCode).toEqual(500);
+        expect(response.statusCode).toEqual(404);
     
         expect(response.body.message).toEqual("Failed to find an user");
     })

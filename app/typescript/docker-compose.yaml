@@ -55,8 +55,6 @@ services:
       - .:/app
       - /app/node_modules
     command: sh -c "npx prisma migrate deploy && npm test"
-    cpus: 1
-    mem_limit: 1056m
     depends_on: 
       postgres:
         condition: service_healthy

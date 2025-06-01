@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../../serve";
-
+import bcrypt from "bcrypt"
 import { prisma } from "../../lib/prima";
 
 
@@ -61,31 +61,35 @@ describe("API POST /login: When the email is invalid",()=>{
 
 
 describe("API POST /login: Database Operations",()=>{
-    let data = {name:'lucas',password:'1234456',email:'jose@gmail.com'}
-    
+    let data = {name:'lucas',password:'12345678',email:'jose@gmail.com'}
+    let password = '12345678'
     beforeAll(async()=>{
+        const hash = await bcrypt.hash(data.password,10)
+        data.password = hash
         try{
             await prisma.user.deleteMany({
                     where:{
                         id:{
                             gt:0
                         }
-                    }
+                    } 
             })
             await prisma.user.create({data})
+            
         }catch(err){
             throw err
-        }
+        } 
     })
     afterAll(async()=>{
         try{
             await prisma.user.deleteMany({
                     where:{
                         id:{
-                            gt:0
+                             gt:0
                         }
                     }
             })
+            await prisma.$disconnect()
         }catch(err){
             throw err
         }
@@ -94,18 +98,27 @@ describe("API POST /login: Database Operations",()=>{
         const response = await request(app)
         .post('/login')
        
-        .send({  password: 'abcde3e', email: 'loremiptsu@gmail.com' }); 
+        .send( {email:data.email,password} ); 
 
-        expect(response.body.message).toEqual("User created successfully");
-          expect(response.statusCode).toEqual(201);
+        expect(response.body.message).toEqual("Login successfully");
+        expect(response.statusCode).toEqual(201);
     })
-    it("Should return status 500 and an error message when the user already exists.",async()=>{
+    it(" Should return status 401 and a 'Error message' when a user try to log with email not registred.",async()=>{
         const response = await request(app)
         .post('/login')
        
-        .send(data); 
-        expect(response.body.message).toEqual("User already exists");
-        expect(response.statusCode).toEqual(500);
+        .send( {email:'test1231@gmail.com',password} ); 
+
+        expect(response.body.message).toEqual("User not found");
+        expect(response.statusCode).toEqual(401); 
+    })
+    it("Should return status 401 and '' when the user exists but the password dont match",async()=>{
+        const response = await request(app)
+        .post('/login')
+        
+        .send( {email:data.email,password:'1lorem2'} ); 
+        expect(response.body.message).toEqual("Invalid credentials");
+        expect(response.statusCode).toEqual(401);
     
         
     })

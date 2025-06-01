@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client"
+import { ErrorMessage } from "../Helpers/ErrorMessage"
 
 
 interface datas{
@@ -28,14 +29,14 @@ export class UserRepository implements IUserRepository {
            
             return user ? [user] : [];
         }catch(err:any){
-            throw new Error('Failed to find an user');
+            throw new ErrorMessage('Failed to find an user',404);
         }
     }
     public async create(data:{email: string, password: string, name: string}): Promise<void> {
         try{
             await this.prisma.user.create({data})
         }catch(err:any){
-            throw new Error('Failed to create a new user')
+            throw new ErrorMessage('Failed to create a new user',409)
         }
     }
    
