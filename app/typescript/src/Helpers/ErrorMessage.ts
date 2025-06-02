@@ -6,7 +6,6 @@ export class ErrorMessage extends Error {
         this.name = 'ErrorMessage'; 
         this.status = status;       
 
-       
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, ErrorMessage);
         }

@@ -123,3 +123,22 @@ describe("API POST /login: Database Operations",()=>{
         
     })
 })
+
+describe("Api post/register: When the database throws an error",()=>{
+   
+   
+    it("Should return an error when the database throws an error.",async()=>{
+        const createSpy = jest.spyOn(prisma.user, 'findUnique');
+
+        createSpy.mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
+
+        const response = await request(app)
+        .post('/login')
+       
+        .send({password:'12345678',email:'lucas@gmail.com'}); 
+
+        expect(response.statusCode).toEqual(404);
+    
+        expect(response.body.message).toEqual("Failed to find an user");
+    })
+})

@@ -16,5 +16,16 @@ model User {
   name  String
   email String @unique
   password String
+  stores    Store[] 
 }
 
+model Store {
+  id          Int      @id @default(autoincrement())
+  userId      Int      
+  name        String   @unique 
+  description String?  
+  photo       String?  
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@map("stores") 
+}

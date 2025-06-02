@@ -1,19 +1,19 @@
 import express, { Express,Router,Request,Response } from 'express'
 import { RegisterUserController } from './Controller/RegisterUserController'
-import { RegisterUser } from './Model/RegisterUser'
+import { RegisterCredentials } from './Model/RegisterCredentials'
 import { UserRepository } from './Repository/UserRepository'
 import { prisma } from './lib/prima'
-import { LoginUser } from './Model/LoginUser'
+import { LoginCredentials } from './Model/LoginCredentials'
 import { LoginController } from './Controller/LoginController'
 
 const userRepository = new UserRepository( prisma)
-const registerUser = new RegisterUser(userRepository)
+const registerUser = new RegisterCredentials(userRepository)
 const register =new RegisterUserController(registerUser )
 
-const loginUser = new LoginUser(userRepository)
+const loginUser = new LoginCredentials(userRepository)
 const login = new LoginController(loginUser)
 const app = express()
-
+ 
 
 const route = Router()
 

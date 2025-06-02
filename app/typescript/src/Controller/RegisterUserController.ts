@@ -1,10 +1,10 @@
 import { isAValidString, isValidEmail } from "../Helpers";
 import { ErrorMessage } from "../Helpers/ErrorMessage";
-import { RegisterUser } from "../Model/RegisterUser";
+import { RegisterCredentials } from "../Model/RegisterCredentials";
 import {Request,Response} from 'express'
 
 export class RegisterUserController{
-    constructor(private registerUser:RegisterUser){}
+    constructor(private registerUser:RegisterCredentials){}
 
     public async handler(req:Request,res:Response):Promise<void>{
         try{

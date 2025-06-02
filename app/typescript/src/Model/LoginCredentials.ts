@@ -2,15 +2,15 @@ import { ErrorMessage } from "../Helpers/ErrorMessage";
 import { IUserRepository } from "../Repository/UserRepository";
 import bcrypt from 'bcrypt'
 
-interface loginUser{
-    login(email:string,password:string):Promise<number >
+interface loginCredentials{
+    auth(email:string,password:string):Promise<number >
 }
-export class LoginUser implements loginUser{
+export class LoginCredentials implements loginCredentials{
     protected userRepository:IUserRepository;
     constructor(userRepository:IUserRepository){
         this.userRepository = userRepository
     }
-    async login(email: string, password: string): Promise<number > {
+    async auth(email: string, password: string): Promise<number > {
         const userArray = await this.userRepository.findByEmail( email );
         if(userArray.length ===0)throw new ErrorMessage("User not found",401);
         const [user] = userArray
