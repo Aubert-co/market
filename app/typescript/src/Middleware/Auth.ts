@@ -7,7 +7,8 @@ export interface MyJwtPayload extends JwtPayload{
     id:string
 }
 export class Auth {
-    public  handler(req:Request,res:Response,next:NextFunction){
+    constructor(){}
+    public  handler(req:Request,res:Response,next:NextFunction):any{
         if(!req.headers.authorization)return res.status(401).json({message: "Access Denied"});
         
         const authHeader = req.headers.authorization;

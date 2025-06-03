@@ -61,7 +61,7 @@ services:
     environment:
       - MODE=test
       - POSTGRES_DB=test
-      - JWT_KEY=
+      - JWT_KEY=qrqrqr
     tty: true
 
 
