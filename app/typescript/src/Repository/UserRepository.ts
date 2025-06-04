@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client"
 import { ErrorMessage } from "../Helpers/ErrorMessage"
 
 
-interface datas{
+type datas = {
     id:number,
     name:string,
     password:string,

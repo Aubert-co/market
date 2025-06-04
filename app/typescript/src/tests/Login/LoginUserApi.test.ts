@@ -67,13 +67,6 @@ describe("API POST /login: Database Operations",()=>{
         const hash = await bcrypt.hash(data.password,10)
         data.password = hash
         try{
-            await prisma.user.deleteMany({
-                    where:{
-                        id:{
-                            gt:0
-                        }
-                    } 
-            })
             await prisma.user.create({data})
             
         }catch(err){
@@ -89,12 +82,12 @@ describe("API POST /login: Database Operations",()=>{
                         }
                     }
             })
-            await prisma.$disconnect()
+          
         }catch(err){
             throw err
         }
     })
-    it(" Should return status 201 and a 'Success message' when a user tries to create a new account.",async()=>{
+    it(" Should return status 201 and a 'Success message' when a user tries to login with valid datas.",async()=>{
         const response = await request(app)
         .post('/login')
        
@@ -121,6 +114,32 @@ describe("API POST /login: Database Operations",()=>{
         expect(response.statusCode).toEqual(401);
     
         
+    })
+    describe("",()=>{
+        beforeEach(async ()=>{
+        try{
+            await prisma.user.deleteMany({
+                    where:{
+                        id:{
+                            gt:0
+                        }
+                    } 
+            })
+            
+            
+        }catch(err){
+            throw err
+        }  
+    })
+     it("Should return status 401 and the message 'User not found' if the user does not exist in the database during login.",async()=>{
+        const response = await request(app)
+        .post('/login')
+       
+        .send( {email:data.email,password} ); 
+
+        expect(response.body.message).toEqual("User not found");
+        expect(response.statusCode).toEqual(401);
+    })
     })
 })
 

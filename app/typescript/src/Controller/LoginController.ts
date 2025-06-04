@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { isAValidString, isValidEmail } from "../Helpers";
 
-import {Request,Response} from 'express'
+import {NextFunction, Request,Response} from 'express'
 import { LoginCredentials } from "../Model/LoginCredentials";
 import { ErrorMessage } from "../Helpers/ErrorMessage";
 import { MyJwtPayload } from "../Middleware/Auth";
@@ -10,7 +10,7 @@ const SECRET_KEY = process.env.JWT_KEY
 export class LoginController{
     constructor(private login:LoginCredentials){}
 
-    public async handler(req:Request,res:Response):Promise<void>{
+    public async handler(req:Request,res:Response,next:NextFunction):Promise<void>{
         try{
           
             if(!isAValidString(req.body.password)){
@@ -28,12 +28,7 @@ export class LoginController{
             const token = jwt.sign({id},SECRET_KEY) 
             res.status(201).json({ message: "Login successfully" ,token});
         }catch(error:any){
-            if(error instanceof ErrorMessage){
-               
-                res.status(error.status).json({message:error.message})
-                return 
-            }
-            res.status(500).json({message:'Something went wrong'})
+            next(error)
         }
     }
 }

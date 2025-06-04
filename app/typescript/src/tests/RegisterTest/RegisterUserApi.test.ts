@@ -94,23 +94,10 @@ describe("API POST /register: When the email is invalid",()=>{
     });
 })
 
+
 describe("API POST /register: Database Operations",()=>{
     let data = {name:'lucas',password:'1234456',email:'joses@gmail.com'}
      
-    beforeAll(async()=>{
-        try{
-             await prisma.user.deleteMany({
-                    where:{
-                        id:{
-                            gt:0
-                        }
-                    }
-            })
-            await prisma.user.create({data})
-        }catch(err){
-            throw err
-        }
-    })
     afterAll(async()=>{
         try{
             await prisma.user.deleteMany({
@@ -120,7 +107,7 @@ describe("API POST /register: Database Operations",()=>{
                         }
                     }
             })
-            await prisma.$disconnect();
+            
         }catch(err){
             throw err
         }
@@ -129,12 +116,24 @@ describe("API POST /register: Database Operations",()=>{
         const response = await request(app)
         .post('/register')
        
-        .send({ name: 'abcde', password: 'abcde3e', email: 'loremiptsu@gmail.com' }); 
+        .send(data); 
 
         expect(response.body.message).toEqual("User created successfully");
-          expect(response.statusCode).toEqual(201);
+        expect(response.statusCode).toEqual(201);
     })
-    it("Should return status 500 and an error message when the user already exists.",async()=>{
+    
+   describe("",()=>{
+    let data = {name:'lucass',password:'12344568',email:'joeses@gmail.com'}
+    beforeAll(async()=>{
+        try{
+                
+            await prisma.user.create({data})
+        }catch(err){
+            throw err
+        }
+    })
+   
+     it("Should return status 500 and an error message when the user already exists.",async()=>{
         const response = await request(app)
         .post('/register')
        
@@ -144,6 +143,7 @@ describe("API POST /register: Database Operations",()=>{
     
         
     })
+})
 })
 
 describe("Api post/register: When the database throws an error",()=>{

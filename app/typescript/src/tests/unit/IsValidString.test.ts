@@ -12,7 +12,7 @@ describe("function isAValidString",()=>{
         expect(isAValidString("")).toBeFalsy()
     })
     test("When the name is greater than 15 should return false",()=>{
-        const name = "lriqknqkkqwenkqenkqen"
+        const name = "a".repeat(16)
         expect( isAValidString(name)).toBeFalsy()
     })
     test("When the name is a type diferent from string should return false",()=>{

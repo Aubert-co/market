@@ -1,12 +1,12 @@
 import { isAValidString, isValidEmail } from "../Helpers";
 import { ErrorMessage } from "../Helpers/ErrorMessage";
 import { RegisterCredentials } from "../Model/RegisterCredentials";
-import {Request,Response} from 'express'
+import {NextFunction, Request,Response} from 'express'
 
 export class RegisterUserController{
     constructor(private registerUser:RegisterCredentials){}
 
-    public async handler(req:Request,res:Response):Promise<void>{
+    public async handler(req:Request,res:Response,next:NextFunction):Promise<void>{
         try{
             if(!isAValidString(req.body.name)){
                 throw new ErrorMessage("Invalid name. Please check and try again.",422);
@@ -22,13 +22,7 @@ export class RegisterUserController{
             await this.registerUser.createUserAccount(email,name,password)
             res.status(201).json({ message: "User created successfully" });
         }catch(error:any){
-            if (error instanceof ErrorMessage) {
-                res.status(error.status).json({ message: error.message });
-                return;
-            } 
-            
-            res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
-            
+          next(error)
         }
     }
 }
