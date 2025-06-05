@@ -12,7 +12,7 @@ export class LoginController{
 
     public async handler(req:Request,res:Response,next:NextFunction):Promise<void>{
         try{
-          
+           
             if(!isAValidString(req.body.password)){
                 throw new ErrorMessage("Invalid password. Please check and try again.",422)
                 

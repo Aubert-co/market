@@ -28,3 +28,5 @@ Este projeto é um mini Marketplace , desenvolvido com foco em escalabilidade, t
 - [] Fazer upload dos arquivos para nuvem sem salvar os arquivos na aplicação
 
 - [x] Criar middleware para gerenciar os erros.
+
+- [] Utilizar o redis para cache

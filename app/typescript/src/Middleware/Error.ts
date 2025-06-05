@@ -15,7 +15,7 @@ export class ErrorMiddleware {
                 });
                 return
             }
-        
+            console.log(error)
              res.status(400).json({
                 message: `File upload failed`
             });
@@ -25,6 +25,7 @@ export class ErrorMiddleware {
             res.status(error.status).json({message:error.message})
             return 
         }
+        console.log(error);
         res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' });
           
     }

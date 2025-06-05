@@ -3,17 +3,23 @@ import { Buffer } from 'buffer';
 import { v4 as uuidv4 } from 'uuid'; 
 import * as path from 'path'
 import stream from 'stream'
+import { ErrorMessage } from '../Helpers/ErrorMessage';
 
+const PRIVATE_KEY = process.env.PRIVATE_KEY
+if(!PRIVATE_KEY)throw new ErrorMessage("NOT PRIVATE_KEY FOUND",501)
 
-
-const storage = new Storage({})
-const BUCKET_NAME = process.env.GCS_BUCKET_NAME ;
+const KEY_STORAGE = JSON.parse( PRIVATE_KEY )
+const storage = new Storage({
+    credentials:KEY_STORAGE,
+    projectId:KEY_STORAGE.project_id
+})
+const BUCKET_NAME = process.env.BUCKET_NAME ;
 
 if (!BUCKET_NAME || BUCKET_NAME === 'your-default-gcs-bucket-name') {
    
     throw new Error("GCS_BUCKET_ERROR: GCS_BUCKET_NAME environment variable is missing.");
-}
-
+} 
+const bucket = storage.bucket(BUCKET_NAME)
 
 export const uploadFileToGCS = async (
     fileBuffer: Buffer,
@@ -31,32 +37,25 @@ export const uploadFileToGCS = async (
         throw new Error("MIME type is invalid.");
     }
 
-    const bucket = storage.bucket(BUCKET_NAME);
+    const blob = bucket.file(Date.now() + '_' + originalFileName);
+    const blobStream = blob.createWriteStream({
+        resumable: false,
+        contentType:mimeType,
+        metadata: {
+        cacheControl: 'public, max-age=31536000',         },
+    });
 
-    const fileExtension = path.extname(originalFileName); 
-    const baseName = path.basename(originalFileName, fileExtension); 
-    const uniqueFileName = `${baseName.substring(0, 50)}-${uuidv4()}${fileExtension}`; 
-    const dataStream = new stream.PassThrough()
+    return new Promise((resolve, reject) => {
+        blobStream.on('error', err => {
+        reject(err);
+        });
 
-    const gcFile = storage.bucket(BUCKET_NAME).file(uniqueFileName)
-    
-    dataStream.push('content-to-upload')
-    dataStream.push(null)
+        blobStream.on('finish', () => {
+        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+        resolve(publicUrl);
+        });
 
-    await new Promise((resolve,reject)=>{
-        dataStream.pipe(gcFile.createWriteStream({
-            resumable  : false,
-            validation : false,
-            metadata   : {'Cache-Control': 'public, max-age=31536000'}
-        }))
-        .on('error', (error : Error) => { 
-            reject(error) 
-        })
-        .on('finish', () => { 
-            resolve(true)
-        })
-    })
-   
-    return "";
+        blobStream.end(fileBuffer);
+    });
     
 };

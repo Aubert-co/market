@@ -14,6 +14,7 @@ import { ErrorMiddleware } from './Middleware/Error'
 
 const userRepository = new UserRepository( prisma)
 const storeRepository = new StoreRepository(prisma)
+
 const errorMiddleware = new ErrorMiddleware
 const registerUser = new RegisterCredentials(userRepository)
 const register =new RegisterUserController(registerUser )
@@ -42,7 +43,7 @@ const fileUpload = multer({
 route.post('/register',(req,res,next)=>register.handler(req,res,next))
 route.post('/login',(req,res,next)=>login.handler(req,res,next))
 
-//route.post('/store/create',[authMiddleware.handler,fileUpload.single('photo')],createStore.handler)
+route.post('/store/create',[fileUpload.single('image')],createStore.handler)
 
 
 app.use( route )
