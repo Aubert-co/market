@@ -15,32 +15,40 @@ export type storeDatas = {
 }
 
 export class StoreRepository implements IStoreRepository{
-    protected prisma:PrismaClient
-    constructor(prisma:PrismaClient){}
+    
+    constructor(private prisma:PrismaClient){}
  
     public async createStore(data:{storeName:string,userId:string,description:string,photo:string}):Promise<void>{
         try{
-            this.prisma.store.create({data})
+            await this.prisma.store.create({data:{
+                name:data.storeName,
+                userId:data.userId,
+                description:data.description,
+                photo:data.photo
+            }})
         }catch(err:any){
+              console.log(err.message)
             throw new ErrorMessage("Failed to create a store",409)
         }
     }
     public async findByName(storeName: string): Promise<boolean> {
         try{
-            const store = this.prisma.store.findUnique({
+            const store = await this.prisma.store.findUnique({
                 where:{
                     name:storeName
                 }
             })
-            
-            return store ? true : false;
+            if(!store)return false;
+
+            return true;
         }catch(err:any){
+          
             throw new ErrorMessage("Failed to find store",409)
         }
     }
     public async findByStoreId(storeId:number):Promise<Array<storeDatas>>{
         try{
-            const store = this.prisma.store.findUnique({
+            const store = await this.prisma.store.findUnique({
                 where:{
                     id:storeId
                 }

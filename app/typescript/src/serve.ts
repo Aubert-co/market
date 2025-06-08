@@ -43,7 +43,7 @@ const fileUpload = multer({
 route.post('/register',(req,res,next)=>register.handler(req,res,next))
 route.post('/login',(req,res,next)=>login.handler(req,res,next))
 
-route.post('/store/create',[fileUpload.single('image')],createStore.handler)
+route.post('/store/create',[fileUpload.single('image'),authMiddleware.handler],(req:Request,res:Response,next:NextFunction)=>createStore.handler(req,res,next))
 
 
 app.use( route )

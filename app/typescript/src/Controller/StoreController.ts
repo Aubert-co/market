@@ -6,29 +6,42 @@ import {NextFunction, Request,Response} from 'express'
 import { ErrorMessage } from "../Helpers/ErrorMessage";
 import { storeService } from "../Model/StoreService";
 import { uploadFileToGCS } from "../Services/FileUpload";
+import { checkIsValidImage,generateImgPath } from "../Helpers/images";
 
 export class StoreController{
     constructor(protected storeService:storeService){}
 
-    public async handler(req:Request,res:Response,next:NextFunction):Promise<void>{
+    public async handler(req:Request,res:Response,next:NextFunction):Promise<any>{
         try{
-            if(!req.file)throw new ErrorMessage("sem file",409);
-            
+            if (
+                !req.file ||
+                !checkIsValidImage({
+                    fileBuffer: req.file.buffer,
+                    mimeType: req.file.mimetype,
+                    originalFileName: req.file.originalname,
+                })
+                ) {
+                throw new ErrorMessage("Invalid or missing image file.", 422);
+            }
+
             if(!isAValidString(req.body.name)){
                 throw new ErrorMessage("Invalid name. Please check and try again.",422);
             }
             if(!isAValidString(req.body.description , 200)){
                 throw new ErrorMessage("Invalid name. Please check and try again.",422);
             }
-            //const existsStore = await this.storeService.existsStore(req.body.name);
-            //if(!existsStore)throw new ErrorMessage("A store with this name already exists.",409);
+            const existsStore = await this.storeService.existsStore(req.body.name);
+            if(existsStore)throw new ErrorMessage("A store with this name already exists.",409);
 
             const {name,description} = req.body
-            const userId = "1";
+            const userId = req.user as string;
             const {buffer,originalname,mimetype} = req.file
-
-            const photo =await uploadFileToGCS(buffer,originalname,mimetype);
-            //await this.storeService.createStore(name,userId,photo,description)
+            const publicUrlStorage = generateImgPath(originalname)
+           
+            await Promise.all([
+                this.storeService.createStore(name,userId,publicUrlStorage,description),
+                uploadFileToGCS(buffer,originalname,mimetype)
+            ])
             res.status(201).send({message:"Store sucessfully created"})
         }catch(error:any){
             next(error)
