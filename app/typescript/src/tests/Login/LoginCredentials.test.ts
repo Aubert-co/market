@@ -15,7 +15,7 @@ describe("LoginCredentials",()=>{
         hashedPassword = await bcrypt.hash(password,10)
     })
    
-    it("Should throw an error when the user does not exist in the DB.",async()=>{ 
+    it("should throw an error when the user does not exist in the DB.",async()=>{ 
         findByEmailMock.mockReturnValue([])
         const login = new LoginCredentials( userRepository )
 
@@ -24,7 +24,7 @@ describe("LoginCredentials",()=>{
         expect(findByEmailMock).toHaveBeenCalledWith(email)
         expect(createMock).not.toHaveBeenCalled()
     })
-    it("Should log in a user when password are correct.",async()=>{ 
+    it("should log in a user when password are correct.",async()=>{ 
         findByEmailMock.mockReturnValue([{id:1,name,password:hashedPassword}])
         const login = new LoginCredentials( userRepository )
 
@@ -34,7 +34,7 @@ describe("LoginCredentials",()=>{
 
         expect(createMock).not.toHaveBeenCalled()
     })
-     it("Should throw an error when the password does not match.",async()=>{ 
+     it("should throw an error when the password does not match.",async()=>{ 
         findByEmailMock.mockReturnValue([{id:1,name,password}])
         const login = new LoginCredentials( userRepository )
 

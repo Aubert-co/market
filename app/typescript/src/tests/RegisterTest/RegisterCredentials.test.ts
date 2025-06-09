@@ -13,7 +13,7 @@ describe("RegisteerCretendials",()=>{
         jest.clearAllMocks()
         jest.spyOn(bcrypt,"hash").mockResolvedValue(MOCKED_HASH as never)
     })
-    it("Should throw an error if user already exists",async()=>{
+    it("should throw an error if user already exists",async()=>{
          
         findByEmailMock.mockReturnValue([{id:0,name,email,password}])
         const register = new RegisterCredentials( userRepository )
@@ -24,7 +24,7 @@ describe("RegisteerCretendials",()=>{
         expect(findByEmailMock).toHaveBeenCalledTimes(1)
         
     })
-    it("Should create a new user account successfully",async()=>{
+    it("should create a new user account successfully",async()=>{
      
         findByEmailMock.mockReturnValue([])
         createMock.mockReturnValue("")

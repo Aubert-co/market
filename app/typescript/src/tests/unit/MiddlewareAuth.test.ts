@@ -28,7 +28,7 @@ describe("Auth",()=>{
         };
         next = jest.fn();
     })
-    it("Should return an error message and status 401 when authorization is not sent.",()=>{
+    it("should return an error message and status 401 when authorization is not sent.",()=>{
         request.headers ={authorization:""}
         const auth = new Auth
  
@@ -39,7 +39,7 @@ describe("Auth",()=>{
         expect(response.json).toHaveBeenCalledWith({message:"Access Denied"})
         expect(next).not.toHaveBeenCalled()
     })
-     it("Should return an error for an authorization header without a token.",()=>{
+     it("should return an error for an authorization header without a token.",()=>{
         request.headers ={authorization:"Bearer"}
         const auth = new Auth
 
@@ -51,7 +51,7 @@ describe("Auth",()=>{
         expect(response.json).toHaveBeenCalledWith({message:"Invalid token format"})
           expect(next).not.toHaveBeenCalled()
     })
-     it("Should return an error for a token missing 'Bearer' prefix",()=>{
+     it("should return an error for a token missing 'Bearer' prefix",()=>{
         
         request.headers ={authorization:`${token}`}
         const auth = new Auth
@@ -64,7 +64,7 @@ describe("Auth",()=>{
         expect(response.json).toHaveBeenCalledWith({message:"Invalid token format"})
         expect(next).not.toHaveBeenCalled()
     })
-     it("Should call next when authorization is valid.",()=>{
+     it("should call next when authorization is valid.",()=>{
         
         request.headers ={authorization:`Bearer ${token}`}
         const auth = new Auth
@@ -77,7 +77,7 @@ describe("Auth",()=>{
         expect(response.json).toHaveBeenCalledTimes(0)
         expect(next).toHaveBeenCalledTimes(1)
     })
-    it("Should return an error when the token and secret do not match.",()=>{
+    it("should return an error when the token and secret do not match.",()=>{
         const dontMatchToken = jwt.sign({id},"loremip1112")
         request.headers ={authorization:`Bearer ${dontMatchToken}`}
         const auth = new Auth

@@ -5,7 +5,7 @@ import { prisma } from "../../lib/prima";
 
 describe('Api post/register: When the name are invalid',()=>{
 
-    it("Should return status 422 and 'Invalid name...' When the name is empty.", async () => {
+    it("should return status 422 and 'Invalid name...' When the name is empty.", async () => {
         const response = await request(app)
         .post('/register')
        
@@ -15,7 +15,7 @@ describe('Api post/register: When the name are invalid',()=>{
         
         expect(response.body.message).toEqual("Invalid name. Please check and try again.");
     });
-    it("Should return status 422 and 'Invalid name...' When the name is shorter than 4.", async () => {
+    it("should return status 422 and 'Invalid name...' When the name is shorter than 4.", async () => {
         const response = await request(app)
         .post('/register')
        
@@ -25,7 +25,7 @@ describe('Api post/register: When the name are invalid',()=>{
     
         expect(response.body.message).toEqual("Invalid name. Please check and try again.");
     });
-     it("Should return status 422 and 'Invalid name...' When the name is greater than 15.", async () => {
+     it("should return status 422 and 'Invalid name...' When the name is greater than 15.", async () => {
         const response = await request(app)
         .post('/register')
        
@@ -39,7 +39,7 @@ describe('Api post/register: When the name are invalid',()=>{
 })
 
 describe("Api post/register:When the password is invalid",()=>{
-  it("Should return status 422 and 'Invalid password...' When the password is greater than 15.", async () => {
+  it("should return status 422 and 'Invalid password...' When the password is greater than 15.", async () => {
         const response = await request(app)
         .post('/register')
        
@@ -49,7 +49,7 @@ describe("Api post/register:When the password is invalid",()=>{
     
         expect(response.body.message).toEqual("Invalid password. Please check and try again.");
     });
-     it("Should return status 422 and 'Invalid password...' When the password is shorter than 4.", async () => {
+     it("should return status 422 and 'Invalid password...' When the password is shorter than 4.", async () => {
         const response = await request(app)
         .post('/register')
        
@@ -59,7 +59,7 @@ describe("Api post/register:When the password is invalid",()=>{
     
         expect(response.body.message).toEqual("Invalid password. Please check and try again.");
     });
-    it("Should return status 422 and an 'Invalid email...' message when the password is empty.", async () => {
+    it("should return status 422 and an 'Invalid email...' message when the password is empty.", async () => {
         const response = await request(app)
         .post('/register')
        
@@ -72,7 +72,7 @@ describe("Api post/register:When the password is invalid",()=>{
 })
 
 describe("API POST /register: When the email is invalid",()=>{
-     it("Should return status 422 and an 'Invalid email...' message when the email is empty.", async () => {
+     it("should return status 422 and an 'Invalid email...' message when the email is empty.", async () => {
         const response = await request(app)
         .post('/register')
        
@@ -82,7 +82,7 @@ describe("API POST /register: When the email is invalid",()=>{
     
         expect(response.body.message).toEqual("Invalid email. Please check and try again.");
     });
-       it("Should return status 422 and an 'Invalid email...' message when the email is invalid.", async () => {
+       it("should return status 422 and an 'Invalid email...' message when the email is invalid.", async () => {
         const response = await request(app)
         .post('/register')
        
@@ -112,7 +112,7 @@ describe("API POST /register: Database Operations",()=>{
             throw err
         }
     })
-    it(" Should return status 201 and a 'Success message' when a user tries to create a new account.",async()=>{
+    it(" should return status 201 and a 'Success message' when a user tries to create a new account.",async()=>{
         const response = await request(app)
         .post('/register')
        
@@ -133,7 +133,7 @@ describe("API POST /register: Database Operations",()=>{
         }
     })
    
-     it("Should return status 500 and an error message when the user already exists.",async()=>{
+     it("should return status 500 and an error message when the user already exists.",async()=>{
         const response = await request(app)
         .post('/register')
        
@@ -148,7 +148,7 @@ describe("API POST /register: Database Operations",()=>{
 
 describe("Api post/register: When the database throws an error",()=>{
    
-    it("Should return an error when the database throws an error.",async()=>{
+    it("should return an error when the database throws an error.",async()=>{
         const createSpy = jest.spyOn(prisma.user, 'create');
 
         createSpy.mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
@@ -162,7 +162,7 @@ describe("Api post/register: When the database throws an error",()=>{
     
         expect(response.body.message).toEqual("Failed to create a new user");
     })
-    it("Should return an error when the database throws an error.",async()=>{
+    it("should return an error when the database throws an error.",async()=>{
         const createSpy = jest.spyOn(prisma.user, 'findUnique');
 
         createSpy.mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));

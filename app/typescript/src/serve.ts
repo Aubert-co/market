@@ -8,14 +8,18 @@ import { LoginController } from './Controller/LoginController'
 import { Auth } from './Middleware/Auth'
 import { StoreRepository } from './Repository/StoreRepository'
 import { StoreService } from './Model/StoreService'
-import { StoreController } from './Controller/StoreController'
+import { StoreController } from './Controller/CreateStoreController'
 import multer from "multer";
 import { ErrorMiddleware } from './Middleware/Error'
+import { ValidateCredentials } from './Middleware/ValidateCredentials'
 
 const userRepository = new UserRepository( prisma)
 const storeRepository = new StoreRepository(prisma)
 
 const errorMiddleware = new ErrorMiddleware
+const validateCredentials = new ValidateCredentials
+
+
 const registerUser = new RegisterCredentials(userRepository)
 const register =new RegisterUserController(registerUser )
 const storeService = new StoreService(storeRepository)
@@ -40,8 +44,11 @@ const fileUpload = multer({
 });
 
 
-route.post('/register',(req,res,next)=>register.handler(req,res,next))
-route.post('/login',(req,res,next)=>login.handler(req,res,next))
+route.post('/register',[validateCredentials.handler],
+    (req:Request,res:Response,next:NextFunction)=>register.handler(req,res,next))
+
+route.post('/login',[validateCredentials.handler],
+    (req:Request,res:Response,next:NextFunction)=>login.handler(req,res,next))
 
 route.post('/store/create',[fileUpload.single('image'),authMiddleware.handler],(req:Request,res:Response,next:NextFunction)=>createStore.handler(req,res,next))
 

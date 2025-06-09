@@ -1,5 +1,5 @@
 
-import { isAValidString, isValidEmail } from "../Helpers";
+import { isAValidString } from "../Helpers";
 
 import {NextFunction, Request,Response} from 'express'
 
@@ -28,7 +28,7 @@ export class StoreController{
                 throw new ErrorMessage("Invalid name. Please check and try again.",422);
             }
             if(!isAValidString(req.body.description , 200)){
-                throw new ErrorMessage("Invalid name. Please check and try again.",422);
+                throw new ErrorMessage("Invalid store description. Please check and try again.",422);
             }
             const existsStore = await this.storeService.existsStore(req.body.name);
             if(existsStore)throw new ErrorMessage("A store with this name already exists.",409);

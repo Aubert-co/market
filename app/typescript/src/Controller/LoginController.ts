@@ -12,14 +12,6 @@ export class LoginController{
 
     public async handler(req:Request,res:Response,next:NextFunction):Promise<void>{
         try{
-           
-            if(!isAValidString(req.body.password)){
-                throw new ErrorMessage("Invalid password. Please check and try again.",422)
-                
-            }
-            if(!isValidEmail(req.body.email)){
-                throw new ErrorMessage("Invalid email. Please check and try again.",422)
-            }
             const { email  , password} = req.body
 
             if(!SECRET_KEY)throw new ErrorMessage("Something went wrong",500)

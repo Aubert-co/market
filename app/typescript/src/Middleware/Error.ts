@@ -10,9 +10,7 @@ export class ErrorMiddleware {
       
             if (error.code === 'LIMIT_FILE_SIZE') {
                   
-                res.status(400).json({
-                    message: `File too large. Maximum allowed size is 5MB.`
-                });
+                res.status(422).json({ message: "Image file size exceeds the 5MB limit." });
                 return
             }
          

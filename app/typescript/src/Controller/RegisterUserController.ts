@@ -11,12 +11,7 @@ export class RegisterUserController{
             if(!isAValidString(req.body.name)){
                 throw new ErrorMessage("Invalid name. Please check and try again.",422);
             }
-            if(!isAValidString(req.body.password)){
-                throw new ErrorMessage("Invalid password. Please check and try again.",422);
-            }
-            if(!isValidEmail(req.body.email)){
-                throw new ErrorMessage("Invalid email. Please check and try again.",422)
-            }
+           
             const { email , name , password} = req.body
 
             await this.registerUser.createUserAccount(email,name,password)
