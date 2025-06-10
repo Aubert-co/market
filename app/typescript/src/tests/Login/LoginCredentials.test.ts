@@ -33,7 +33,7 @@ describe("LoginCredentials",()=>{
         expect(findByEmailMock).toHaveBeenCalledWith(email)
 
         expect(createMock).not.toHaveBeenCalled()
-    })
+    })  
      it("should throw an error when the password does not match.",async()=>{ 
         findByEmailMock.mockReturnValue([{id:1,name,password}])
         const login = new LoginCredentials( userRepository )

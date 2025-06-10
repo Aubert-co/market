@@ -58,8 +58,8 @@ describe("Post:/store/create  DB actions",()=>{
             })
      })
      it("should sucessfully create a new store",async()=>{
-        
-        jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
+         
+        const googleStorage = jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
         
         const response = await request(app)
         .post('/store/create')
@@ -70,14 +70,12 @@ describe("Post:/store/create  DB actions",()=>{
         
         expect(response.body.message).toEqual('Store sucessfully created')
         expect(response.statusCode).toEqual(201)
-       
+        expect(googleStorage).toHaveBeenCalledTimes(1)
     })
 })
 
 describe("Post:/store/create - Invalid store name",()=>{
     it("should return status 422 and message 'Invalid name. Please check and try again.' when name is empty.",async()=>{
-       
-        
         const response = await request(app)
         .post('/store/create')
         .set('Authorization', `Bearer ${authorization}`)
@@ -160,9 +158,7 @@ describe("Post:/store/create - Invalid store description ",()=>{
 
 describe("Post:/store/create - Invalid image",()=>{
    
-    afterAll(()=>{
-        deleteImages()
-    })
+    
     it("should return 'Invalid or missing image file.' when not send a image",async()=>{
         const response = await request(app)
         .post('/store/create')
@@ -196,4 +192,85 @@ describe("Post:/store/create - Invalid image",()=>{
         expect(response.body.message).toEqual("Invalid or missing image file.")
         expect(response.statusCode).toEqual(422)
     })
+    it("should return 'Invalid or missing image file.' when send a mp4",async()=>{
+        const response = await request(app)
+        .post('/store/create')
+        .set('Authorization', `Bearer ${authorization}`)
+        .field('name', 'MinhaLoja')
+        .field('description', 'a description')
+         .attach('image', path.resolve(__dirname, '../assets/image.mp4')); 
+        
+        expect(response.body.message).toEqual("Invalid or missing image file.")
+        expect(response.statusCode).toEqual(422)
+    })
 })
+
+describe("Post:/store/create - db actions",()=>{
+    const data = { id:1,name:'lucas',password:'123456',email:'lucas@gmail.com'}
+    const storeData = {id:1,name:'stores',description:'description',userId:1}
+    beforeEach(()=>{
+        jest.clearAllMocks()
+    })
+    beforeAll(async ()=>{
+        
+        await prisma.store.deleteMany({
+                    where:{
+                        id:{
+                             gt:0
+                        }
+                    }
+            })
+            await prisma.user.create({data})
+            await prisma.store.create({data:storeData})
+        })
+     afterAll(async()=>{
+         await prisma.store.deleteMany({
+                    where:{
+                        id:{
+                             gt:0
+                        }
+                    }  
+            })
+            await prisma.user.deleteMany({
+                    where:{
+                        id:{
+                             gt:0
+                        }
+                    }
+            })
+           
+        deleteImages()
+    
+        }) 
+    it("should return the message 'A store with this name already exists.' when trying to use an existing name.",async()=>{
+        const  googleStorage= jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
+         
+        const response = await request(app)
+        .post('/store/create')
+        .set('Authorization', `Bearer ${authorization}`)
+        .field('name', storeData.name)
+        .field('description', 'Descrição da loja')
+        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        
+        expect(response.body.message).toEqual('A store with this name already exists.')
+        expect(response.statusCode).toEqual(409)
+        expect(googleStorage).not.toHaveBeenCalled()
+    })
+    it("should return an error when the database throws an error and not call google storage",async()=>{
+        jest.spyOn(prisma.store,'create').mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
+        const googleStorage = jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
+        
+        const response = await request(app)
+        .post('/store/create')
+        .set('Authorization', `Bearer ${authorization}`)
+        .field('name', 'newName')
+        .field('description', 'Descrição da loja')
+        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        
+        expect(googleStorage).not.toHaveBeenCalled()
+        expect(response.body.message).toEqual('Failed to create a store')
+        expect(response.statusCode).toEqual(409)
+       
+    })
+})
+   

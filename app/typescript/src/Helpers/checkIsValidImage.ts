@@ -7,7 +7,7 @@ export const checkIsValidImage = (files:{
     originalFileName:string
 }
 ):boolean=>{
-    
+   
     if (!files.fileBuffer || !Buffer.isBuffer(files.fileBuffer)|| files.fileBuffer.length === 0   ) {
         return false
     }
@@ -18,14 +18,18 @@ export const checkIsValidImage = (files:{
      if (!files.originalFileName || typeof files.originalFileName !== 'string' || files.originalFileName.trim() === '') {
         return false;
     }
-    const parts = files.originalFileName.split('.')
-    if(parts.length !==2)return false;
+        const allowedMimeTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/webp',
+    'image/bmp',
+    'image/tiff'
+    ];
 
-    const allowedImageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'tiff'];
- 
-    const extension = parts[1].toLowerCase();
-    if (!allowedImageExtensions.includes(extension)) return false;
- 
+    if (!files.mimeType || !allowedMimeTypes.includes(files.mimeType)) {
+    return false;
+    }
     return true
 }
 export const generateImgPath = (originalFileName:string):string=>{

@@ -72,3 +72,41 @@ Quando o usuário envia uma requisição POST para "/store"
 Então a API deve retornar o status 422 Unprocessable Entity
 E a resposta deve conter a mensagem:
 "Invalid store description. Please check and try again."
+
+
+Cenário: Tentativa de criar loja com imagem vazia
+Dado que a API de criação de loja está disponível
+E o usuário preencheu o nome da loja como "MinhaLoja"
+E preencheu a descrição como "Descrição válida da loja com mais de 20 caracteres"
+E anexou uma imagem vazia chamada "image.jpeg"
+E forneceu um token de autenticação válido
+Quando o usuário envia uma requisição POST para "/store"
+Então a API deve retornar o status 422 Unprocessable Entity
+E a resposta deve conter a mensagem:
+"Invalid or missing image file."
+
+
+
+
+Cenário: Tentativa de criar loja com PDF no lugar de imagem
+Dado que a API de criação de loja está disponível
+E o usuário preencheu o nome da loja como "MinhaLoja"
+E preencheu a descrição como "Descrição válida da loja com mais de 20 caracteres"
+E anexou um arquivo chamado "image.pdf"
+E forneceu um token de autenticação válido
+Quando o usuário envia uma requisição POST para "/store"
+Então a API deve retornar o status 422 Unprocessable Entity
+E a resposta deve conter a mensagem:
+"Invalid or missing image file."
+
+
+Cenário: Tentativa de criar loja com vídeo no lugar de imagem
+Dado que a API de criação de loja está disponível
+E o usuário preencheu o nome da loja como "MinhaLoja"
+E preencheu a descrição como "Descrição válida da loja com mais de 20 caracteres"
+E anexou um arquivo chamado "image.mp4"
+E forneceu um token de autenticação válido
+Quando o usuário envia uma requisição POST para "/store"
+Então a API deve retornar o status 422 Unprocessable Entity
+E a resposta deve conter a mensagem:
+"Invalid or missing image file."

@@ -6,7 +6,7 @@ import {NextFunction, Request,Response} from 'express'
 import { ErrorMessage } from "../Helpers/ErrorMessage";
 import { storeService } from "../Model/StoreService";
 import { uploadFileToGCS } from "../Services/FileUpload";
-import { checkIsValidImage,generateImgPath } from "../Helpers/images";
+import { checkIsValidImage,generateImgPath } from "../Helpers/checkIsValidImage";
 
 export class StoreController{
     constructor(protected storeService:storeService){}
@@ -30,18 +30,17 @@ export class StoreController{
             if(!isAValidString(req.body.description , 200)){
                 throw new ErrorMessage("Invalid store description. Please check and try again.",422);
             }
-            const existsStore = await this.storeService.existsStore(req.body.name);
-            if(existsStore)throw new ErrorMessage("A store with this name already exists.",409);
+    
 
             const {name,description} = req.body
             const userId = req.user as string;
             const {buffer,originalname,mimetype} = req.file
             const publicUrlStorage = generateImgPath(originalname)
-           
-            await Promise.all([
-                this.storeService.createStore(name,userId,publicUrlStorage,description),
-                uploadFileToGCS(buffer,originalname,mimetype)
-            ])
+            
+            await this.storeService.createStore(name,userId,publicUrlStorage,description)
+            
+            await uploadFileToGCS(buffer,originalname,mimetype)
+            
             res.status(201).send({message:"Store sucessfully created"})
         }catch(error:any){
             next(error)

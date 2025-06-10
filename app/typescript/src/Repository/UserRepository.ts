@@ -16,17 +16,15 @@ export interface IUserRepository{
 
 
 export class UserRepository implements IUserRepository {
-    protected prisma :PrismaClient
-    constructor(prisma:PrismaClient){
-        this.prisma = prisma
-    }
+  
+    constructor(private prisma:PrismaClient){}
     public async findByEmail(email:string):Promise< Array<datas> >{
     
         try{
             const user = await this.prisma.user.findUnique({
                 where:{email}
             });
-           
+        
             return user ? [user] : [];
         }catch(err:any){
             throw new ErrorMessage('Failed to find an user',404);

@@ -27,7 +27,10 @@ export class StoreRepository implements IStoreRepository{
                 photo:data.photo
             }})
         }catch(err:any){
-              console.log(err.message)
+           
+            if (err.code === 'P2002') {
+                throw new ErrorMessage('A store with this name already exists.', 409);
+            }
             throw new ErrorMessage("Failed to create a store",409)
         }
     }
