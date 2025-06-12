@@ -46,4 +46,4 @@ export class StoreController{
             next(error)
         }
     }
-}
+}  

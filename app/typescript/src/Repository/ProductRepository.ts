@@ -10,7 +10,7 @@ export type dataProducts = {
     imageUrl:string,
     stock:number
 }
-interface IProductRepository{
+export interface IProductRepository{
     createProduct(data:{name:string,description:string,
         storeId:number,price:number,stock:number,imageUrl:string
     }):Promise<void>,
@@ -33,7 +33,7 @@ export class ProductRepository  implements IProductRepository{
             return datas;
         }catch(err:any){
             throw new ErrorMessage("",409);
-        }
+        } 
     }
     public async findManyByName(name: string, limit: number, skip: number): Promise<Array<dataProducts>> {
          try{

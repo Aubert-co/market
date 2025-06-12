@@ -220,6 +220,7 @@ describe("Post:/store/create - db actions",()=>{
                         }
                     }
             })
+            
             await prisma.user.create({data})
             await prisma.store.create({data:storeData})
         })
@@ -244,7 +245,7 @@ describe("Post:/store/create - db actions",()=>{
         }) 
     it("should return the message 'A store with this name already exists.' when trying to use an existing name.",async()=>{
         const  googleStorage= jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
-         
+          
         const response = await request(app)
         .post('/store/create')
         .set('Authorization', `Bearer ${authorization}`)

@@ -25,9 +25,8 @@ export class StoreRepository implements IStoreRepository{
                 userId:data.userId,
                 description:data.description,
                 photo:data.photo
-            }})
+            }}) 
         }catch(err:any){
-           
             if (err.code === 'P2002') {
                 throw new ErrorMessage('A store with this name already exists.', 409);
             }
