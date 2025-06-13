@@ -12,6 +12,7 @@ import { StoreController } from './Controller/CreateStoreController'
 import multer from "multer";
 import { ErrorMiddleware } from './Middleware/Error'
 import { ValidateCredentials } from './Middleware/ValidateCredentials'
+import cookieParser from 'cookie-parser'
 
 const userRepository = new UserRepository( prisma)
 const storeRepository = new StoreRepository(prisma)
@@ -34,6 +35,7 @@ const app = express()
 
 const route = Router()
 
+app.use(cookieParser())
 app.use(express.json())
 
 const fileUpload = multer({

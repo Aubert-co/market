@@ -9,6 +9,8 @@ export interface MyJwtPayload extends JwtPayload{
 export class Auth {
     constructor(){}
     public  handler(req:Request,res:Response,next:NextFunction):any{
+        const tk  = req.cookies
+        console.log(tk)
         if(!req.headers.authorization)return res.status(401).json({message: "Access Denied"});
         
         const authHeader = req.headers.authorization;

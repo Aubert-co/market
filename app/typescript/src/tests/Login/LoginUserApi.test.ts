@@ -144,7 +144,7 @@ describe("API POST /login: Database Operations",()=>{
 })
 
 describe("Api post/register: When the database throws an error",()=>{
-   
+    
    
     it("should return an error when the database throws an error.",async()=>{
         const createSpy = jest.spyOn(prisma.user, 'findUnique');

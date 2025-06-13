@@ -206,14 +206,14 @@ describe("Post:/store/create - Invalid image",()=>{
 })
 
 describe("Post:/store/create - db actions",()=>{
-    const data = { id:1,name:'lucas',password:'123456',email:'lucas@gmail.com'}
-    const storeData = {id:1,name:'stores',description:'description',userId:1}
+    const data = { id:2,name:'lucas',password:'123456',email:'lucas@gmail.com'}
+    const storeData = {id:111,name:'stores',description:'description',userId:2}
     beforeEach(()=>{
         jest.clearAllMocks()
     })
     beforeAll(async ()=>{
         
-        await prisma.store.deleteMany({
+            await prisma.store.deleteMany({
                     where:{
                         id:{
                              gt:0

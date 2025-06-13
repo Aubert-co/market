@@ -67,6 +67,7 @@ describe("Auth",()=>{
      it("should call next when authorization is valid.",()=>{
         
         request.headers ={authorization:`Bearer ${token}`}
+        request.cookies = {token}
         const auth = new Auth
 
         auth.handler(request as Request ,response as Response,next as NextFunction)

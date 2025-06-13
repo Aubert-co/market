@@ -95,15 +95,14 @@ describe("API POST /register: When the email is invalid",()=>{
 })
 
 
-describe("API POST /register: Database Operations",()=>{
+describe("API POST /register: Database Operations with no users in the database",()=>{
     let data = {name:'lucas',password:'1234456',email:'joses@gmail.com'}
-     
     afterAll(async()=>{
         try{
             await prisma.user.deleteMany({
                     where:{
                         id:{
-                            gt:1
+                            gt:0
                         }
                     }
             })
@@ -122,17 +121,31 @@ describe("API POST /register: Database Operations",()=>{
         expect(response.statusCode).toEqual(201);
     })
     
-   describe("",()=>{
+    
+})
+
+describe("API POST /register: Database Operations with  users in the database",()=>{
     let data = {name:'lucass',password:'12344568',email:'joeses@gmail.com'}
     beforeAll(async()=>{
         try{
-                
             await prisma.user.create({data})
         }catch(err){
             throw err
         }
     })
-   
+    afterAll(async()=>{
+        try{
+            await prisma.user.deleteMany({
+                    where:{
+                        id:{
+                            gt:0
+                        }
+                    }
+            })
+        }catch(err){
+            throw err
+        }
+    })
      it("should return status 500 and an error message when the user already exists.",async()=>{
         const response = await request(app)
         .post('/register')
@@ -143,9 +156,7 @@ describe("API POST /register: Database Operations",()=>{
     
         
     })
-})
-})
-
+    })
 describe("Api post/register: When the database throws an error",()=>{
    
     it("should return an error when the database throws an error.",async()=>{
