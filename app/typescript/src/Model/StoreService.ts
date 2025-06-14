@@ -1,8 +1,8 @@
 import { ErrorMessage } from "../Helpers/ErrorMessage"
-import { IStoreRepository, storeDatas } from "../Repository/StoreRepository"
+import { IStoreRepository } from "../Repository/StoreRepository"
 
 export interface storeService{
-    createStore(storeName:string,userId:string,photo:string,description:string): Promise<void>,
+    createStore(storeName:string,userId:number,photo:string,description:string): Promise<void>,
 }
 
 export class StoreService implements storeService{
@@ -10,8 +10,8 @@ export class StoreService implements storeService{
     constructor(storeRepository:IStoreRepository){
         this.storeRepository = storeRepository
     }
- 
-    public async createStore (storeName: string, userId: string, photo: string, description: string):Promise<void>{
+  
+    public async createStore (storeName: string, userId: number, photo: string, description: string):Promise<void>{
        
         try{
             await this.storeRepository.createStore({storeName,userId,photo,description})

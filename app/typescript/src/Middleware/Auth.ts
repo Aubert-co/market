@@ -9,8 +9,7 @@ export interface MyJwtPayload extends JwtPayload{
 export class Auth {
     constructor(){}
     public  handler(req:Request,res:Response,next:NextFunction):any{
-        const tk  = req.cookies
-        console.log(tk)
+   
         if(!req.headers.authorization)return res.status(401).json({message: "Access Denied"});
         
         const authHeader = req.headers.authorization;
@@ -28,7 +27,10 @@ export class Auth {
 
         try{
             const decoded = jwt.verify(token, secret) as MyJwtPayload;
-            req.user = decoded.id;
+            if (!decoded || !decoded.id || isNaN(Number(decoded.id))) {
+                return res.status(400).json({ message: 'Invalid token' });
+            }
+            req.user = Number(decoded.id) 
             next();
         }catch(err:any){
            return res.status(400).json({message:'Invalid token'});

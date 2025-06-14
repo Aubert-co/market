@@ -24,7 +24,7 @@ export class ProductRepository  implements IProductRepository{
         try{
             await this.prisma.product.create({data})
         }catch(err:any){
-            throw new ErrorMessage("",409);
+            throw new ErrorMessage("Failed to create product. Please check the data and try again.",400);
         }
     }
     public async getProducts(limit:number , skip:number = 0): Promise<Array<dataProducts>> {
@@ -32,7 +32,7 @@ export class ProductRepository  implements IProductRepository{
             const datas = await this.prisma.product.findMany({limit,skip})
             return datas;
         }catch(err:any){
-            throw new ErrorMessage("",409);
+            throw new ErrorMessage("Failed to get a product. Please check the data and try again.",409);
         } 
     }
     public async findManyByName(name: string, limit: number, skip: number): Promise<Array<dataProducts>> {
@@ -45,7 +45,7 @@ export class ProductRepository  implements IProductRepository{
             })
             return datas;
         }catch(err:any){
-            throw new ErrorMessage("",409);
+            throw new ErrorMessage("Failed to find a product. Please check the data and try again.",409);
         }
     }
    

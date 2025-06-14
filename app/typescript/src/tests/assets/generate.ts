@@ -78,7 +78,7 @@ const padding = Buffer.alloc(6 * 1024);
     }
   ];
 
-export const generateImages = ()=> {
+const generateImages = ()=> {
  
   if (!fs.existsSync(assetsDir)) fs.mkdirSync(assetsDir, { recursive: true });
   
@@ -87,6 +87,7 @@ export const generateImages = ()=> {
     fs.writeFileSync(filePath, buffer);
   });
 }
+generateImages()
 export const deleteImages = () => {
   files.map(({name}) => {
     const filePath = path.join(assetsDir, name);

@@ -33,7 +33,7 @@ export class StoreController{
     
 
             const {name,description} = req.body
-            const userId = req.user as string;
+            const userId = req.user;
             const {buffer,originalname,mimetype} = req.file
             const publicUrlStorage = generateImgPath(originalname)
             

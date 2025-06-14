@@ -17,13 +17,15 @@ export class LoginController{
             if(!SECRET_KEY)throw new ErrorMessage("Something went wrong",500);
  
             const id = await this.login.auth(email,password)
-            const token = jwt.sign({id},SECRET_KEY) 
-
+            const token = jwt.sign({id},SECRET_KEY,{
+                expiresIn:"7d"
+            }) 
+      
             res.cookie('token', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', 
                 sameSite: 'strict',
-                maxAge: 60 * 60 * 1000, 
+                maxAge:7 * 24 * 60 * 60 * 1000 , 
                 path: '/', 
             });
             res.status(201).json({ message: "Login successfully" ,token});

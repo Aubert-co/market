@@ -4,16 +4,14 @@ import app from "../../serve"
 import path from "path"
 import jwt from "jsonwebtoken"
 import { prisma } from "../../lib/prima"
-import { deleteImages, generateImages } from "../assets/generate"
+
 
  if(!process.env.JWT_KEY)throw new Error();
 
 const authorization  = jwt.sign({id:1},process.env.JWT_KEY )
 
 describe("Post:/store/create try to create a store without token",()=>{
-    beforeAll(()=>{
-      generateImages()  
-    })
+    
     it("should return 'Acess denied' and status 401 when try to create a store withou login",async()=>{
 
         jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
@@ -240,7 +238,7 @@ describe("Post:/store/create - db actions",()=>{
                     }
             })
            
-        deleteImages()
+        
     
         }) 
     it("should return the message 'A store with this name already exists.' when trying to use an existing name.",async()=>{

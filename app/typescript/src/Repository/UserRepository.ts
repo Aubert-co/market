@@ -24,7 +24,7 @@ export class UserRepository implements IUserRepository {
             const user = await this.prisma.user.findUnique({
                 where:{email}
             });
-        
+            
             return user ? [user] : [];
         }catch(err:any){
             throw new ErrorMessage('Failed to find an user',404);

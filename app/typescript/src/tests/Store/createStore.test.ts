@@ -11,6 +11,7 @@ class MocksError extends Error{
         this.code = code
     }
 }
+const datas =  {storeName:'test',description:'test',photo:'test',userId:1}
 describe("StoreService",()=>{
  
     const mockedPrisma  ={
@@ -25,7 +26,7 @@ describe("StoreService",()=>{
       
         mockedPrisma.store.create.mockRejectedValue(new Error("Something went wrong"))
         const storeService = new StoreRepository(mockedPrisma as any)
-        const datas =  {storeName:'test',description:'test',photo:'test',userId:'1'}
+    
         try{
             await storeService.createStore(datas )
         }catch(err:any){
@@ -38,14 +39,14 @@ describe("StoreService",()=>{
             name: 'test',
             description: 'test',
             photo: 'test',
-            userId: '1'
+            userId: 1
         } })
     })
     it("should throw an error if a store with the same name already exists in the database",async()=>{
        
         mockedPrisma.store.create.mockRejectedValue(new MocksError("user already exists",'P2002'))
         const storeService = new StoreRepository(mockedPrisma as any)
-        const datas =  {storeName:'test',description:'test',photo:'test',userId:'1'}
+     
         try{
             await storeService.createStore(datas )
         }catch(err:any){
@@ -58,7 +59,7 @@ describe("StoreService",()=>{
             name: 'test',
             description: 'test',
             photo: 'test',
-            userId: '1'
+            userId: 1
         } })
     })
 })
