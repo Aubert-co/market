@@ -1,6 +1,6 @@
 import { isAValidString, isValidEmail } from "../Helpers";
 import { ErrorMessage } from "../Helpers/ErrorMessage";
-import { RegisterCredentials } from "../Model/RegisterCredentials";
+import { RegisterCredentials } from "../Services/RegisterCredentials";
 import {NextFunction, Request,Response} from 'express'
 
 export class RegisterUserController{

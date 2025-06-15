@@ -2,11 +2,12 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { isAValidString, isValidEmail } from "../Helpers";
 
 import {NextFunction, Request,Response} from 'express'
-import { LoginCredentials } from "../Model/LoginCredentials";
+import { LoginCredentials } from "../Services/LoginCredentials";
 import { ErrorMessage } from "../Helpers/ErrorMessage";
+import { generateAccessToken,generateRefreshToken } from "../Helpers/AuthTokens";
 
  
-const SECRET_KEY = process.env.JWT_KEY
+
 export class LoginController{
     constructor(private login:LoginCredentials){}
  
@@ -14,21 +15,27 @@ export class LoginController{
         try{
             const { email  , password} = req.body
 
-            if(!SECRET_KEY)throw new ErrorMessage("Something went wrong",500);
+            
  
             const id = await this.login.auth(email,password)
-            const token = jwt.sign({id},SECRET_KEY,{
-                expiresIn:"7d"
-            }) 
-      
-            res.cookie('token', token, {
+            const accessToken = generateAccessToken( id )
+            const refreshToken = generateRefreshToken( id )
+            
+            res.cookie('token', accessToken, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === 'production', 
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
-                maxAge:7 * 24 * 60 * 60 * 1000 , 
-                path: '/', 
+                maxAge: 15 * 60 * 1000, 
+                path: '/'
+            })
+            .cookie('refresh', refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 7 * 24 * 60 * 60 * 1000, 
+                path: '/'
             });
-            res.status(201).json({ message: "Login successfully" ,token});
+            res.status(201).json({ message: "Login successfully" });
         }catch(error:any){
             next(error)
         }

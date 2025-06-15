@@ -12,3 +12,48 @@ export const isValidEmail = (email:any):boolean=>{
   );
   return emailRegex.test(email);
 }
+
+export const checkIsAValidNumber = (value:any):boolean=>{
+   if (typeof value === 'boolean') return false;
+
+  const number = Number(value);
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === '' ||
+    isNaN(number) ||
+    number <= 0
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+export const categories = [
+  "Roupas",
+  "Eletrônicos",
+  "Livros",
+  "Brinquedos",
+  "Beleza",
+  "Esporte",
+  "Automotivo",
+  "Cozinha",
+  "Celulares",
+  "Informática",
+  "Jardim",
+  "Petshop",
+  "Mercearia"
+];
+const normalizeString = (str: string) =>
+  str.normalize("NFD")             
+     .replace(/[\u0300-\u036f]/g, "") 
+     .toLowerCase();
+     
+export const checkIsAValidCategory = (category:string)=>{
+ const normalizedInput = normalizeString(category);
+
+  return categories.some(cat => normalizeString(cat) === normalizedInput);
+}
+

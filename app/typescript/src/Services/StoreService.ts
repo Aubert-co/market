@@ -3,6 +3,8 @@ import { IStoreRepository } from "../Repository/StoreRepository"
 
 export interface storeService{
     createStore(storeName:string,userId:number,photo:string,description:string): Promise<void>,
+    checkOwnerShip(storeId:number,userId:number):Promise<boolean>,
+    findByName(storeName:string):Promise<boolean>
 }
 
 export class StoreService implements storeService{
@@ -24,5 +26,26 @@ export class StoreService implements storeService{
 
         }
        
+    }
+    public async findByName(storeName:string):Promise<boolean>{
+        try{
+            const datas =  await this.storeRepository.findByName(storeName)
+            if(!datas)return false;
+
+            return true;
+        }catch(err:any){
+            throw new Error(err)
+        }
+    }
+    public async checkOwnerShip(storeId:number,userId:number):Promise<boolean>{
+        try{
+            const datas = await this.storeRepository.checkStoreOwnerShip(storeId)
+            if(datas.userId === userId){
+                return true;
+            }
+            return false;
+        }catch(err:any){
+            throw new ErrorMessage("Failed to find a store",409)
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { RegisterCredentials } from "../../Model/RegisterCredentials";
+import { RegisterCredentials } from "../../Services/RegisterCredentials";
 import bcrypt from "bcrypt"
 
 describe("RegisteerCretendials",()=>{

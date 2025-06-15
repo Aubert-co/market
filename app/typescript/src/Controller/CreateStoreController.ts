@@ -4,8 +4,8 @@ import { isAValidString } from "../Helpers";
 import {NextFunction, Request,Response} from 'express'
 
 import { ErrorMessage } from "../Helpers/ErrorMessage";
-import { storeService } from "../Model/StoreService";
-import { uploadFileToGCS } from "../Services/FileUpload";
+import { storeService } from "../Services/StoreService";
+import { uploadFileToGCS } from "../Repository/FileUpload";
 import { checkIsValidImage,generateImgPath } from "../Helpers/checkIsValidImage";
 
 export class StoreController{
@@ -13,30 +13,19 @@ export class StoreController{
 
     public async handler(req:Request,res:Response,next:NextFunction):Promise<any>{
         try{
-            if (
-                !req.file ||
-                !checkIsValidImage({
-                    fileBuffer: req.file.buffer,
-                    mimeType: req.file.mimetype,
-                    originalFileName: req.file.originalname,
-                })
-                ) {
+            if (!req.file ){
                 throw new ErrorMessage("Invalid or missing image file.", 422);
             }
 
-            if(!isAValidString(req.body.name)){
-                throw new ErrorMessage("Invalid name. Please check and try again.",422);
-            }
-            if(!isAValidString(req.body.description , 200)){
-                throw new ErrorMessage("Invalid store description. Please check and try again.",422);
-            }
-    
-
+        
             const {name,description} = req.body
             const userId = req.user;
             const {buffer,originalname,mimetype} = req.file
             const publicUrlStorage = generateImgPath(originalname)
             
+            const existsStoreName = await this.storeService.findByName( name )
+            if(!existsStoreName)throw new ErrorMessage("A store with this name already exists.",409);
+
             await this.storeService.createStore(name,userId,publicUrlStorage,description)
             
             await uploadFileToGCS(buffer,originalname,mimetype)

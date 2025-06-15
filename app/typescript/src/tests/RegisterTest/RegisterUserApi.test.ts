@@ -142,6 +142,7 @@ describe("API POST /register: Database Operations with  users in the database",(
                         }
                     }
             })
+            await prisma.$disconnect()
         }catch(err){
             throw err
         }

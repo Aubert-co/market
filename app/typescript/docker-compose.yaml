@@ -47,9 +47,10 @@ services:
     environment:
       - MODE=test
       - POSTGRES_DB=test
-      - JWT_KEY=qrqrqr
       - PRIVATE_KEY={"project_id":"mockado"}
       - BUCKET_NAME="lorem ipstu"
+      - ACCESS_TOKEN=loremqiqe
+      - REFRESH_TOKEN=loremsss
     tty: true
 
 

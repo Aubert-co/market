@@ -1,7 +1,8 @@
 import { Auth } from "../../Middleware/Auth";
 import { Request, Response, NextFunction } from 'express';
 import jwt,{JwtPayload} from 'jsonwebtoken'
-const SECRET_JWT = process.env.JWT_KEY
+
+const SECRET_JWT = process.env.ACCESS_TOKEN
 describe("Auth",()=>{
     let request:Partial<Request>
     let response:Partial<Response>
@@ -17,7 +18,7 @@ describe("Auth",()=>{
             params: {},
             query: {},
             user: undefined
-        }
+        } 
 
         response = {
        
@@ -29,10 +30,10 @@ describe("Auth",()=>{
         next = jest.fn();
     })
     it("should return an error message and status 401 when authorization is not sent.",()=>{
-        request.headers ={authorization:""}
-        const auth = new Auth
+        request.cookies ={token:""}
+        
  
-        auth.handler(request as Request ,response as Response,next as NextFunction)
+        Auth(request as Request ,response as Response,next as NextFunction)
           
         expect(response.status).toHaveBeenCalledTimes(1)
         expect(response.status).toHaveBeenCalledWith(401)
@@ -40,37 +41,36 @@ describe("Auth",()=>{
         expect(next).not.toHaveBeenCalled()
     })
      it("should return an error for an authorization header without a token.",()=>{
-        request.headers ={authorization:"Bearer"}
-        const auth = new Auth
+        request.cookies ={token:"invalid"}
+        
 
-        auth.handler(request as Request ,response as Response,next as NextFunction)
+        Auth(request as Request ,response as Response,next as NextFunction)
        
         
         expect(response.status).toHaveBeenCalledTimes(1)
-        expect(response.status).toHaveBeenCalledWith(401)
-        expect(response.json).toHaveBeenCalledWith({message:"Invalid token format"})
+        expect(response.status).toHaveBeenCalledWith(400)
+        expect(response.json).toHaveBeenCalledWith({message:"Invalid token"})
           expect(next).not.toHaveBeenCalled()
     })
      it("should return an error for a token missing 'Bearer' prefix",()=>{
         
-        request.headers ={authorization:`${token}`}
-        const auth = new Auth
+        request.cookies ={}
+        
 
-        auth.handler(request as Request ,response as Response,next as NextFunction)
+        Auth(request as Request ,response as Response,next as NextFunction)
        
         
         expect(response.status).toHaveBeenCalledTimes(1)
         expect(response.status).toHaveBeenCalledWith(401)
-        expect(response.json).toHaveBeenCalledWith({message:"Invalid token format"})
+        expect(response.json).toHaveBeenCalledWith({message:"Access Denied"})
         expect(next).not.toHaveBeenCalled()
     })
      it("should call next when authorization is valid.",()=>{
         
-        request.headers ={authorization:`Bearer ${token}`}
         request.cookies = {token}
-        const auth = new Auth
+        
 
-        auth.handler(request as Request ,response as Response,next as NextFunction)
+        Auth(request as Request ,response as Response,next as NextFunction)
        
         
         expect(response.status).toHaveBeenCalledTimes(0)
@@ -80,10 +80,10 @@ describe("Auth",()=>{
     })
     it("should return an error when the token and secret do not match.",()=>{
         const dontMatchToken = jwt.sign({id},"loremip1112")
-        request.headers ={authorization:`Bearer ${dontMatchToken}`}
-        const auth = new Auth
+       
+        request.cookies = {token:dontMatchToken}
 
-        auth.handler(request as Request ,response as Response,next as NextFunction)
+        Auth(request as Request ,response as Response,next as NextFunction)
        
         
         expect(response.status).toHaveBeenCalledTimes(1)

@@ -1,4 +1,4 @@
-import fs from "fs";
+import fs from "fs/promises";
 import path from 'path'
 
 const assetsDir = path.resolve(__dirname);
@@ -78,21 +78,39 @@ const padding = Buffer.alloc(6 * 1024);
     }
   ];
 
-const generateImages = ()=> {
- 
-  if (!fs.existsSync(assetsDir)) fs.mkdirSync(assetsDir, { recursive: true });
-  
-  files.forEach(({ name, buffer }) => {
-    const filePath = path.join(assetsDir, name);
-    fs.writeFileSync(filePath, buffer);
-  });
-}
-generateImages()
-export const deleteImages = () => {
-  files.map(({name}) => {
-    const filePath = path.join(assetsDir, name);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-    }
-  });
+export const generateImages = async () => {
+  if (!await existsAsync(assetsDir)) {
+    await fs.mkdir(assetsDir, { recursive: true });
+  }
+
+  await Promise.all(
+    files.map(async ({ name, buffer }) => {
+      const filePath = path.join(assetsDir, name);
+      await fs.writeFile(filePath, buffer);
+    })
+  );
+};
+
+
+const existsAsync = async (path: string): Promise<boolean> => {
+  try {
+    await fs.access(path);
+    return true;
+  } catch {
+    return false;
+  }
+};
+export const deleteImages = async () => {
+  await Promise.all(
+    files.map(async ({ name }) => {
+      const filePath = path.join(assetsDir, name);
+      try {
+        await fs.unlink(filePath);
+      } catch (err: any) {
+        if (err.code !== 'ENOENT') {
+          throw new Error(`Erro ao deletar o arquivo ${name}: ${err.message}`);
+        }
+      }
+    })
+  );
 };

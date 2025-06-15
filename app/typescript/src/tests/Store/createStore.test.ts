@@ -1,6 +1,6 @@
 import { ErrorMessage } from "../../Helpers/ErrorMessage";
 import { prisma } from "../../lib/prima";
-import { StoreService } from "../../Model/StoreService";
+import { StoreService } from "../../Services/StoreService";
 import { StoreRepository } from "../../Repository/StoreRepository";
 
 

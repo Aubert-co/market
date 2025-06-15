@@ -2,31 +2,18 @@ import {Request,Response,NextFunction} from 'express'
 import jwt,{JwtPayload} from "jsonwebtoken";
 
 
-const secret = process.env.JWT_KEY
+const secret = process.env.ACCESS_TOKEN
 export interface MyJwtPayload extends JwtPayload{
     id:string
 }
-export class Auth {
-    constructor(){}
-    public  handler(req:Request,res:Response,next:NextFunction):any{
-   
-        if(!req.headers.authorization)return res.status(401).json({message: "Access Denied"});
+export function Auth(req:Request,res:Response,next:NextFunction):any{
         
-        const authHeader = req.headers.authorization;
-        
-        const parts = authHeader.split(' ');
-
-        if (parts.length !== 2) return res.status(401).json({message:"Invalid token format"});
-    
-        const [scheme, token] = parts;
-  
-        if (!/^Bearer$/i.test(scheme) ) return res.status(401).json({ message: 'Invalid token format' });
-    
-   
+        if( !req.cookies || !req.cookies.token )return res.status(401).json({message: "Access Denied"});
+        const token = req.cookies.token
         if(!secret)return res.status(500).json({message:'An unexpected error occurred. Please try again later.'});
 
         try{
-            const decoded = jwt.verify(token, secret) as MyJwtPayload;
+            const decoded = jwt.verify(token, secret) as {id:number};
             if (!decoded || !decoded.id || isNaN(Number(decoded.id))) {
                 return res.status(400).json({ message: 'Invalid token' });
             }
@@ -37,5 +24,5 @@ export class Auth {
  
         }
     
-    }
 }
+ 

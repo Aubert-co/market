@@ -11,7 +11,7 @@ export type dataProducts = {
     stock:number
 }
 export interface IProductRepository{
-    createProduct(data:{name:string,description:string,
+    createProduct(data:{category:string,name:string,description:string,
         storeId:number,price:number,stock:number,imageUrl:string
     }):Promise<void>,
     getProducts(limit:number,skip:number):Promise<Array<dataProducts | []>>,
@@ -20,7 +20,7 @@ export interface IProductRepository{
 export class ProductRepository  implements IProductRepository{
     constructor(private prisma:PrismaClient){}
 
-    public async createProduct(data: { name: string; description: string; storeId: number; price: number; stock: number; imageUrl: string; }): Promise<void> {
+    public async createProduct(data: { category:string,name: string; description: string; storeId: number; price: number; stock: number; imageUrl: string; }): Promise<void> {
         try{
             await this.prisma.product.create({data})
         }catch(err:any){
@@ -29,20 +29,23 @@ export class ProductRepository  implements IProductRepository{
     }
     public async getProducts(limit:number , skip:number = 0): Promise<Array<dataProducts>> {
          try{
-            const datas = await this.prisma.product.findMany({limit,skip})
+            const datas = await this.prisma.product.findMany({take: limit,
+                skip})
             return datas;
         }catch(err:any){
             throw new ErrorMessage("Failed to get a product. Please check the data and try again.",409);
         } 
     }
-    public async findManyByName(name: string, limit: number, skip: number): Promise<Array<dataProducts>> {
+    public async findManyByName(name: string, limit: number, skip: number = 0): Promise<Array<dataProducts>> {
          try{
-            const datas = await this.prisma.product.findMany({
-                where:{
-                    name
+          const datas = await this.prisma.product.findMany({
+                where: {
+                    name,
                 },
-                limit,skip
-            })
+                take: limit,
+                skip,
+            });
+
             return datas;
         }catch(err:any){
             throw new ErrorMessage("Failed to find a product. Please check the data and try again.",409);

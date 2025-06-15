@@ -125,7 +125,7 @@ describe("API POST /login: Database Operations",()=>{
                         }
                     } 
             })
-            
+            await prisma.$disconnect()
             
         }catch(err){
             throw err

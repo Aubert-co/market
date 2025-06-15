@@ -3,7 +3,8 @@ import { ErrorMessage } from "../Helpers/ErrorMessage";
 
 export interface IStoreRepository{
     createStore(data:{storeName:string,userId:number,description:string,photo:string}):Promise<void>,
- 
+    checkStoreOwnerShip(storeId:number):Promise<any>,
+    findByName(storeName:string):Promise<any>
 }
 
 
@@ -18,13 +19,27 @@ export class StoreRepository implements IStoreRepository{
                 userId:data.userId,
                 description:data.description,
                 photo:data.photo
-            }}) 
-        }catch(err:any){
-            if (err.code === 'P2002') {
-                throw new ErrorMessage('A store with this name already exists.', 409);
-            }
+            }})  
+        }catch(err:any){ 
             throw new ErrorMessage("Failed to create a store",409)
         }
+    } 
+    public async checkStoreOwnerShip(storeId:number):Promise<any>{
+        
+            const datas =  await this.prisma.store.findUnique({
+                where:{id:storeId}
+            })
+            return datas
+     
     }
-  
+    public async findByName(storeName:string):Promise<any>{
+        try{
+            const datas = await this.prisma.store.findUnique({
+                where:{name:storeName}
+            })
+            return datas;
+        }catch(err:any){
+            throw new Error(err)
+        }
+    }
 }

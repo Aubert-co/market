@@ -1,17 +1,19 @@
 import request from "supertest"
-import * as FileUpload from "../../Services/FileUpload"
+import * as FileUpload from "../../Repository/FileUpload"
 import app from "../../serve"
 import path from "path"
 import jwt from "jsonwebtoken"
 import { prisma } from "../../lib/prima"
+import { deleteImages, generateImages } from "../assets/generate"
 
+if(!process.env.ACCESS_TOKEN)throw new Error();
 
- if(!process.env.JWT_KEY)throw new Error();
-
-const authorization  = jwt.sign({id:1},process.env.JWT_KEY )
+const cookies  = jwt.sign({id:1},process.env.ACCESS_TOKEN )
 
 describe("Post:/store/create try to create a store without token",()=>{
-    
+    beforeAll(async()=>{ 
+      await generateImages()   
+    })
     it("should return 'Acess denied' and status 401 when try to create a store withou login",async()=>{
 
         jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
@@ -61,7 +63,7 @@ describe("Post:/store/create  DB actions",()=>{
         
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'Minha Loja')
         .field('description', 'Descrição da loja')
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
@@ -76,7 +78,7 @@ describe("Post:/store/create - Invalid store name",()=>{
     it("should return status 422 and message 'Invalid name. Please check and try again.' when name is empty.",async()=>{
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', '')
         .field('description', 'Descrição da loja')
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
@@ -89,7 +91,7 @@ describe("Post:/store/create - Invalid store name",()=>{
         
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'abc')
         .field('description', 'Descrição da loja')
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
@@ -102,7 +104,7 @@ describe("Post:/store/create - Invalid store name",()=>{
         
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'a'.repeat(16))
         .field('description', 'Descrição da loja')
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
@@ -118,7 +120,7 @@ describe("Post:/store/create - Invalid store description ",()=>{
         
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'MinhaLoja')
         .field('description', '')
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
@@ -131,7 +133,7 @@ describe("Post:/store/create - Invalid store description ",()=>{
         
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'MinhaLoja')
         .field('description', 'abc')
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
@@ -144,7 +146,7 @@ describe("Post:/store/create - Invalid store description ",()=>{
         
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'MinhaLoja')
         .field('description', 'a'.repeat(201))
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
@@ -160,7 +162,7 @@ describe("Post:/store/create - Invalid image",()=>{
     it("should return 'Invalid or missing image file.' when not send a image",async()=>{
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'MinhaLoja')
         .field('description', 'a description')
         .attach('image', ''); 
@@ -171,7 +173,7 @@ describe("Post:/store/create - Invalid image",()=>{
      it("should return 'Invalid or missing image file.' the image is greater than 5mb",async()=>{
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'MinhaLoja')
         .field('description', 'a description')
         .attach('image', path.resolve(__dirname, '../assets/large-image.jpg')); 
@@ -182,7 +184,7 @@ describe("Post:/store/create - Invalid image",()=>{
     it("should return 'Invalid or missing image file.' when send a pdf",async()=>{
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'MinhaLoja')
         .field('description', 'a description')
          .attach('image', path.resolve(__dirname, '../assets/image.pdf')); 
@@ -193,7 +195,7 @@ describe("Post:/store/create - Invalid image",()=>{
     it("should return 'Invalid or missing image file.' when send a mp4",async()=>{
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'MinhaLoja')
         .field('description', 'a description')
          .attach('image', path.resolve(__dirname, '../assets/image.mp4')); 
@@ -238,15 +240,15 @@ describe("Post:/store/create - db actions",()=>{
                     }
             })
            
-        
-    
+            await deleteImages()
+            await prisma.$disconnect()
         }) 
     it("should return the message 'A store with this name already exists.' when trying to use an existing name.",async()=>{
         const  googleStorage= jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
           
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', storeData.name)
         .field('description', 'Descrição da loja')
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
@@ -261,7 +263,7 @@ describe("Post:/store/create - db actions",()=>{
         
         const response = await request(app)
         .post('/store/create')
-        .set('Authorization', `Bearer ${authorization}`)
+        .set('Cookie', [`token=${cookies}`])
         .field('name', 'newName')
         .field('description', 'Descrição da loja')
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 

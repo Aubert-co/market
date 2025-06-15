@@ -1,5 +1,5 @@
 import { Response ,Request} from "express";
-import { productService } from "../Model/ProductService";
+import { productService } from "../Services/ProductService";
 
 class GetProducts {
     constructor(protected products:productService ){}

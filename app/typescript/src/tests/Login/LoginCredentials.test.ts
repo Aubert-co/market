@@ -1,4 +1,4 @@
-import { LoginCredentials } from "../../Model/LoginCredentials";
+import { LoginCredentials } from "../../Services/LoginCredentials";
 import bcrypt from "bcrypt"
 
 describe("LoginCredentials",()=>{
