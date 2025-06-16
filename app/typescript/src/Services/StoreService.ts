@@ -18,12 +18,7 @@ export class StoreService implements storeService{
         try{
             await this.storeRepository.createStore({storeName,userId,photo,description})
         }catch(err:any){
-            
-            if(err instanceof ErrorMessage){
-                throw new ErrorMessage(err.message,err.status)
-            }
-            throw new Error(err)
-
+            throw new ErrorMessage("Failed to create a store",409)
         }
        
     }
@@ -34,7 +29,7 @@ export class StoreService implements storeService{
 
             return true;
         }catch(err:any){
-            throw new Error(err)
+            throw new ErrorMessage("Failed to find a store",409)
         }
     }
     public async checkOwnerShip(storeId:number,userId:number):Promise<boolean>{

@@ -2,6 +2,7 @@ import request from "supertest";
 import app from "../../serve";
 
 import { prisma } from "../../lib/prima";
+import { deleteUser,oneUser,createOneUser } from "../__mocks__";
 
 describe('Api post/register: When the name are invalid',()=>{
 
@@ -96,16 +97,10 @@ describe("API POST /register: When the email is invalid",()=>{
 
 
 describe("API POST /register: Database Operations with no users in the database",()=>{
-    let data = {name:'lucas',password:'1234456',email:'joses@gmail.com'}
+    
     afterAll(async()=>{
         try{
-            await prisma.user.deleteMany({
-                    where:{
-                        id:{
-                            gt:0
-                        }
-                    }
-            })
+            await deleteUser()
             
         }catch(err){
             throw err
@@ -115,7 +110,7 @@ describe("API POST /register: Database Operations with no users in the database"
         const response = await request(app)
         .post('/register')
        
-        .send(data); 
+        .send(oneUser); 
 
         expect(response.body.message).toEqual("User created successfully");
         expect(response.statusCode).toEqual(201);
@@ -125,24 +120,19 @@ describe("API POST /register: Database Operations with no users in the database"
 })
 
 describe("API POST /register: Database Operations with  users in the database",()=>{
-    let data = {name:'lucass',password:'12344568',email:'joeses@gmail.com'}
+   
     beforeAll(async()=>{
         try{
-            await prisma.user.create({data})
+            await deleteUser()
+            await createOneUser()
         }catch(err){
             throw err
         }
     })
     afterAll(async()=>{
         try{
-            await prisma.user.deleteMany({
-                    where:{
-                        id:{
-                            gt:0
-                        }
-                    }
-            })
-            await prisma.$disconnect()
+            await deleteUser()
+          
         }catch(err){
             throw err
         }
@@ -151,7 +141,7 @@ describe("API POST /register: Database Operations with  users in the database",(
         const response = await request(app)
         .post('/register')
        
-        .send(data); 
+        .send(oneUser); 
         expect(response.body.message).toEqual("User already exists");
         expect(response.statusCode).toEqual(409);
     

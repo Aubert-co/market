@@ -18,10 +18,11 @@ import { ProductRepository } from './Repository/ProductRepository'
 import { ProductService } from './Services/ProductService'
 import { CreateProductsController } from './Controller/CreateProductsController'
 import redis,{connectRedis} from './lib/redis'
+import { GetProductByCategory } from './Controller/GetProductByCategory'
 
 const userRepository = new UserRepository( prisma)
 const storeRepository = new StoreRepository(prisma)
-const productRepository = new ProductRepository(prisma)
+const productRepository = new ProductRepository(prisma,redis)
 
 const validateCredentials = new ValidateCredentials
 const validateImageAndFields = new ValidateImageAndFields
@@ -35,7 +36,7 @@ const createStore = new StoreController(storeService)
 const loginUser = new LoginCredentials(userRepository)
 const login = new LoginController(loginUser)
 const createProduct = new CreateProductsController(productService,storeService)
-
+const getProductByCategory = new GetProductByCategory(productService)
 const app = express()
  
 
@@ -67,9 +68,8 @@ route.post('/product/create',[
     ,Auth],
   (req:Request,res:Response,next:NextFunction)=>  createProduct.handler(req,res,next)
 )
-route.post('/auth/refresh',(req:Request,res:Response,next:NextFunction)=>{
-
-})
+route.get('/product/category',[Auth],
+getProductByCategory.handler)
 app.use( route )
 app.use((error:ErrorRequestHandler,req:Request,res:Response,next:NextFunction)=>ErrorMiddleware(error,req,res,next))
 

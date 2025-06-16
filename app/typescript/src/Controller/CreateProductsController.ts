@@ -35,21 +35,25 @@ export class CreateProductsController {
         if (!checkIsAValidNumber(req.body.price)) {
             throw new ErrorMessage("Invalid or missing price value. Must be a non-negative number.", 422);
         }
-        if(!isAValidString(req.body.category) ||!checkIsAValidCategory(req.body.category)){
+        if(!checkIsAValidCategory(req.body.category)){
             throw new ErrorMessage("Invalid category. Please check and try again.",422)
+        }
+        if(!checkIsAValidNumber(req.body.storeId)){
+            throw new ErrorMessage('Invalid request.',400);
         }
         const userId = req.user;
         const {buffer,originalname,mimetype} = req.file
         const publicUrlStorage = generateImgPath(originalname)
         const {name,description,price,stock,storeId,category} = req.body
        try{
-            const check = await this.store.checkOwnerShip(storeId,userId)
+            const check = await this.store.checkOwnerShip(Number(storeId),Number(userId))
             if(!check) {
                 throw new ErrorMessage("Validation failed. Please check your input.",400);
-            }
-            await this.products.createProduct({category,name,description,price,stock,storeId,imageUrl:publicUrlStorage})
+            } 
+            await this.products.createProduct({category,name,description,price:Number(price),stock:Number(stock),storeId:Number(storeId),imageUrl:publicUrlStorage})
 
             await uploadFileToGCS(buffer,originalname,mimetype)
+            res.status(201).send({message:"Product sucessfully created."})
        }catch(err:any){
         next(err)
        }

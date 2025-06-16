@@ -12,4 +12,7 @@ module.exports = {
     "<rootDir>/src/**/*.test.ts",
     "<rootDir>/src/**/*.spec.ts"
   ],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  globalTeardown: '<rootDir>/global-teardown.ts',
+  globalSetup:'<rootDir>/global-setup.ts'
 };

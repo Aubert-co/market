@@ -4,16 +4,15 @@ import app from "../../serve"
 import path from "path"
 import jwt from "jsonwebtoken"
 import { prisma } from "../../lib/prima"
-import { deleteImages, generateImages } from "../assets/generate"
+import { deleteStore, deleteUser } from "../__mocks__"
+
 
 if(!process.env.ACCESS_TOKEN)throw new Error();
 
 const cookies  = jwt.sign({id:1},process.env.ACCESS_TOKEN )
 
 describe("Post:/store/create try to create a store without token",()=>{
-    beforeAll(async()=>{ 
-      await generateImages()   
-    })
+   
     it("should return 'Acess denied' and status 401 when try to create a store withou login",async()=>{
 
         jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
@@ -32,30 +31,12 @@ describe("Post:/store/create try to create a store without token",()=>{
 describe("Post:/store/create  DB actions",()=>{
     beforeAll(async ()=>{
         const data = { id:1,name:'lucas',password:'123456',email:'lucas@gmail.com'}
-        await prisma.store.deleteMany({
-                    where:{
-                        id:{
-                             gt:0
-                        }
-                    }
-            })
-            await prisma.user.create({data})
-        })
+        await deleteStore()
+        await prisma.user.create({data})
+    })
      afterAll(async()=>{
-         await prisma.store.deleteMany({
-                    where:{
-                        id:{
-                             gt:0
-                        }
-                    }  
-            })
-            await prisma.user.deleteMany({
-                    where:{
-                        id:{
-                             gt:0
-                        }
-                    }
-            })
+        await deleteStore()
+        await deleteUser()
      })
      it("should sucessfully create a new store",async()=>{
          
@@ -68,8 +49,9 @@ describe("Post:/store/create  DB actions",()=>{
         .field('description', 'Descrição da loja')
         .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
         
-        expect(response.body.message).toEqual('Store sucessfully created')
         expect(response.statusCode).toEqual(201)
+        expect(response.body.message).toEqual('Store sucessfully created')
+    
         expect(googleStorage).toHaveBeenCalledTimes(1)
     })
 })
@@ -213,36 +195,18 @@ describe("Post:/store/create - db actions",()=>{
     })
     beforeAll(async ()=>{
         
-            await prisma.store.deleteMany({
-                    where:{
-                        id:{
-                             gt:0
-                        }
-                    }
-            })
+            await deleteStore()
             
             await prisma.user.create({data})
             await prisma.store.create({data:storeData})
         })
-     afterAll(async()=>{
-         await prisma.store.deleteMany({
-                    where:{
-                        id:{
-                             gt:0
-                        }
-                    }  
-            })
-            await prisma.user.deleteMany({
-                    where:{
-                        id:{
-                             gt:0
-                        }
-                    }
-            })
+    afterAll(async()=>{
+        await deleteStore()
+        await deleteUser()
            
-            await deleteImages()
-            await prisma.$disconnect()
-        }) 
+     
+            
+    }) 
     it("should return the message 'A store with this name already exists.' when trying to use an existing name.",async()=>{
         const  googleStorage= jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
           

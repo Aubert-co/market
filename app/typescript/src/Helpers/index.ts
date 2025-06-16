@@ -27,7 +27,8 @@ export const checkIsAValidNumber = (value:any):boolean=>{
   ) {
     return false;
   }
-
+  const isValidFormat = /^[0-9]+(\.[0-9]+)?$/.test(String(value)); 
+  if(!isValidFormat)return false;
   return true;
 }
 

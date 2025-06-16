@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { ErrorMessage } from "../Helpers/ErrorMessage";
+import { RedisClientType } from "redis";
 
 
 export type dataProducts = {
@@ -8,7 +9,8 @@ export type dataProducts = {
     description:string,
     price:number,
     imageUrl:string,
-    stock:number
+    stock:number,
+    category:string
 }
 export interface IProductRepository{
     createProduct(data:{category:string,name:string,description:string,
@@ -16,40 +18,64 @@ export interface IProductRepository{
     }):Promise<void>,
     getProducts(limit:number,skip:number):Promise<Array<dataProducts | []>>,
     findManyByName(name:string,limit:number,skip:number):Promise<Array<dataProducts>>
+    selectByCategory(category:string,limit:number,skip:number):Promise<dataProducts[] >,
+    getCachedProduct(key:string):Promise<any>,
+    saveProductInCache(key:string,data:string):Promise<void>
 }
 export class ProductRepository  implements IProductRepository{
-    constructor(private prisma:PrismaClient){}
+    constructor(private prisma:PrismaClient,private redis:RedisClientType){}
 
     public async createProduct(data: { category:string,name: string; description: string; storeId: number; price: number; stock: number; imageUrl: string; }): Promise<void> {
-        try{
-            await this.prisma.product.create({data})
-        }catch(err:any){
-            throw new ErrorMessage("Failed to create product. Please check the data and try again.",400);
-        }
+        await this.prisma.product.create({data})
+        
     }
-    public async getProducts(limit:number , skip:number = 0): Promise<Array<dataProducts>> {
-         try{
-            const datas = await this.prisma.product.findMany({take: limit,
-                skip})
-            return datas;
-        }catch(err:any){
-            throw new ErrorMessage("Failed to get a product. Please check the data and try again.",409);
-        } 
+    public async getProducts(limit:number , skip:number = 0): Promise<dataProducts[]> {
+         
+        const datas = await this.prisma.product.findMany({take: limit,
+            skip})
+        return datas;
+       
     }
-    public async findManyByName(name: string, limit: number, skip: number = 0): Promise<Array<dataProducts>> {
-         try{
-          const datas = await this.prisma.product.findMany({
-                where: {
-                    name,
-                },
-                take: limit,
-                skip,
-            });
+    public async findManyByName(name: string, limit: number=10, skip: number = 0): Promise<dataProducts[]> {
+        
+        const datas = await this.prisma.product.findMany({
+            where: {
+                name,
+            },
+            take: limit,
+            skip,
+        });
 
-            return datas;
-        }catch(err:any){
-            throw new ErrorMessage("Failed to find a product. Please check the data and try again.",409);
-        }
+        return datas;
+       
     }
-   
+   public async selectByCategory(category:string,limit:number=10,skip:number=0):Promise<dataProducts[]>{
+       
+    
+        const datas = await this.prisma.product.findMany({
+            where:{
+                category
+            },
+            take: limit,
+            skip
+        })
+        return datas;
+       
+   }
+    public async saveProductInCache(key:string,datas:string):Promise<void>{
+       
+        await this.redis.set(key,datas,
+            {
+                expiration: {
+                    type: 'EX',
+                    value: 3600 
+                }
+            }
+        )
+    }
+    public async getCachedProduct(key:string):Promise<string | null>{
+
+        const cachedDatas = await this.redis.get(key)
+        return cachedDatas;
+    }
 }

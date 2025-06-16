@@ -9,7 +9,7 @@ describe("",()=>{
         expect(checkIsAValidNumber(1.5)).toBeTruthy()
         expect(checkIsAValidNumber(-1)).toBeFalsy()
         expect(checkIsAValidNumber('124e')).toBeFalsy()
-      
+        expect(checkIsAValidNumber('1e1')).toBeFalsy()
         expect(checkIsAValidNumber(false)).toBeFalsy()
         expect(checkIsAValidNumber(true)).toBeFalsy()
         expect(checkIsAValidNumber(undefined)).toBeFalsy()

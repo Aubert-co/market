@@ -24,7 +24,7 @@ export class StoreController{
             const publicUrlStorage = generateImgPath(originalname)
             
             const existsStoreName = await this.storeService.findByName( name )
-            if(!existsStoreName)throw new ErrorMessage("A store with this name already exists.",409);
+            if(existsStoreName)throw new ErrorMessage("A store with this name already exists.",409);
 
             await this.storeService.createStore(name,userId,publicUrlStorage,description)
             

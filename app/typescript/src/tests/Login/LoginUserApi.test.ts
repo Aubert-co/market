@@ -2,13 +2,14 @@ import request from "supertest";
 import app from "../../serve";
 import bcrypt from "bcrypt"
 import { prisma } from "../../lib/prima";
+import { deleteUser } from "../__mocks__";
 
 
 describe("Api post/login:When the password is invalid",()=>{
   it("should return status 422 and 'Invalid password...' When the password is greater than 15.", async () => {
         const response = await request(app)
         .post('/login')
-       
+        
         .send({  password: 'a'.repeat(16), email: 'lorem@gmail.com' }); 
 
         expect(response.statusCode).toEqual(422);
@@ -75,13 +76,7 @@ describe("API POST /login: Database Operations",()=>{
     })
     afterAll(async()=>{
         try{
-            await prisma.user.deleteMany({
-                    where:{
-                        id:{
-                             gt:0
-                        }
-                    }
-            })
+            await deleteUser()
           
         }catch(err){
             throw err
@@ -118,14 +113,8 @@ describe("API POST /login: Database Operations",()=>{
     describe("",()=>{
         beforeEach(async ()=>{
         try{
-            await prisma.user.deleteMany({
-                    where:{
-                        id:{
-                            gt:0
-                        }
-                    } 
-            })
-            await prisma.$disconnect()
+            await deleteUser()
+           
             
         }catch(err){
             throw err

@@ -37,6 +37,7 @@ export class LoginController{
             });
             res.status(201).json({ message: "Login successfully" });
         }catch(error:any){
+           
             next(error)
         }
     }

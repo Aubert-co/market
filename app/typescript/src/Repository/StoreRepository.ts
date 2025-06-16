@@ -13,33 +13,29 @@ export class StoreRepository implements IStoreRepository{
     constructor(private prisma:PrismaClient){}
  
     public async createStore(data:{storeName:string,userId:number,description:string,photo:string}):Promise<void>{
-        try{
-            await this.prisma.store.create({data:{
-                name:data.storeName,
-                userId:data.userId,
-                description:data.description,
-                photo:data.photo
-            }})  
-        }catch(err:any){ 
-            throw new ErrorMessage("Failed to create a store",409)
-        }
+       
+        await this.prisma.store.create({data:{
+            name:data.storeName,
+            userId:data.userId,
+            description:data.description,
+            photo:data.photo
+        }})  
+       
     } 
     public async checkStoreOwnerShip(storeId:number):Promise<any>{
         
-            const datas =  await this.prisma.store.findUnique({
-                where:{id:storeId}
-            })
-            return datas
+        const datas =  await this.prisma.store.findUnique({
+            where:{id:storeId}
+        })
+        return datas
      
     }
     public async findByName(storeName:string):Promise<any>{
-        try{
-            const datas = await this.prisma.store.findUnique({
-                where:{name:storeName}
-            })
-            return datas;
-        }catch(err:any){
-            throw new Error(err)
-        }
+  
+        const datas = await this.prisma.store.findUnique({
+            where:{name:storeName}
+        })
+        return datas;
+        
     }
 }
