@@ -6,7 +6,8 @@ export interface productService{
         storeId: number, price: number, stock: number, imageUrl: string }):Promise<void>,
     selectByCategory(category:string,limit:number,skip:number ):Promise<dataProducts[]>,
     getProductInCache(key:string):Promise<dataProducts[] >,
-    saveProductInCache(key:string,data:dataProducts[]):Promise<void>
+    saveProductInCache(key:string,data:dataProducts[]):Promise<any>,
+    getProducts(limit:number,skip:number):Promise<dataProducts[]>
 }
 export class ProductService  implements productService{
     constructor(protected product:IProductRepository){}
@@ -39,16 +40,22 @@ export class ProductService  implements productService{
 
             return parsed as dataProducts[]
         }catch(err:any){
-            throw new ErrorMessage("Error while retrieving product from cache",409)
+            return [];
         }
     }
-    public async saveProductInCache(key:string,data:dataProducts[]):Promise<void>{
+    public async saveProductInCache(key:string,data:dataProducts[]):Promise<any>{
         const datas = JSON.stringify(data)
         try{
-            
             await this.product.saveProductInCache(key,datas)
         }catch(err:any){
-            throw new ErrorMessage("Error while save product in cache",409)
+            return [];
+        }
+    }
+    public async getProducts(limit:number,skip:number):Promise<dataProducts[]>{
+        try{
+            return await this.product.getProducts(limit,skip);
+        }catch(err:any){
+            throw new ErrorMessage("",409)
         }
     }
 }

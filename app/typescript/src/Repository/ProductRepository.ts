@@ -16,7 +16,7 @@ export interface IProductRepository{
     createProduct(data:{category:string,name:string,description:string,
         storeId:number,price:number,stock:number,imageUrl:string
     }):Promise<void>,
-    getProducts(limit:number,skip:number):Promise<Array<dataProducts | []>>,
+    getProducts(limit:number,skip:number):Promise<dataProducts[]>,
     findManyByName(name:string,limit:number,skip:number):Promise<Array<dataProducts>>
     selectByCategory(category:string,limit:number,skip:number):Promise<dataProducts[] >,
     getCachedProduct(key:string):Promise<any>,
@@ -32,9 +32,10 @@ export class ProductRepository  implements IProductRepository{
     public async getProducts(limit:number , skip:number = 0): Promise<dataProducts[]> {
          
         const datas = await this.prisma.product.findMany({take: limit,
-            skip})
+            skip,orderBy:{createdAt:'desc'}
+        })
         return datas;
-       
+        
     }
     public async findManyByName(name: string, limit: number=10, skip: number = 0): Promise<dataProducts[]> {
         
@@ -50,8 +51,6 @@ export class ProductRepository  implements IProductRepository{
        
     }
    public async selectByCategory(category:string,limit:number=10,skip:number=0):Promise<dataProducts[]>{
-       
-    
         const datas = await this.prisma.product.findMany({
             where:{
                 category

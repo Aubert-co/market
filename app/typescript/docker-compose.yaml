@@ -51,6 +51,8 @@ services:
       - BUCKET_NAME="lorem ipstu"
       - ACCESS_TOKEN=loremqiqe
       - REFRESH_TOKEN=loremsss
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+
     tty: true
 
 

@@ -2,7 +2,7 @@
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/serve.ts",
     "build": "tsc --project ./tsconfig.json",
-    "test": "jest --detectOpenHandles  --watchAll"
+    "test": "npx jest --coverage"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
