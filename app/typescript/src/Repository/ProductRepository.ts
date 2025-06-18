@@ -20,7 +20,10 @@ export interface IProductRepository{
     findManyByName(name:string,limit:number,skip:number):Promise<Array<dataProducts>>
     selectByCategory(category:string,limit:number,skip:number):Promise<dataProducts[] >,
     getCachedProduct(key:string):Promise<any>,
-    saveProductInCache(key:string,data:string):Promise<void>
+    saveProductInCache(key:string,data:string):Promise<void>,
+    getProductById(id:number):Promise<dataProducts | null>,
+    getRecentCategories(userId: number): Promise<string[]>,
+    saveRecentCategories(category:string,userId:number):Promise<void>
 }
 export class ProductRepository  implements IProductRepository{
     constructor(private prisma:PrismaClient,private redis:RedisClientType){}
@@ -76,5 +79,18 @@ export class ProductRepository  implements IProductRepository{
 
         const cachedDatas = await this.redis.get(key)
         return cachedDatas;
+    }
+    public async getProductById(id:number):Promise<dataProducts | null>{
+        return await this.prisma.product.findUnique({where:{id}})
+    }
+    public async saveRecentCategories(category:string,userId:number):Promise<void>{
+        const key = `user${userId}:recent_categories`;
+        await this.redis.lRem(key, 0, category);
+        await this.redis.lPush(key,category);
+        await this.redis.lTrim(key,0,4);
+    }
+    public async getRecentCategories(userId: number): Promise<string[]> {
+        const categories = await this.redis.lRange(`user:${userId}:recent_categories`, 0, -1);
+        return categories;
     }
 }

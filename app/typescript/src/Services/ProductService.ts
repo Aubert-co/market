@@ -7,7 +7,8 @@ export interface productService{
     selectByCategory(category:string,limit:number,skip:number ):Promise<dataProducts[]>,
     getProductInCache(key:string):Promise<dataProducts[] >,
     saveProductInCache(key:string,data:dataProducts[]):Promise<any>,
-    getProducts(limit:number,skip:number):Promise<dataProducts[]>
+    getProducts(limit:number,skip:number):Promise<dataProducts[]>,
+    getProductById(id:number):Promise<dataProducts|null >
 }
 export class ProductService  implements productService{
     constructor(protected product:IProductRepository){}
@@ -27,7 +28,7 @@ export class ProductService  implements productService{
         try{
             return await this.product.selectByCategory(category,limit,skip) ;
         }catch(err:any){
-            throw new ErrorMessage("Failed to get a product. Please check the data and try again.",409);
+            throw new ErrorMessage("Failed to retrieve products. Please try again later.", 500);
         } 
     }
     public async getProductInCache(key:string):Promise<dataProducts[] >{
@@ -55,7 +56,22 @@ export class ProductService  implements productService{
         try{
             return await this.product.getProducts(limit,skip);
         }catch(err:any){
-            throw new ErrorMessage("",409)
+            throw new ErrorMessage("Failed to retrieve products. Please try again later.", 500);
         }
+    }
+    public async getProductById(id:number):Promise<dataProducts |null>{
+        try{
+            const datas = await this.product.getProductById(id);
+            if(!datas)return null;
+            return datas
+        }catch(err:any){
+            throw new ErrorMessage("Failed to retrieve products. Please try again later.", 500);
+        }
+    }
+    public async saveRecentCategories(category:string,userId:number):Promise<void>{
+        await this.product.saveRecentCategories(category,userId)
+    }
+    public async getRecentCategories(userId:number):Promise<string[]>{
+        return await this.product.getRecentCategories(userId) 
     }
 }
