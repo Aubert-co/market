@@ -13,7 +13,7 @@ export class GetRecommendedProducts {
         if(recommendDatas.length ===0){
             return res.status(200).send({message:'Sucess',datas:[]})
         }
-        const [firts,second] = recommendDatas
+        
         
         const datas = await this.products.selectByCategory(recommendDatas[0],5,0);
         
