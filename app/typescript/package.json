@@ -2,8 +2,8 @@
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/serve.ts",
     "build": "tsc --project ./tsconfig.json",
-    "test": "npx jest  --detectOpenHandles",
-    "unit":"npx jest /*.spec.ts"
+    "test": "npx jest --watchAll --detectOpenHandles",
+    "unit": "npx jest /*.spec.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -29,6 +29,7 @@
   "dependencies": {
     "@google-cloud/storage": "^7.16.0",
     "@prisma/client": "^6.8.2",
+    "autocannon": "^8.0.0",
     "bcrypt": "^6.0.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",

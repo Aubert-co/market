@@ -23,7 +23,8 @@ export interface IProductRepository{
     saveProductInCache(key:string,data:string):Promise<void>,
     getProductById(id:number):Promise<dataProducts | null>,
     getRecentCategories(userId: number): Promise<string[]>,
-    saveRecentCategories(category:string,userId:number):Promise<void>
+    saveRecentCategories(category:string,userId:number):Promise<void>,
+    countProducts():Promise<number>
 }
 export class ProductRepository  implements IProductRepository{
     constructor(private prisma:PrismaClient,private redis:RedisClientType){}
@@ -92,5 +93,8 @@ export class ProductRepository  implements IProductRepository{
     public async getRecentCategories(userId: number): Promise<string[]> {
         const categories = await this.redis.lRange(`user:${userId}:recent_categories`, 0, -1);
         return categories;
+    }
+    public async countProducts():Promise<number>{
+        return await this.prisma.product.count()
     }
 }

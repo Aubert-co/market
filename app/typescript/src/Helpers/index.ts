@@ -45,7 +45,9 @@ export const categories = [
   "Informática",
   "Jardim",
   "Petshop",
-  "Mercearia"
+  "Mercearia",
+  "Moda",
+  "Acessórios"
 ];
 
 const normalizeString = (str: string) =>
@@ -65,12 +67,12 @@ const matchingCategires = [
   ["Jardim","Petshop","Cozinha","Mercearia"],
   ["Brinquedos","Livros"]
 
-]
+] 
 
 export const getMatchCategories = (category:string)=>{
     const nrmlCategory = normalizeString(category)
-     const array =  matchingCategires.filter((val)=>{
-        if(val.some(cat =>normalizeString(cat) ===nrmlCategory))return val
-    })
+     const array = matchingCategires.filter((val: string[]) => {
+    return val.some((cat) => normalizeString(cat) === nrmlCategory);
+  });
     return array
 }

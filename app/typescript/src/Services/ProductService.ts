@@ -8,7 +8,8 @@ export interface productService{
     getProductInCache(key:string):Promise<dataProducts[] >,
     saveProductInCache(key:string,data:dataProducts[]):Promise<any>,
     getProducts(limit:number,skip:number):Promise<dataProducts[]>,
-    getProductById(id:number):Promise<dataProducts|null >
+    getProductById(id:number):Promise<dataProducts|null >,
+    countProducts():Promise<number>
 }
 export class ProductService  implements productService{
     constructor(protected product:IProductRepository){}
@@ -73,5 +74,13 @@ export class ProductService  implements productService{
     }
     public async getRecentCategories(userId:number):Promise<string[]>{
         return await this.product.getRecentCategories(userId) 
+    }
+    public async countProducts():Promise<number>{
+    try {
+        return await this.product.countProducts();
+    } catch (err: any) {
+        throw new ErrorMessage("Failed to count products in the database", 500);
+    }
+
     }
 }

@@ -27,7 +27,7 @@ describe("LoginCredentials",()=>{
     it("should log in a user when password are correct.",async()=>{ 
         findByEmailMock.mockReturnValue([{id:1,name,password:hashedPassword}])
         const login = new LoginCredentials( userRepository )
-
+ 
         await expect(login.auth(email,password)).resolves.toBe(1)
         expect(findByEmailMock).toHaveBeenCalledTimes(1)
         expect(findByEmailMock).toHaveBeenCalledWith(email)
