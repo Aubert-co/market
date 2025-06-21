@@ -12,7 +12,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     mem_limit: 3072m
-    cpus: 0.25
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"] 
       interval: 5s     
@@ -28,6 +27,8 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
     env_file:
       - .env
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
       
   test:
     image: my-express-app:dev 
@@ -52,7 +53,7 @@ services:
       - ACCESS_TOKEN=loremqiqe
       - REFRESH_TOKEN=loremsss
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
-
+      - REDIS_URL=redis://default:${REDIS_PASSWORD}@redis:6379
     tty: true
 
 

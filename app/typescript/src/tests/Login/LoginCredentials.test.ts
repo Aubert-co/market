@@ -5,13 +5,15 @@ describe("LoginCredentials",()=>{
     const name ="lucas"
     const password ="12345678"
     const email = "lorem@gmail.com"
-    const findByEmailMock = jest.fn()
-    const createMock = jest.fn()
-    const userRepository = {findByEmail:findByEmailMock,create:createMock}
+    let findByEmailMock:any 
+    let createMock:any 
+    let userRepository:any
     let hashedPassword:string
 
     beforeEach(async()=>{
-        jest.clearAllMocks()
+        createMock = jest.fn()
+        findByEmailMock = jest.fn()
+        userRepository = {findByEmail:findByEmailMock,create:createMock}
         hashedPassword = await bcrypt.hash(password,10)
     })
    

@@ -5,13 +5,15 @@ describe("RegisteerCretendials",()=>{
     const name ="lucas"
     const password ="12345678"
     const email = "lorem@gmail.com"
-    const findByEmailMock = jest.fn()
-    const createMock = jest.fn()
-    const userRepository = {findByEmail:findByEmailMock,create:createMock}
+    let findByEmailMock:any 
+    let createMock:any
+    let userRepository:any
     const MOCKED_HASH = "QJE1938OInewe"
     beforeEach(async()=>{
-        jest.clearAllMocks()
+       findByEmailMock = jest.fn()
+       createMock = jest.fn()
         jest.spyOn(bcrypt,"hash").mockResolvedValue(MOCKED_HASH as never)
+        userRepository   = {findByEmail:findByEmailMock,create:createMock}
     })
     it("should throw an error if user already exists",async()=>{
          

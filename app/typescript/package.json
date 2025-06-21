@@ -2,7 +2,7 @@
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/serve.ts",
     "build": "tsc --project ./tsconfig.json",
-    "test": "npx jest --watchAll --detectOpenHandles",
+    "test": "npx jest --watchAll --detectOpenHandles --runInBand",
     "unit": "npx jest /*.spec.ts"
   },
   "devDependencies": {

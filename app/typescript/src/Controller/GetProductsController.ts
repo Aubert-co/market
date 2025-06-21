@@ -7,26 +7,37 @@ export class GetProducts {
     constructor(protected products:productService ){}
 
     public async handler(req:Request,res:Response,next:NextFunction):Promise<any>{
-        let page = Number(req.query.page)
-        
+        let page = Number(req.params.page)
+        let countProducts:number
         if( !checkIsAValidNumber(page) ){
             page = 1
         }
-        page = Number(req.query.page)
         const limit = 10
-        const skip = (page -1 )* limit
-        const key = `product:page:${page}`
         try{
-            const countProducts = await this.products.countProducts()
-            
-            const getProductsInCache =await this.products.getProductInCache( key )
-            const totalPages = Math.ceil(countProducts/limit)
-            if(getProductsInCache ){
-                return res.status(200).send({message:'Sucess',datas:getProductsInCache,totalPages,currentPage:page})
+            countProducts = await this.products.getCountProductInCache();
+
+            if ( countProducts <= 0 ) {
+                const count = await this.products.countProducts();
+                if ( count > 0) {
+                    await this.products.saveCountProductsInCache(count)
+                }
             }
-            const datas = await this.products.getProducts(limit,skip)
+              
             
-            res.status(200).send({message:'Sucess',datas,totalPages,currentPage:page})
+            const totalPages = Math.ceil(countProducts/limit)
+            if(page > totalPages)page = 2;
+
+            const skip = (page -1 )* limit
+            const key = `product:page:${page}`
+            const getProductsInCache =await this.products.getProductInCache( key )
+            
+            if(getProductsInCache.length >0 ){
+                return res.status(200).send({message:'Sucess',datas:getProductsInCache,totalPages,currentPage:page,fromCache:true})
+            }
+ 
+            const datas = await this.products.getProducts(limit,skip)
+        
+            res.status(200).send({message:'Sucess',datas,totalPages,currentPage:page,fromCache:false})
             if(datas.length >0)await this.products.saveProductInCache( key ,datas);
         }catch(err:any){
             next(err)

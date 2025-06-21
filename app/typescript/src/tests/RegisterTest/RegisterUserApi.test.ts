@@ -2,10 +2,12 @@ import request from "supertest";
 import app from "../../serve";
 
 import { prisma } from "../../lib/prima";
-import { deleteUser,oneUser,createOneUser } from "../__mocks__";
+import { deleteUser,oneUser,createOneUser, cleanAllDb } from "../__mocks__";
 
 describe('Api post/register: When the name are invalid',()=>{
-
+    beforeAll(async()=>{
+        cleanAllDb()
+    })
     it("should return status 422 and 'Invalid name...' When the name is empty.", async () => {
         const response = await request(app)
         .post('/register')
@@ -149,11 +151,16 @@ describe("API POST /register: Database Operations with  users in the database",(
     })
     })
 describe("Api post/register: When the database throws an error",()=>{
-   
+    let createUserSpy:any
+    let findUserSpy:any
+    beforeEach(()=>{
+        createUserSpy = jest.spyOn(prisma.user, 'create')
+        findUserSpy = jest.spyOn(prisma.user, 'findUnique')
+    })
     it("should return an error when the database throws an error.",async()=>{
-        const createSpy = jest.spyOn(prisma.user, 'create');
+        
 
-        createSpy.mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
+        createUserSpy.mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
 
         const response = await request(app)
         .post('/register')
@@ -165,9 +172,9 @@ describe("Api post/register: When the database throws an error",()=>{
         expect(response.body.message).toEqual("Failed to create a new user");
     })
     it("should return an error when the database throws an error.",async()=>{
-        const createSpy = jest.spyOn(prisma.user, 'findUnique');
+        
 
-        createSpy.mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
+        findUserSpy.mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
 
         const response = await request(app)
         .post('/register')

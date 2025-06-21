@@ -88,6 +88,98 @@ export const products = [
     stock: 10,
     category: "Informática",
     storeId: 1
+  },
+  {
+    name: "Teclado Mecânico Redragon Kumara",
+    description: "Teclado mecânico com switches Outemu Blue e iluminação RGB.",
+    price: 249.90,
+    imageUrl: "https://picsum.photos/seed/11/600/400",
+    stock: 25,
+    category: "Informática",
+    storeId: 1
+  },
+  {
+    name: "Mouse Logitech MX Master 3",
+    description: "Mouse sem fio de alta precisão com ergonomia avançada.",
+    price: 499.00,
+    imageUrl: "https://picsum.photos/seed/12/600/400",
+    stock: 15,
+    category: "Informática",
+    storeId: 1
+  },
+  {
+    name: "Notebook Dell Inspiron 15",
+    description: "Notebook com Intel i5 e 8GB de RAM, ideal para tarefas do dia a dia.",
+    price: 3799.00,
+    imageUrl: "https://picsum.photos/seed/13/600/400",
+    stock: 8,
+    category: "Informática",
+    storeId: 1
+  },
+  {
+    name: "Cadeira Gamer ThunderX3",
+    description: "Cadeira ergonômica com ajuste de altura e encosto reclinável.",
+    price: 1199.90,
+    imageUrl: "https://picsum.photos/seed/14/600/400",
+    stock: 5,
+    category: "Móveis",
+    storeId: 1
+  },
+  {
+    name: "Headset HyperX Cloud Stinger",
+    description: "Headset leve com som envolvente e microfone ajustável.",
+    price: 299.00,
+    imageUrl: "https://picsum.photos/seed/15/600/400",
+    stock: 20,
+    category: "Áudio",
+    storeId: 1
+  },
+  {
+    name: "Smartphone Samsung Galaxy A54",
+    description: "Smartphone com câmera tripla e bateria de longa duração.",
+    price: 2099.00,
+    imageUrl: "https://picsum.photos/seed/16/600/400",
+    stock: 30,
+    category: "Celulares",
+    storeId: 1
+  },
+  {
+    name: "Tablet Lenovo Tab P11",
+    description: "Tablet com tela 2K, ideal para estudos e consumo de mídia.",
+    price: 1499.00,
+    imageUrl: "https://picsum.photos/seed/17/600/400",
+    stock: 12,
+    category: "Tablets",
+    storeId: 1
+  },
+  {
+    name: "Impressora HP DeskJet Ink Advantage",
+    description: "Impressora multifuncional com Wi-Fi e baixo custo de impressão.",
+    price: 499.00,
+    imageUrl: "https://picsum.photos/seed/18/600/400",
+    stock: 18,
+    category: "Periféricos",
+    storeId: 1
+  },
+  {
+    name: "Webcam Logitech C920 HD Pro",
+    description: "Webcam Full HD com microfone embutido e autofoco.",
+    price: 429.90,
+    imageUrl: "https://picsum.photos/seed/19/600/400",
+    stock: 10,
+    category: "Acessórios",
+    storeId: 1
+  },
+  {
+    name: "SSD Kingston A400 480GB",
+    description: "SSD com leitura e gravação rápidas para melhorar o desempenho do PC.",
+    price: 279.00,
+    imageUrl: "https://picsum.photos/seed/20/600/400",
+    stock: 22,
+    category: "Armazenamento",
+    storeId: 1
   }
+
+
 ];
 

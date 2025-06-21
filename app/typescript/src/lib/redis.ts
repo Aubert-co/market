@@ -6,7 +6,7 @@ if (!REDIS_URL) {
 }
 
 const redis: RedisClientType = createClient({
-  url: REDIS_URL,
+  url: REDIS_URL, 
   socket: {
     reconnectStrategy: (retries) => {
       if (retries > 10) return new Error('Redis retry limit exceeded');
@@ -18,9 +18,9 @@ const redis: RedisClientType = createClient({
 redis.on('error', (err) => {
   console.error('Redis error:', err);
 });
-redis.on('connect', () => console.log('Redis conectado.'));
-redis.on('reconnecting', () => console.log('Reconectando ao Redis...'));
-redis.on('end', () => console.log('Conexão Redis encerrada.'));
+redis.on('connect', () => console.log('redis connect'));
+redis.on('reconnecting', () => console.log('redis reconnecting'));
+redis.on('end', () => console.log('redis end'));
 
 let isConnected = false;
 

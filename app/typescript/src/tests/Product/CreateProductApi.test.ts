@@ -26,7 +26,7 @@ describe("When try to create a product with invalid name",()=>{
         .field('stock',15)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid name. Please check and try again.')
         expect(response.statusCode).toEqual(422)
@@ -43,7 +43,7 @@ describe("When try to create a product with invalid name",()=>{
         .field('stock',15)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid name. Please check and try again.')
         expect(response.statusCode).toEqual(422)
@@ -60,7 +60,7 @@ describe("When try to create a product with invalid name",()=>{
         .field('stock',15)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid name. Please check and try again.')
         expect(response.statusCode).toEqual(422)
@@ -81,7 +81,7 @@ describe("When try to create a product with an invalid category",()=>{
         .field('stock',15)
         .field('category','')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid category. Please check and try again.')
         expect(response.statusCode).toEqual(422)
@@ -98,7 +98,7 @@ describe("When try to create a product with an invalid category",()=>{
         .field('stock',15)
         .field('category','a'.repeat(21))
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid category. Please check and try again.')
         expect(response.statusCode).toEqual(422)
@@ -115,7 +115,7 @@ describe("When try to create a product with an invalid category",()=>{
         .field('stock',15)
         .field('category','abc')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
 
         expect(response.body.message).toEqual('Invalid category. Please check and try again.')
         expect(response.statusCode).toEqual(422)
@@ -137,7 +137,7 @@ describe("When try to create a product with an invalid price",()=>{
         .field('stock',15)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid or missing price value. Must be a non-negative number.')
         expect(response.statusCode).toEqual(422)
@@ -154,7 +154,7 @@ describe("When try to create a product with an invalid price",()=>{
         .field('stock',15)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid or missing price value. Must be a non-negative number.')
         expect(response.statusCode).toEqual(422)
@@ -169,7 +169,7 @@ describe("When try to create a product with an invalid price",()=>{
         .field('stock',15)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid or missing price value. Must be a non-negative number.')
         expect(response.statusCode).toEqual(422)
@@ -184,7 +184,7 @@ describe("When try to create a product with an invalid price",()=>{
         .field('stock',15)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid or missing price value. Must be a non-negative number.')
         expect(response.statusCode).toEqual(422)
@@ -205,7 +205,7 @@ describe("When try to create a product with an invalid stock",()=>{
         .field('stock',0)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid or missing stock value. Must be a non-negative number.')
         expect(response.statusCode).toEqual(422)
@@ -222,7 +222,7 @@ describe("When try to create a product with an invalid stock",()=>{
         .field('stock',-15)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid or missing stock value. Must be a non-negative number.')
         expect(response.statusCode).toEqual(422)
@@ -237,7 +237,7 @@ describe("When try to create a product with an invalid stock",()=>{
         .field('stock','')
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid or missing stock value. Must be a non-negative number.')
         expect(response.statusCode).toEqual(422)
@@ -252,7 +252,7 @@ describe("When try to create a product with an invalid stock",()=>{
         .field('stock','dez reais')
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid or missing stock value. Must be a non-negative number.')
         expect(response.statusCode).toEqual(422)
@@ -274,7 +274,7 @@ describe("When try to create a product with an invalid description",()=>{
         .field('stock',0)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid description. Please check and try again.')
         expect(response.statusCode).toEqual(422)
@@ -291,7 +291,7 @@ describe("When try to create a product with an invalid description",()=>{
         .field('stock',-15)
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid description. Please check and try again.')
         expect(response.statusCode).toEqual(422)
@@ -306,7 +306,7 @@ describe("When try to create a product with an invalid description",()=>{
         .field('stock','')
         .field('category','Eletrônicos')
         .field('storeId',1)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Invalid description. Please check and try again.')
         expect(response.statusCode).toEqual(422)
@@ -315,6 +315,8 @@ describe("When try to create a product with an invalid description",()=>{
 })   
 describe("db actions",()=>{
     let  newCookies  = jwt.sign({id:users[1].id},ACCESS_TOKEN )
+    let googleStorage:any
+    let prismaProductCreate:any
     beforeAll(async()=>{
         await deleteProduct()
         await deleteStore()
@@ -323,7 +325,8 @@ describe("db actions",()=>{
         await prisma.store.createMany({data:stores})
     })
     beforeEach(async()=>{
-     
+        googleStorage= jest.spyOn(FileUpload,"uploadFileToGCS")
+        prismaProductCreate =jest.spyOn(prisma.product,'create')
         jest.clearAllMocks()
     })
     afterAll(async()=>{ 
@@ -340,13 +343,13 @@ describe("db actions",()=>{
         .field('stock',10)
         .field('category','Eletrônicos')
         .field('storeId',stores[0].id)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Validation failed. Please check your input.')
         expect(response.statusCode).toEqual(400)
     })
     it("should sucessfully create a new product",async()=>{
-        const  googleStorage= jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
+        googleStorage.mockResolvedValue("sucess")
                   
         const response = await request(app)
         .post('/product/create')
@@ -357,15 +360,15 @@ describe("db actions",()=>{
         .field('stock',10)
         .field('category','Eletrônicos')
         .field('storeId',stores[0].id)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Product sucessfully created.')
         expect(response.statusCode).toEqual(201)
         expect(googleStorage).toHaveBeenCalledTimes(1)
     })
     it("should return an error when the db throwns an error",async()=>{
-        const  googleStorage= jest.spyOn(FileUpload,"uploadFileToGCS").mockResolvedValue("sucess")
-        jest.spyOn(prisma.product,'create').mockRejectedValueOnce(()=>new Error('something went wrong'))
+        googleStorage.mockResolvedValue("sucess")
+        prismaProductCreate.mockRejectedValueOnce(()=>new Error('something went wrong'))
         const response = await request(app)
         .post('/product/create')
         .set('Cookie', [`token=${cookies}`])
@@ -375,7 +378,7 @@ describe("db actions",()=>{
         .field('stock',10)
         .field('category','Eletrônicos')
         .field('storeId',stores[0].id)
-        .attach('image', path.resolve(__dirname, '../assets/image.jpg')); 
+        .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
         expect(response.body.message).toEqual('Failed to create product. Please check your input and try again.')
         expect(response.statusCode).toEqual(422)

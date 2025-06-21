@@ -24,7 +24,9 @@ export interface IProductRepository{
     getProductById(id:number):Promise<dataProducts | null>,
     getRecentCategories(userId: number): Promise<string[]>,
     saveRecentCategories(category:string,userId:number):Promise<void>,
-    countProducts():Promise<number>
+    countProducts():Promise<number | undefined>,
+    getCountProductsInCache():Promise<string | null>,
+    saveCountProductsInCache(countProduct:number):Promise<void>
 }
 export class ProductRepository  implements IProductRepository{
     constructor(private prisma:PrismaClient,private redis:RedisClientType){}
@@ -36,7 +38,7 @@ export class ProductRepository  implements IProductRepository{
     public async getProducts(limit:number , skip:number = 0): Promise<dataProducts[]> {
          
         const datas = await this.prisma.product.findMany({take: limit,
-            skip,orderBy:{createdAt:'desc'}
+            skip
         })
         return datas;
         
@@ -94,7 +96,14 @@ export class ProductRepository  implements IProductRepository{
         const categories = await this.redis.lRange(`user:${userId}:recent_categories`, 0, -1);
         return categories;
     }
-    public async countProducts():Promise<number>{
+    public async countProducts():Promise<number | undefined>{
         return await this.prisma.product.count()
+    }
+    public async saveCountProductsInCache(countProduct:number):Promise<void>{
+        await this.redis.set('countProduct',countProduct)
+    }
+    public async  getCountProductsInCache():Promise<string | null>{
+        return await this.redis.get('countProduct')
+       
     }
 }

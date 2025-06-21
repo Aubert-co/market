@@ -1,7 +1,8 @@
 import fs from "fs/promises";
 import path from 'path'
 
-const assetsDir = path.resolve(__dirname);
+const assetsDir = path.resolve(__dirname,"tmp");
+
 const padding = Buffer.alloc(6 * 1024); 
     const files = [
         {
@@ -101,16 +102,5 @@ const existsAsync = async (path: string): Promise<boolean> => {
   }
 };
 export const deleteImages = async () => {
-  await Promise.all(
-    files.map(async ({ name }) => {
-      const filePath = path.join(assetsDir, name);
-      try {
-        await fs.unlink(filePath);
-      } catch (err: any) {
-        if (err.code !== 'ENOENT') {
-          throw new Error(`Erro ao deletar o arquivo ${name}: ${err.message}`);
-        }
-      }
-    })
-  );
+   await fs.rm(assetsDir, { recursive: true, force: true });
 };

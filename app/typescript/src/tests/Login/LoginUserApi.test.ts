@@ -2,11 +2,14 @@ import request from "supertest";
 import app from "../../serve";
 import bcrypt from "bcrypt"
 import { prisma } from "../../lib/prima";
-import { deleteUser } from "../__mocks__";
+import { cleanAllDb, deleteUser } from "../__mocks__";
 
 
 describe("Api post/login:When the password is invalid",()=>{
-  it("should return status 422 and 'Invalid password...' When the password is greater than 15.", async () => {
+    beforeAll(async()=>{
+        await cleanAllDb()
+    })
+    it("should return status 422 and 'Invalid password...' When the password is greater than 15.", async () => {
         const response = await request(app)
         .post('/login')
         
@@ -133,12 +136,15 @@ describe("API POST /login: Database Operations",()=>{
 })
 
 describe("Api post/register: When the database throws an error",()=>{
-    
+    let createUserSpy:any
+    beforeEach(()=>{
+        createUserSpy = jest.spyOn(prisma.user, 'findUnique')
+    })
    
     it("should return an error when the database throws an error.",async()=>{
-        const createSpy = jest.spyOn(prisma.user, 'findUnique');
+        
 
-        createSpy.mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
+        createUserSpy.mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
 
         const response = await request(app)
         .post('/login')
