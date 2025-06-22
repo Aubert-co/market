@@ -4,7 +4,7 @@ import { serviceStore } from "../services/store";
 import { BoxBenefits } from "../Components/BoxBenefits";
 import { AdminStore } from "../Components/Store/adminStore";
 import { FormCreateStore } from "../Components/Store/FormCreateStore";
-import {StyleCreateStore} from '../style/store';
+import {StyleCreateStore} from '../style/register'
 import { StatusBox } from "../Components/Utils";
 import { benefitsCreateStore ,adLinkStore,adTextStore} from "../Constants/benefits";
 

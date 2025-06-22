@@ -10,7 +10,8 @@ export type dataProducts = {
     price:number,
     imageUrl:string,
     stock:number,
-    category:string
+    category:string,
+    storeId:number
 }
 export interface IProductRepository{
     createProduct(data:{category:string,name:string,description:string,
@@ -79,9 +80,7 @@ export class ProductRepository  implements IProductRepository{
         )
     }
     public async getCachedProduct(key:string):Promise<string | null>{
-
-        const cachedDatas = await this.redis.get(key)
-        return cachedDatas;
+        return await this.redis.get(key)
     }
     public async getProductById(id:number):Promise<dataProducts | null>{
         return await this.prisma.product.findUnique({where:{id}})

@@ -37,11 +37,12 @@ export class ProductService  implements productService{
     public async getProductInCache(key:string):Promise<dataProducts[] >{
         try{
             const cachedDatas = await this.product.getCachedProduct(key)
+          
             if(!cachedDatas)return [];
-
+            
             const parsed = JSON.parse(cachedDatas)
             if(!Array.isArray(parsed))return [];
-
+           
             return parsed as dataProducts[]
         }catch(err:any){
             return [];
@@ -72,10 +73,18 @@ export class ProductService  implements productService{
         }
     }
     public async saveRecentCategories(category:string,userId:number):Promise<void>{
-        await this.product.saveRecentCategories(category,userId)
+        try{
+            await this.product.saveRecentCategories(category,userId)
+        }catch(err:any){
+            return;
+        }
     }
     public async getRecentCategories(userId:number):Promise<string[]>{
-        return await this.product.getRecentCategories(userId) 
+        try{
+            return await this.product.getRecentCategories(userId) 
+        }catch(err:any){
+            return [];
+        }
     }
     public async countProducts():Promise<number>{
         try {
@@ -89,12 +98,20 @@ export class ProductService  implements productService{
 
     }
     public async saveCountProductsInCache(countProducts:number):Promise<void>{
-        await this.product.saveCountProductsInCache(countProducts);
+        try{
+            await this.product.saveCountProductsInCache(countProducts);
+        }catch(err:any){
+            return;
+        }
     }
     public async getCountProductInCache():Promise<number>{
-        const count =  await this.product.getCountProductsInCache();
-        if(count)return Number(count);
+        try{
+            const count =  await this.product.getCountProductsInCache();
+            if(count)return Number(count);
 
-        return 0;
+            return 0;
+        }catch(err:any){
+            return 0;
+        }
     }
 }

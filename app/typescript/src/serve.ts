@@ -70,7 +70,7 @@ route.post('/product/create',[
     ,Auth],
   (req:Request,res:Response,next:NextFunction)=>  createProduct.handler(req,res,next)
 )
-route.get('/product/category',
+route.get('/product/category/:category',
 getProductByCategory.handler
 )
 route.get('/product/page/:page',

@@ -17,10 +17,11 @@ export const getMultiInputValues = (...refs)=>{
         return getInputValue(val);
     });
 };
-export const isAlphanumeric = (input)=>{
-    const regex = /^[a-zA-Z0-9]+$/; 
-    return regex.test(input); 
-}
+export const isAlphanumeric = (input) => {
+  const regex = /^[a-zA-Z0-9\s]+$/;
+  return regex.test(input);
+};
+
 export const existValue = (datas,id)=> datas.some((val)=>val.id === id)
 
 export const roundANumber = (number) => Math.round(number);

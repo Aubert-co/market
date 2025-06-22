@@ -2,8 +2,8 @@
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/serve.ts",
     "build": "tsc --project ./tsconfig.json",
-    "test": "npx jest --watchAll --detectOpenHandles --runInBand",
-    "unit": "npx jest /*.spec.ts"
+    "test": "npx jest --watchAll --detectOpenHandles --runInBand --logHeapUsage",
+    "unit": "npx jest /*.spec.ts --watchAll --logHeapUsage"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

@@ -11,15 +11,11 @@ export const Register = ()=>{
     const formRef = useRef(null);
     const navigate = useNavigate()
     
-    const clickToSend =async({name,password,setMessageParams})=>{
-        const {message,status} = await serviceRegister({name,password})
-        
-        
+    const clickToSend =async({email,name,password,setMessageParams})=>{
+        const {message,status} = await serviceRegister({email,name,password})
         if( status !== 201){
-            console.log("here")
             setMessageParams({content:message})
             return  
-       
         }
  
         setMessageParams({content:"Você criou sua conta com sucesso, você será redirecionado"})

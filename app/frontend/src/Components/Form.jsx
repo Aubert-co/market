@@ -15,10 +15,11 @@ export const Form  = ({event,type,formRef})=>{
     const refName = useRef('');
     const refPassword = useRef('');
     const refRepeatPassword = useRef('');
+    const refEmail = useRef('')
     const { setMessageParams } = useContext(MessageContext);
-   
+    const text = type === "Login" ? "Login" : "Cadastro"
     const onClick =()=>{
-        const [name,password,repeatPass] = getMultiInputValues(refName,refPassword,refRepeatPassword)
+        const [email,name,password,repeatPass] = getMultiInputValues(refEmail,refName,refPassword,refRepeatPassword)
        
         if(!name || typeof name !== 'string' || name.length < 4){
             setMessageParams({content:'Nome muito curto!',type:'warning'})
@@ -30,26 +31,32 @@ export const Form  = ({event,type,formRef})=>{
         if(!isAlphanumeric(name)){
             return setMessageParams({content:'Nome inválido, digite apenas números e letras!',type:'warning'})
         }
-      
-        if(type === 'Register' && password !== repeatPass){
-            return setMessageParams({content:'As senhas não concindem!',type:'warning'})
-        } 
-        event({name,password,setMessageParams})
+        if(type === 'Register'){
+            if(!email ){
+                return setMessageParams({content:'Email inválido',type:'warning'})
+            }
+            if(  password !== repeatPass){
+                return setMessageParams({content:'As senhas não concindem!',type:'warning'})
+            } 
+            
+        }
+        
+        event({email,name,password,setMessageParams})
     }
     return (
         <Forms>
             <div className="form" ref={formRef}>
-                <h1 className="type_form" data-testid="type_form">{type}</h1>
+                <h1 className="type_form" data-testid="type_form">{text}</h1>
                     
                 <BoxMessage/>
-
-                <input ref={refName} type="text" className="input" data-testid="input" required minLength={3} placeholder="Digite seu nome"/>
+                <input  ref={refEmail} type="email" className="input" data-testid="input" required minLength={3} placeholder="Digite seu email"/>
+                {type === "Register" && <input  ref={refName} type="text" className="input" data-testid="input" required minLength={3} placeholder="Digite seu nome"/>}
           
-                <input type="password" ref={refPassword} data-testid="input" placeholder={"Digite sua senha"} required minLength={3} className="input"/>
+                <input   type="password" ref={refPassword} data-testid="input" placeholder={"Digite sua senha"} required minLength={3} className="input"/>
 
-                {type === "Register" && <input type="password" data-testid="input" ref={refRepeatPassword} required minLength={3} placeholder="Repita sua senha" className="input" />}
+                {type === "Register" && <input n type="password" data-testid="input" ref={refRepeatPassword} required minLength={3} placeholder="Repita sua senha" className="input" />}
             
-                <button data-testid="btn_send" onClick={onClick}>{type}</button>
+                <button data-testid="btn_send" onClick={onClick}>{'Enviar'}</button>
                 <LoginOrRegister type={type}/>
             </div>
 

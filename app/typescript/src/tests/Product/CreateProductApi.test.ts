@@ -331,7 +331,7 @@ describe("db actions",()=>{
     })
     afterAll(async()=>{ 
        await cleanAllDb()
-        
+        jest.clearAllMocks()
     })
     it("should return an error message when the user tries to create a product in a store that belongs to another user",async()=>{
         const response = await request(app)

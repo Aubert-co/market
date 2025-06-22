@@ -75,7 +75,7 @@ export const serviceLogin = async({name,password})=>{
       
     }
 }
-export const serviceRegister = async({name,password})=>{
+export const serviceRegister = async({email,name,password})=>{
 
     try{
         const response = await fetch(url+'/register',{

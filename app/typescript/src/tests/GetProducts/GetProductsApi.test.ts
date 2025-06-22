@@ -3,6 +3,7 @@ import redis from '../../lib/redis'
 import app from '../../serve'
 import { cleanAllDb, createUserStoreAndProducts } from '../__mocks__'
 import { prisma } from '../../lib/prima'
+import { ProductRepository } from '../../Repository/ProductRepository'
 
 describe("db actions",()=>{
     beforeAll(async()=>{
@@ -12,7 +13,7 @@ describe("db actions",()=>{
     beforeEach(async()=>{
         try{ 
             await redis.flushAll()
-            jest.clearAllMocks()
+            
         }catch(err:any){
             throw new Error('Algo deu errado ao limpar o redis'+err.message)
         }
@@ -108,7 +109,10 @@ describe("When saves values in cache",()=>{
       
     })
     it("should send the data normally when an error occurs in the cache",async()=>{
-        jest.spyOn(redis,'set').mockRejectedValue(new Error('Simulated DB error: Connection lost.'));
+        let prisma:any
+        let redis:any
+        const Repository = new ProductRepository(prisma,redis)
+        jest.spyOn(Repository,'getCachedProduct').mockRejectedValue(new Error('Simulated DB error: Connection lost.'));
         const response1 = await request(app)
         .get('/product/page/1')
         const response = await request(app)
