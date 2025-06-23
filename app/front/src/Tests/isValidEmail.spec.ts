@@ -1,4 +1,4 @@
-import { isAValidString } from "../../Helpers";
+import { isAValidString } from "../Utils/checkIsValid"
 
 
 describe("function isAValidString",()=>{

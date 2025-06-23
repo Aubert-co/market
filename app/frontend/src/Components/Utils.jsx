@@ -11,7 +11,7 @@ export const StatusBox = ({text})=>{
 export const getInputValue = (ref) =>{
     if(ref?.current && ref.current.value)return ref.current.value;
     return '';
-  };
+};
 export const getMultiInputValues = (...refs)=>{
    return refs.map((val)=>{
         return getInputValue(val);

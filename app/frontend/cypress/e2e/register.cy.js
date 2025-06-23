@@ -1,9 +1,12 @@
+/// <reference types="cypress" />
 import { url } from "../../src/services";
+
 
 
 describe('Registro de usuário', () => {
   beforeEach(() => {
     cy.visit('localhost:3000/register');
+    
   });
 
   it('should sucessfully create a new user', () => {
