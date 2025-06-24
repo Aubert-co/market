@@ -1,4 +1,4 @@
-import React,{useRef} from "react";
+import {useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import { serviceRegister } from "../Services";
 import type { TypeMessageParams } from "../Components/BoxMessages";
@@ -22,7 +22,13 @@ export const Register = ()=>{
             password:submitUserDatas.password,
             email:submitUserDatas.email
         } )
-        submitUserDatas.setMessageParams({content:message,type:'sucess'})
+        if(status !== 201){
+            return submitUserDatas.setMessageParams({content:message,type:'warning'})
+        }
+        submitUserDatas.setMessageParams({content:"Você criou sua conta com sucesso, você será redirecionado",type:'sucess'})
+        setTimeout(()=>{
+            navigate('/login');
+        },3000)
     }
-    <FormLoginOrRegister type={"Register"} submitEvent={submitForm} formRef={formRef}></FormLoginOrRegister>
+    return <FormLoginOrRegister type={"Register"} submitEvent={submitForm} formRef={formRef}></FormLoginOrRegister>
 }
