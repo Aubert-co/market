@@ -1,9 +1,9 @@
 // src/context/MessageContext.tsx
 import { createContext, useContext, useState } from 'react';
 import type {ReactNode} from 'react'
-type MessageType = 'success' | 'error' | 'info';
+export type MessageType = 'success' | 'error' | 'info';
 
-type Message = {
+export type Message = {
   content: string;
   type: MessageType;
 };

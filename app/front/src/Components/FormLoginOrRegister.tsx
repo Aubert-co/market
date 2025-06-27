@@ -6,7 +6,8 @@ import { UserFormStyles } from "../Styles/Form";
 import { isAValidString, isValidEmail } from "../Utils/checkIsValid";
 import type { TypeSubmitRegister } from "../Pages/Register";
 import type { TypeSubmitLogin } from "../Pages/Login";
-
+import { useMessage } from "../Context/MessageContext";
+import { BoxMessage } from "./BoxMessages";
 type TypeForm = "Login" | "Register"
 type PropsTypeForm = {
   option:TypeForm
@@ -19,7 +20,7 @@ type PropsForm = {
 };
 export const LoginOrRegister = ({option}:PropsTypeForm):JSX.Element=>
 option === "Login" ?
-<Link to="/register" data-testid="link_register">Não tem uma conta crie uma agora!</Link> :
+<Link to="/registro" data-testid="link_register">Não tem uma conta crie uma agora!</Link> :
 <Link data-testid="link_login" to="/login">Já tem uma conta faça login!</Link> ;
      
 export const FormLoginOrRegister = ({submitEvent,type,formRef}:PropsForm)=>{
@@ -28,27 +29,31 @@ export const FormLoginOrRegister = ({submitEvent,type,formRef}:PropsForm)=>{
   const refUserPassword = useRef<HTMLInputElement>(null);
   const refRepeatUserPassword = useRef<HTMLInputElement>(null);
   const titleText = type === "Login" ? "Login" : "Cadastro"
-
+  const {setMessage} = useMessage();
   const onClick = ():void=>{
     const [email,name,password,repeatPassword] =  getMultiInputValues(
       refUserEmail,refUserName,refUserPassword,refRepeatUserPassword,
     );
-    if(!isValidEmail(email))return;
-    if(!isAValidString(password))return;
+    if(!isValidEmail(email)){
+      return setMessage({content:'Digite um email valido',type:'info'});
+    }
+    if(!isAValidString(password)){
+      return  setMessage({content:'Digite uma senha valida',type:'info'});
+    }
     if(type === "Register"){
       if(!isAValidString(name) ){
-        return;
+        return setMessage({content:'Digite um nome valido',type:'info'});;
       }
-      if(password !== repeatPassword)return;
+      if(password !== repeatPassword)return setMessage({content:'As senhas não coincidem',type:'info'});
     }
-    submitEvent({name,password,email,setMessageParams:()=>{}})
+    submitEvent({name,password,email,setMessageParams:setMessage})
 
   }
   return (
     <UserFormStyles>
          <div className="form" ref={formRef}>
               <h1 className="type_form" data-testid="type_form">{titleText}</h1>
-                  
+                <BoxMessage/>
               <input  ref={refUserEmail} type="email" className="input" data-testid="input" required minLength={3} placeholder="Digite seu email"/>
               {type === "Register" && <input  ref={refUserName} type="text" className="input" data-testid="input" required minLength={3} placeholder="Digite seu nome"/>}
         

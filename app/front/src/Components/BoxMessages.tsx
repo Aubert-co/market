@@ -1,31 +1,21 @@
-export type TypeMessage = "warning" | "sucess" | "error"
-export type TypeMessageParams = (params: { content: string; type: TypeMessage }) => void;
-
-import React, { useContext, useEffect } from "react";
-//import { MessageContext } from "../Contexts";
 
 
-/*
+
+//import  {  useEffect } from "react";
+import { useMessage } from "../Context/MessageContext";
+
+
 export const BoxMessage = ()=>{
-    //const {messageParams,setMessageParams} = useContext( MessageContext );
-    useEffect(()=>{
-        
-        if(messageParams.content){
-            const timer = setTimeout(()=>{
-                setMessageParams({content:'',type:''});
-            },5000)
+   const {message}= useMessage()
     
-            return () => clearTimeout(timer);
-        }
-    }, [messageParams.content, setMessageParams]);
     return (
         <>
-            {messageParams.content && (
-                <div className={"message_"+messageParams.type} data-testid="message_box">
-                    <p data-testid="message_content">{messageParams.content}</p>
+            {message?.content && (
+                <div className={"message_"+message.type} data-testid="message_box">
+                    <p data-testid="message_content">{message.content}</p>
                 </div>
             )}
         </>
     );
     
-};*/
+};
