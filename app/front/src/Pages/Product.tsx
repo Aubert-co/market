@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 type TypeDataProducts ={
     id:number,
     name:string,
@@ -6,6 +8,10 @@ type TypeDataProducts ={
     stock:number
 }
 
-export const Products = ()=>{
+export const ListProduct = ()=>{
 
+}
+export const Products = ()=>{
+    const [datas,setDatas] = useState([])
+    
 }
