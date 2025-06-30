@@ -1,13 +1,8 @@
-
-
-
-//import  {  useEffect } from "react";
 import { useMessage } from "../Context/MessageContext";
 
 
 export const BoxMessage = ()=>{
    const {message}= useMessage()
-    
     return (
         <>
             {message?.content && (

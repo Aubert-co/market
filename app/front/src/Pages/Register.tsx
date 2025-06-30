@@ -1,7 +1,6 @@
 import {useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import { serviceRegister } from "../Services";
-
 import { FormLoginOrRegister } from "../Components/FormLoginOrRegister";
 import type { Message } from "../Context/MessageContext";
 import { StyleCreateStore } from "../Styles/RegisterPage";
@@ -28,6 +27,7 @@ export const Register = ()=>{
             password:submitUserDatas.password,
             email:submitUserDatas.email
         } )
+        console.log(message)
         if(status !== 201){
             return submitUserDatas.setMessageParams({content:message,type:'error'})
         }

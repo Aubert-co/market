@@ -4,23 +4,26 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 type Props = {
   placeholder: string;
   refPassword: React.RefObject<HTMLInputElement | null>;
+  id:string,
 };
 
-export const PasswordInput = ({ placeholder, refPassword }: Props) => {
+export const PasswordInput = ({ placeholder, refPassword ,id }: Props) => {
   const [show, setShow] = useState(false);
 
   return (
     <div style={{ position: "relative" }}>
-      <input
+      <input 
+        id={id}
         type={show ? "text" : "password"}
         ref={refPassword}
         placeholder={placeholder}
         required
         minLength={3}
-        className="input"
+        className="input-form"
 
       />
       <span
+        data-testid="eye"
         onClick={() => setShow((prev) => !prev)}
         style={{
           position: "absolute",
@@ -30,7 +33,7 @@ export const PasswordInput = ({ placeholder, refPassword }: Props) => {
           cursor: "pointer"
         }}
       >
-        {show ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+        {show ? <FiEyeOff data-testid="eyeoff" size={20} /> : <FiEye data-testid="eyeon" size={20} />}
       </span>
     </div>
   );

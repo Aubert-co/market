@@ -14,7 +14,7 @@ export const serviceRegister = async(datas:{email:string,name:string,password:st
             body:JSON.stringify({email:datas.email,name:datas.name,password:datas.password}),
             headers
         })
-        if(!response.ok || response.status >200)throw new Error();
+        if(!response.ok || response.status >201)throw new Error();
         const {message} = await response.json()
         return {status:response.status,message} 
     }catch(err:unknown){
@@ -25,7 +25,7 @@ export const serviceRegister = async(datas:{email:string,name:string,password:st
 export const serviceLogin = async(datas:{email:string,password:string}):Promise<Response >=>{
 
     try{
-        const response = await fetch(url+'/register',{
+        const response = await fetch(url+'/login',{
             method:'POST',
             body:JSON.stringify({email:datas.email,password:datas.password}),
             headers

@@ -1,5 +1,5 @@
 // src/context/MessageContext.tsx
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState,useRef,useEffect } from 'react';
 import type {ReactNode} from 'react'
 export type MessageType = 'success' | 'error' | 'info';
 
@@ -18,15 +18,27 @@ const MessageContext = createContext<MessageContextType | undefined>(undefined);
 
 export const MessageProvider = ({ children }: { children: ReactNode }) => {
   const [message, setMessageState] = useState<Message | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const setMessage = (msg: Message, duration = 3000) => {
+  const setMessage = (msg: Message, duration: number = 3000) => {
     setMessageState(msg);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
     if (duration > 0) {
-      setTimeout(() => setMessageState(null), duration);
+      timeoutRef.current = setTimeout(() => setMessageState(null), duration);
     }
   };
 
-  const clearMessage = () => setMessageState(null);
+  const clearMessage = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setMessageState(null);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   return (
     <MessageContext.Provider value={{ message, setMessage, clearMessage }}>

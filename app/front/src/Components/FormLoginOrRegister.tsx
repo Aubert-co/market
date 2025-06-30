@@ -58,13 +58,33 @@ export const FormLoginOrRegister = ({submitEvent,type,formRef}:PropsForm)=>{
     <UserFormStyles>
          <div className="form" ref={formRef}>
               <h1 className="type_form" data-testid="type_form">{titleText}</h1>
-                <BoxMessage/>
-              <input  ref={refUserEmail} type="email" className="input" data-testid="input" required minLength={3} placeholder="Digite seu email"/>
-              {type === "Register" && <input  ref={refUserName} type="text" className="input" data-testid="input" required minLength={3} placeholder="Digite seu nome"/>}
+              <BoxMessage/>
 
-              <PasswordInput refPassword={refUserPassword} placeholder={"Digite sua senha"}/>
+              <input  
+              id="email" 
+              ref={refUserEmail} type="email" 
+              className="input-form" data-testid="input" 
+              required minLength={3}
+              placeholder="Digite seu email"
+              autoComplete="email"/>
 
-              {type === "Register" && <PasswordInput refPassword={refRepeatUserPassword} placeholder={"Repita sua senha"}/>}
+              {type === "Register" &&
+               <input id="name" ref={refUserName}
+                type="text" 
+                className="input-form" 
+                required minLength={3} 
+                placeholder="Digite seu nome"
+                
+                />
+                
+                }
+
+              <PasswordInput id="password" refPassword={refUserPassword} placeholder={"Digite sua senha"}/>
+
+              {type === "Register" &&
+               <PasswordInput id="repeatPassword" 
+               refPassword={refRepeatUserPassword}
+                placeholder={"Repita sua senha"}/>}
           
               <button data-testid="btn_send" onClick={onClick}>{'Enviar'}</button>
               <LoginOrRegister option={type}/>
