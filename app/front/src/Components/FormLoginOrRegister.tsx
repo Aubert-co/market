@@ -1,5 +1,5 @@
 import type React from "react";
-import { useRef,useState, type JSX } from "react";
+import { useRef, type JSX } from "react";
 import { Link } from "react-router-dom"
 import { getMultiInputValues } from "../Utils";
 import { UserFormStyles } from "../Styles/Form";
@@ -8,7 +8,8 @@ import type { TypeSubmitRegister } from "../Pages/Register";
 import type { TypeSubmitLogin } from "../Pages/Login";
 import { useMessage } from "../Context/MessageContext";
 import { BoxMessage } from "./BoxMessages";
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { PasswordInput } from "./PasswordInput";
+
 type TypeForm = "Login" | "Register"
 type PropsTypeForm = {
   option:TypeForm
@@ -24,40 +25,7 @@ option === "Login" ?
 <Link to="/registro" data-testid="link_register">Não tem uma conta crie uma agora!</Link> :
 <Link data-testid="link_login" to="/login">Já tem uma conta faça login!</Link> ;
      
-type Props = {
-  placeholder: string;
-  refPassword: React.RefObject<HTMLInputElement | null>;
-};
 
-export const PasswordInput = ({ placeholder, refPassword }: Props) => {
-  const [show, setShow] = useState(false);
-
-  return (
-    <div style={{ position: "relative" }}>
-      <input
-        type={show ? "text" : "password"}
-        ref={refPassword}
-        placeholder={placeholder}
-        required
-        minLength={3}
-        className="input"
-        data-testid="input"
-      />
-      <span
-        onClick={() => setShow((prev) => !prev)}
-        style={{
-          position: "absolute",
-          right: 10,
-          top: "55%",
-          transform: "translateY(-50%)",
-          cursor: "pointer"
-        }}
-      >
-        {show ? <FiEyeOff size={20} /> : <FiEye size={20} />}
-      </span>
-    </div>
-  );
-};
 
 
 export const FormLoginOrRegister = ({submitEvent,type,formRef}:PropsForm)=>{
