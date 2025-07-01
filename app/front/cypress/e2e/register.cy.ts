@@ -6,7 +6,7 @@ describe('Page registro', () => {
     cy.contains('Descontos Exclusivos: Mais Vantagens para Você')
       .click()
   })
-  it('should register a new user sucessfuly', () => {
+  it('should register a new user successfully', () => {
     cy.get('input[placeholder="Digite seu email"]')
       .type('teste@exemplo.com')
 
@@ -81,7 +81,7 @@ describe('Page /registro with invalid name',()=>{
     cy.contains('Descontos Exclusivos: Mais Vantagens para Você')
       .click()
   })
-  it("should not register a new user when the name is greater than 15",()=>{
+  it("should not register with a name longer than 15 characters",()=>{
 
     cy.get('input[placeholder="Digite seu email"]')
       .type('teste@gmail.com')
@@ -98,7 +98,7 @@ describe('Page /registro with invalid name',()=>{
 
     cy.contains('Digite um nome valido').should('be.visible');
   })
-   it("should not register a new user when the name is smaller than 4",()=>{
+   it("should not register a new user when the name is shorter than 4 characters",()=>{
 
     cy.get('input[placeholder="Digite seu email"]')
       .type('teste@gmail.com')
@@ -141,7 +141,7 @@ describe('Page /registro with invalid password',()=>{
     cy.contains('Descontos Exclusivos: Mais Vantagens para Você')
       .click()
   })
-  it("should not register a new user when the password is greater than 15",()=>{
+  it("should not register a new user when the password is longer than 15 characters",()=>{
 
     cy.get('input[placeholder="Digite seu email"]')
       .type('teste@gmail.com')
@@ -158,7 +158,7 @@ describe('Page /registro with invalid password',()=>{
 
     cy.contains('Digite uma senha valida').should('be.visible');
   })
-   it("should not register a new user when the password is smaller than 4",()=>{
+   it("should not register a new user when the password is shorter than 4 characters",()=>{
 
     cy.get('input[placeholder="Digite seu email"]')
       .type('teste@gmail.com')
@@ -208,7 +208,7 @@ describe('Page /registro with invalid password',()=>{
 
     cy.contains('As senhas não coincidem').should('be.visible');
   })
-  it("should not register a new user when the repeat password is diferent from password",()=>{
+  it("should not register a new user when the repeat password is different from the password",()=>{
      cy.get('input[placeholder="Digite seu email"]')
       .type('teste@gmail.com')
 
@@ -226,14 +226,14 @@ describe('Page /registro with invalid password',()=>{
   })
 })
 
-describe.only('Page /registro with internal error',()=>{
+describe('Page /registro with internal error',()=>{
   beforeEach(()=>{
     cy.visit('/registro')
     cy.contains('h1','Cadastro')
     cy.contains('Descontos Exclusivos: Mais Vantagens para Você')
       .click()
   })
-  it("should not create a new user account when status 500 returns",()=>{
+  it(" should not create a new user account when a 500 status is returned from the backend",()=>{
     cy.get('input[placeholder="Digite seu email"]')
       .type('teste@exemplo.com')
 
@@ -255,7 +255,7 @@ describe.only('Page /registro with internal error',()=>{
 
     cy.contains('Ocorreu um erro inesperado.').should('be.visible');
   })
-  it.only("should not create a new user account when status 409 returns",()=>{
+  it("should not create a new user account when the backend returns status 409",()=>{
     cy.get('input[placeholder="Digite seu email"]')
       .type('teste@exemplo.com')
 
@@ -277,7 +277,7 @@ describe.only('Page /registro with internal error',()=>{
 
     cy.contains('Este email já está cadastrado.').should('be.visible');
   })
-  it("should not create a new user account when status 422 returns",()=>{
+  it("should not create a new user account when a 422 status is returned from the backend",()=>{
     cy.get('input[placeholder="Digite seu email"]')
       .type('teste@exemplo.com')
 

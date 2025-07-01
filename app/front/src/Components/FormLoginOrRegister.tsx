@@ -35,6 +35,7 @@ export const FormLoginOrRegister = ({submitEvent,type,formRef}:PropsForm)=>{
   const refRepeatUserPassword = useRef<HTMLInputElement>(null);
   const titleText = type === "Login" ? "Login" : "Cadastro"
   const {setMessage} = useMessage();
+  
   const onClick = ():void=>{
     const [email,name,password,repeatPassword] =  getMultiInputValues(
       refUserEmail,refUserName,refUserPassword,refRepeatUserPassword,

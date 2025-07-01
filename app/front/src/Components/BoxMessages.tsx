@@ -6,7 +6,7 @@ export const BoxMessage = ()=>{
     return (
         <>
             {message?.content && (
-                <div className={"message_"+message.type} data-testid="message_box">
+                <div className={"message_"+message.type} >
                     <p data-testid="message_content">{message.content}</p>
                 </div>
             )}
