@@ -1,10 +1,11 @@
 import { ErrorMessage } from "../Helpers/ErrorMessage"
 import { IStoreRepository } from "../Repository/StoreRepository"
-
+import type { Store } from "../Repository/StoreRepository"
 export interface storeService{
     createStore(storeName:string,userId:number,photo:string,description:string): Promise<void>,
     checkOwnerShip(storeId:number,userId:number):Promise<boolean>,
-    findByName(storeName:string):Promise<boolean>
+    findByName(storeName:string):Promise<boolean>,
+    selectUserStores(userId:number):Promise<Store[]>
 }
 
 export class StoreService implements storeService{
@@ -39,6 +40,16 @@ export class StoreService implements storeService{
                 return true;
             }
             return false;
+        }catch(err:any){
+            throw new ErrorMessage("Failed to find a store",409)
+        }
+    }
+    public async selectUserStores(userId:number):Promise<Store[]>{
+        try{
+            const datas = await this.storeRepository.selectUserStores(userId)
+            if(!datas && datas.length <0)return [];
+
+            return datas ;
         }catch(err:any){
             throw new ErrorMessage("Failed to find a store",409)
         }
