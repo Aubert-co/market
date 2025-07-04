@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import {fireEvent, render,screen, waitFor} from '@testing-library/react'
-import { PasswordInput } from '../Components/PasswordInput'
+import { PasswordInput } from '../Components/FormComponents/PasswordInput'
 import React from 'react'
 
 describe("PasswordInput",()=>{

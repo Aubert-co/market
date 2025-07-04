@@ -2,7 +2,7 @@ import { BrowserRouter as Router ,Routes,Route} from "react-router-dom"
 import { Register } from "./Register"
 import { MessageProvider } from "../Context/MessageContext"
 import { Login } from "./Login"
-
+import {Home} from './Home'
 
 export const App = ()=>{
     return(
@@ -10,8 +10,9 @@ export const App = ()=>{
     <Router>
         <Routes>
             <Route>
-                <Route path="/registro" element={<Register/>}></Route>
-                <Route path="/login" element={<Login/>}></Route>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/registro" element={<Register/>}/>
+                <Route path="/login" element={<Login/>}/>
             </Route>
         </Routes>
     </Router>
