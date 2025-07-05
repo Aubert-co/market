@@ -47,3 +47,14 @@ export const serviceLogin = async(datas:{email:string,password:string}):Promise<
         return {message:'Algo deu errado!',status:500}
     }
 }
+
+export const serviceGetProducts = async(pageNumber:number)=>{
+    try{
+        const response = await fetch(url+`/product/page/${pageNumber}`)
+        if(!response.ok)throw new Error();
+        const {datas,currentPage,totalPages} = await response.json()
+        return {datas,currentPage,totalPages}
+    }catch(err:unknown){
+        throw new Error();
+    }
+}

@@ -1,7 +1,7 @@
 import {useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import { serviceRegister } from "../Services";
-import { FormLoginOrRegister } from "../Components/FormLoginOrRegister";
+import { FormLoginOrRegister } from "../Components/FormComponents/FormLoginOrRegister";
 import type { Message } from "../Context/MessageContext";
 import { StyleCreateStore } from "../Styles/RegisterPage";
 import { BoxBenefits } from "../Components/BoxBenefits";

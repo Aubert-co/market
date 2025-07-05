@@ -1,13 +1,13 @@
 import type React from "react";
 import { useRef, type JSX } from "react";
 import { Link } from "react-router-dom"
-import { getMultiInputValues } from "../Utils";
-import { UserFormStyles } from "../Styles/Form";
-import { isAValidString, isValidEmail } from "../Utils/checkIsValid";
-import type { TypeSubmitRegister } from "../Pages/Register";
-import type { TypeSubmitLogin } from "../Pages/Login";
-import { useMessage } from "../Context/MessageContext";
-import { BoxMessage } from "./BoxMessages";
+import { getMultiInputValues } from "../../Utils";
+import { UserFormStyles } from "../../Styles/Form";
+import { isAValidString, isValidEmail } from "../../Utils/checkIsValid";
+import type { TypeSubmitRegister } from "../../Pages/Register";
+import type { TypeSubmitLogin } from "../../Pages/Login";
+import { useMessage } from "../../Context/MessageContext";
+import { BoxMessage } from "../BoxMessages";
 import { PasswordInput } from "./PasswordInput";
 
 type TypeForm = "Login" | "Register"
