@@ -1,3 +1,5 @@
+import type { Products } from "../Pages/Home"
+
 const  headers ={'Content-Type':'application/json'}
 export const url = "http://localhost:8080"
 
@@ -47,13 +49,18 @@ export const serviceLogin = async(datas:{email:string,password:string}):Promise<
         return {message:'Algo deu errado!',status:500}
     }
 }
-
-export const serviceGetProducts = async(pageNumber:number)=>{
+type GetProducts = {
+    datas:Products[],
+    status:number,
+    currentPage:number,
+    totalPages:number
+}
+export const serviceGetProducts = async(pageNumber:number):Promise<GetProducts>=>{
     try{
         const response = await fetch(url+`/product/page/${pageNumber}`)
         if(!response.ok)throw new Error();
         const {datas,currentPage,totalPages} = await response.json()
-        return {datas,currentPage,totalPages}
+        return {datas,currentPage,totalPages,status:response.status}
     }catch(err:unknown){
         throw new Error();
     }
