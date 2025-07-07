@@ -5,8 +5,15 @@ export interface IStoreRepository{
     createStore(data:{storeName:string,userId:number,description:string,photo:string}):Promise<void>,
     checkStoreOwnerShip(storeId:number):Promise<any>,
     findByName(storeName:string):Promise<any>
+    selectUserStores(userId:number):Promise<Store[] | any>
 }
-
+export type Store = {
+    name:string,
+    photo:string,
+    description:string,
+    id:number,
+    userId:number
+}
 
 export class StoreRepository implements IStoreRepository{
     
@@ -37,5 +44,11 @@ export class StoreRepository implements IStoreRepository{
         })
         return datas;
         
+    }
+    public async selectUserStores(userId:number):Promise<Store | any>{
+        const datas = await this.prisma.store.findMany({
+            where:{userId}
+        })
+        return datas
     }
 }
