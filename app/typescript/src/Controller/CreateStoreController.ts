@@ -27,9 +27,7 @@ export class StoreController{
             if(existsStoreName)throw new ErrorMessage("A store with this name already exists.",409);
 
             await this.storeService.createStore(name,userId,publicUrlStorage,description)
-            
-            await uploadFileToGCS(buffer,originalname,mimetype)
-            
+            await uploadFileToGCS(buffer,publicUrlStorage,mimetype)
             res.status(201).send({message:"Store sucessfully created"})
         }catch(error:any){
             next(error)
