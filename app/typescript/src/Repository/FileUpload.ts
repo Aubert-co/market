@@ -1,9 +1,10 @@
 import  {Storage}  from '@google-cloud/storage';
 import { Buffer } from 'buffer'; 
 import { ErrorMessage } from '../Helpers/ErrorMessage';
+import sharp from 'sharp';
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY
-if(!PRIVATE_KEY)throw new Error();
+if(!PRIVATE_KEY)throw new Error("no private key");
  
 const KEY_STORAGE = JSON.parse( PRIVATE_KEY )
 const storage = new Storage({
@@ -13,18 +14,48 @@ const storage = new Storage({
 const BUCKET_NAME = process.env.BUCKET_NAME ;
 
 if (!BUCKET_NAME ) {
-   
-    throw new Error();
+    throw new Error("no bucket name");
 } 
 const bucket = storage.bucket(BUCKET_NAME)
 
+async function compressImage(fileBuffer: Buffer): Promise<Buffer | null> {
+  try {
+    const MAX_WIDTH_LARGE = 1200;
+    const MAX_WIDTH_MEDIUM = 800;
+    const MAX_WIDTH_SMALL = 600;
+
+    const fileSizeKB = fileBuffer.byteLength / 1024;
+
+    if (fileSizeKB < 100) {
+      // Pequena, envia direto
+      return fileBuffer;
+    }
+
+    let width = MAX_WIDTH_MEDIUM;
+    let quality = 80;
+
+    if (fileSizeKB > 500) {
+      width = MAX_WIDTH_SMALL;
+      quality = 70;
+    }
+
+    const optimizedBuffer = await sharp(fileBuffer)
+      .resize({ width, withoutEnlargement: true })
+      .jpeg({ quality })
+      .toBuffer();
+
+    return optimizedBuffer;
+  } catch (error:any) {
+    return null;
+  }
+}
 
 export const uploadFileToGCS = async (
     fileBuffer: Buffer,
     path: string,
     mimeType: string
-): Promise<string> => {
- 
+): Promise<void> => {
+    const buff = await compressImage(fileBuffer)
     const blob = bucket.file( path );
     const blobStream = blob.createWriteStream({
         resumable: false,
@@ -39,11 +70,32 @@ export const uploadFileToGCS = async (
         });
 
         blobStream.on('finish', () => {
-        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-        resolve(publicUrl);
+          resolve()
         });
-
-        blobStream.end(fileBuffer);
+        if(buff){
+          blobStream.end(buff);
+          return 
+        }
+        blobStream.end(fileBuffer)
     });
     
+};
+export const generateSignedUrl = async (imageName: string) => {
+  try {
+    const options = {
+      version: "v4" as const,
+      action: "read" as const,
+      expires: Date.now() + 15 * 60 * 1000, 
+    };
+
+    const [url] = await storage
+      .bucket(BUCKET_NAME)
+      .file(imageName)
+      .getSignedUrl(options);
+
+    return url;
+  } catch (error) {
+   
+    return "";
+  }
 };

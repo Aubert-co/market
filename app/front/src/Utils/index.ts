@@ -1,4 +1,4 @@
-export type RefValue = React.RefObject<HTMLInputElement | null>;
+export type RefValue = React.RefObject<HTMLInputElement | null | HTMLTextAreaElement | HTMLSelectElement>;
 
 export const getInputValue = (ref:RefValue):string =>{
     if(ref?.current && ref.current.value)return ref.current.value;

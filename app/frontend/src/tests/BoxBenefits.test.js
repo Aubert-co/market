@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ListBenefits ,BoxBenefits} from '../Components/BoxBenefits'; // Ajuste o caminho conforme necessário
-import React from 'react';
+import { ListBenefits ,BoxBenefits} from '../Components/BoxBenefits'; 
+
 import '@testing-library/jest-dom'
 describe('ListBenefits', () => {
-  const scrollToFormMock = jest.fn(); // Mock da função scrollToForm
+  const scrollToFormMock = jest.fn(); 
 
   const benefits = [
     { title: 'Benefit 1', img: 'img1.jpg', content: 'Description for benefit 1' },

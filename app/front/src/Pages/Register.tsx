@@ -20,28 +20,24 @@ export const Register = ()=>{
     const formRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate()
     
-    const submitForm = async(submitUserDatas:TypeSubmitRegister):Promise<void>=>{
+    const submitForm = async({name,password,email,setMessageParams}:TypeSubmitRegister):Promise<void>=>{
         
-        const {status} = await serviceRegister({
-            name:submitUserDatas.name,
-            password:submitUserDatas.password,
-            email:submitUserDatas.email
-        } )
+        const {status} = await serviceRegister({name,password,email})
     
         if(status === 201){
             setTimeout(()=>{
                 navigate('/login');
             },3000)
-            return submitUserDatas.setMessageParams({content:"Você criou sua conta com sucesso, você será redirecionado",type:'success'})
+            return setMessageParams({content:"Você criou sua conta com sucesso, você será redirecionado",type:'success'})
         }
         if(status === 422){
-            return submitUserDatas.setMessageParams({content:'Nome, email ou senha inválidos.',type:'info'});
+            return setMessageParams({content:'Nome, email ou senha inválidos.',type:'info'});
         }
        
         if(status === 409){
-            return submitUserDatas.setMessageParams({content:'Este email já está cadastrado.',type:'info'})
+            return setMessageParams({content:'Este email já está cadastrado.',type:'info'})
         }
-        submitUserDatas.setMessageParams({content:'Ocorreu um erro inesperado.'+status,type:'info'});
+        setMessageParams({content:'Ocorreu um erro inesperado.'+status,type:'info'});
     }
     return (
         <StyleCreateStore>

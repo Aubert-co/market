@@ -23,9 +23,9 @@ export const Login = ()=>{
         if(status !== 201){
             return submitUserDatas.setMessageParams({content:'Falha ao realizar login',type:'error'})
         }
-        submitUserDatas.setMessageParams({content:"Você criou sua conta com sucesso, você será redirecionado",type:'success'})
+        submitUserDatas.setMessageParams({content:"Você fez login com sucesso, você será redirecionado",type:'success'})
         setTimeout(()=>{
-            navigate('/login');
+            navigate('/');
         },3000)
     }
     return <FormLoginOrRegister type={"Login"} submitEvent={submitForm} formRef={formRef}></FormLoginOrRegister>

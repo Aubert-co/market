@@ -30,31 +30,27 @@ services:
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       
-  test:
+  api:
     image: my-express-app:dev 
     build:
       context: .
-    container_name: app_test
+    container_name: app_type1
+    ports:
+      - "8080:8080"
     working_dir: /app 
     volumes:
       - .:/app
       - /app/node_modules
-    command: sh -c "npx prisma migrate deploy && npm run test"
+    command: sh -c "npx prisma migrate deploy && npm start"
     depends_on:   
       postgres:
         condition: service_healthy
       redis:
         condition: service_started
     environment:
-      - MODE=test
-      - POSTGRES_DB=test
-      - PRIVATE_KEY={"project_id":"mockado"}
-      - BUCKET_NAME="lorem ipstu"
-      - ACCESS_TOKEN=loremqiqe
-      - REFRESH_TOKEN=loremsss
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      - MODE=development
+      - POSTGRES_DB=market
       - REDIS_URL=redis://default:${REDIS_PASSWORD}@redis:6379
-    tty: true
 
 
 

@@ -14,12 +14,12 @@ type TypeBoxBenefits = {
     adText:string,
     adLink:string,
     benefits:BenefitsDatas[],
-    formRef: React.RefObject<HTMLInputElement | null>
+    formRef: React.RefObject<HTMLElement | null>
 }
-export const ListBenefits = ( props:List )=>{
+export const ListBenefits = ( {benefits,scrollToForm}:List )=>{
 
-    return   props.benefits.map(({title,img,content},ind)=>{
-        return <div key={ind}  className="benefit-box" onClick={props.scrollToForm}>
+    return   benefits.map(({title,img,content},ind)=>{
+        return <div key={ind}  className="benefit-box" onClick={scrollToForm}>
             {img &&<img src={img}></img>}
             <h2>{title}</h2>
             <p>{content}</p>
@@ -28,11 +28,11 @@ export const ListBenefits = ( props:List )=>{
  
 };
 
-export const BoxBenefits = ( props:TypeBoxBenefits)=>{
+export const BoxBenefits = ({adLink,adText,benefits,formRef}:TypeBoxBenefits)=>{
     
   
     const scrollToForm = () => {
-        if(props.formRef.current)props.formRef.current.scrollIntoView({ behavior: 'smooth' });
+        if(formRef.current)formRef.current.scrollIntoView({ behavior: 'smooth' });
     };
    
     return(
@@ -41,14 +41,14 @@ export const BoxBenefits = ( props:TypeBoxBenefits)=>{
             <div className="header">
                 <div className="header-content">
                     <img src={storeImg} alt="Loja" className="header-image" />
-                    <h1>{props.adText}</h1>
-                    <p style={{cursor:"pointer"}} onClick={scrollToForm}>{props.adLink}</p>
+                    <h1>{adText}</h1>
+                    <p style={{cursor:"pointer"}} onClick={scrollToForm}>{adLink}</p>
                 </div>
             </div>
             <div className="benefits" data-testid="benefits">
                 <h2>Benefícios</h2>
                 <div className="benefits-container">
-                    <ListBenefits scrollToForm={scrollToForm} benefits={props.benefits} />
+                    <ListBenefits scrollToForm={scrollToForm} benefits={benefits} />
                 </div>
             </div>
         </div>

@@ -52,7 +52,7 @@ export class CreateProductsController {
             } 
             await this.products.createProduct({category,name,description,price:Number(price),stock:Number(stock),storeId:Number(storeId),imageUrl:publicUrlStorage})
 
-            await uploadFileToGCS(buffer,originalname,mimetype)
+            await uploadFileToGCS(buffer,mimetype,publicUrlStorage)
             res.status(201).send({message:"Product sucessfully created."})
        }catch(err:any){
         next(err)

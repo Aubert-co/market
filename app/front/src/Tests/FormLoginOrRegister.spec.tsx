@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import {  fireEvent, render } from "@testing-library/react";
-import { FormLoginOrRegister } from "../Components/FormLoginOrRegister";
+import { FormLoginOrRegister } from "../Components/FormComponents/FormLoginOrRegister";
 import React from "react";
 import { BrowserRouter as Router ,Routes,Route} from "react-router-dom"
 import { MessageProvider } from '../Context/MessageContext';

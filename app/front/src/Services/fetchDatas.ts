@@ -1,19 +1,21 @@
-type FetchDataParams<TArg,TResults>= {
-    setItems:(data:{datas:TResults,status:number})=>void;
-    service:(args:TArg)=>Promise<{datas:TResults,status:number,currentPage:number,totalPages:number}>;
-    args:TArg;
-    setPages:(data:{currentPage:number,totalPages:number})=>void 
+import type { Products } from "../Components/ListProducts"
+import type { Pagination } from "../Pages/Home"
+
+type FetchProducts = {
+  setProducts:(params:{datas:Products,status:number})=>void;
+  setPages:(params:Pagination)=>void;
+  service:(pages:number)=>Promise<{datas:Products,status:number,currentPage:number,totalPages:number}>,
+  pages:number,
 }
 
-export const fetchData = async <TArg,TResults>({setItems,service,args,setPages}:FetchDataParams<TArg,TResults>) => {
-  try {
 
-    const response = await service(args)
-  
-    setItems({ datas:response.datas, status:response.status});
-    setPages({currentPage:response.currentPage,totalPages:response.totalPages})
-  } catch (error) {
-    setItems({ datas: [] as TResults, status: 500});
+export const fetchProducts = async({setPages,setProducts,service,pages}:FetchProducts)=>{
+  try{
+    const {datas,status,currentPage,totalPages} = await service(pages)
+    setProducts({datas:datas,status})
+    setPages({currentPage,totalPages})
+  }catch(err){
+    setProducts({datas:[] as Products,status:500})
     setPages({currentPage:1,totalPages:1})
   }
-};
+}

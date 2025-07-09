@@ -81,11 +81,15 @@ export const FormLoginOrRegister = ({submitEvent,type,formRef}:PropsForm)=>{
                 
                 }
 
-              <PasswordInput id="password" refPassword={refUserPassword} placeholder={"Digite sua senha"}/>
+              <PasswordInput 
+                id="password" 
+                refPassword={refUserPassword} 
+                placeholder={"Digite sua senha"}/>
 
               {type === "Register" &&
-               <PasswordInput id="repeatPassword" 
-               refPassword={refRepeatUserPassword}
+               <PasswordInput 
+                id="repeatPassword" 
+                refPassword={refRepeatUserPassword}
                 placeholder={"Repita sua senha"}/>}
           
               <button data-testid="btn_send" onClick={onClick}>{'Enviar'}</button>

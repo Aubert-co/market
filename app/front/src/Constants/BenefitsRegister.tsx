@@ -4,7 +4,9 @@ import entregaRapidaImg from '../Assets/deliveryMoto.png'
 import analiseImg from '../Assets/analise.png';
 import facilImg from '../Assets/facil.png';
 import segImg from '../Assets/seg.png';
+import storeImg from '../Assets/store.png'
 
+export const storeImage = storeImg;
 export const adTextRegister = "Por que criar uma conta na nossa plataforma de e-commerce?";
 export const adLinkRegister = "Cadastre-se agora e aproveite cupons de desconto exclusivos e muito mais!";
 
