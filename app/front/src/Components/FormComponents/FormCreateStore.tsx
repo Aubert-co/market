@@ -3,8 +3,9 @@ import { serviceCreateStore } from "../../Services"
 import { getValidImageFile, isAValidString } from "../../Utils/checkIsValid"
 import { getMultiInputValues } from "../../Utils"
 import { useMessage } from "../../Context/MessageContext"
-import { UserFormStyles } from "../../Styles/Form"
+import { StyleBtn, UserFormStyles } from "../../Styles/Form"
 import { InputWithLabel } from "./InputWithLabel"
+import { BoxMessage } from "../BoxMessages"
 
 export type PropsFormCreateStore = {
     formRef: React.RefObject<HTMLInputElement | null>,
@@ -57,17 +58,18 @@ export const FormCreateStore = ({formRef,setShowForm}:PropsFormCreateStore)=>{
     return (
         <UserFormStyles>
             <div className="form" ref={formRef}>
+                <BoxMessage/>
                 <h1 className="type_form">Criar Loja!</h1>
-                <InputWithLabel inputName={"store_name"} textLabel="Esse será o nome que seus clientes verão. Capriche!">
-                    <input ref={nameRef} minLength={3} maxLength={15} type="text" id="store_name"/>
+                <InputWithLabel inputName={"store_name"} textLabel="É assim que seus clientes verão sua loja.">
+                    <input ref={nameRef} placeholder="Ex: EletronicArts" minLength={3} maxLength={15} type="text" id="store_name"/>
                 </InputWithLabel>
                 <InputWithLabel textLabel="O que torna sua loja especial? Conte aqui!" inputName="store_description">
-                     <textarea maxLength={200} minLength={10} ref={descriptionRef} name="store_description" ></textarea>
+                     <textarea placeholder="Ex: Produtos eletrônicos diversos" maxLength={200} minLength={10} ref={descriptionRef} name="store_description" ></textarea>
                 </InputWithLabel>
                 <InputWithLabel textLabel="Mostre o visual da sua loja com uma boa imagem" inputName="store_image">
                     <input ref={imageRef} type="file" id="store_image" accept="image/*" />
                 </InputWithLabel>
-                <button onClick={submit}>Enviar</button>
+                <StyleBtn onClick={submit}>Enviar</StyleBtn>
 
             </div>
         </UserFormStyles>

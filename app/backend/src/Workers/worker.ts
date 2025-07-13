@@ -1,0 +1,1 @@
+import '../lib/Jobs/deleteProduct.worker.ts'

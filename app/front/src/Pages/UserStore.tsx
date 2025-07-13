@@ -1,3 +1,5 @@
 export const UserStore = ()=>{
-   return <h1>OLa</h1>
+   return (
+      <h1>OLas</h1>
+   )
 }

@@ -1,5 +1,26 @@
 import styled from "styled-components";
 
+type BtnProps = {
+  $bg?: string;
+  $hoverBg?: string;
+  $color?: string;
+};
+
+export const StyleBtn = styled.button<BtnProps>`
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  background: ${({ $bg }) => $bg || '#007BFF'};
+  color: ${({ $color }) => $color || 'white'};
+  transition: background 0.3s;
+
+  &:hover {
+    background: ${({ $hoverBg }) => $hoverBg || '#0056b3'};
+  }
+`;
 export const UserFormStyles = styled.div`
 
 display: flex;
@@ -27,22 +48,6 @@ background-color: #F7F7F7;
   margin-bottom: 1rem;
 }
 
-
-button {
-  margin-top: 1rem;
-  padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  background: #007BFF; 
-  color: white;
-  transition: background 0.3s;
-}
-
-button:hover {
-  background: #0056b3;
-}
 
 .message {
   margin-top: 0.5rem;
@@ -76,6 +81,7 @@ button:hover {
   gap: 6px;
   margin-bottom: 1.2rem;
   align-items: center;
+  text-align:center
 }
 
 .input-with-label label {
@@ -84,7 +90,7 @@ button:hover {
   font-size: 0.95rem;
 }
 
- input,
+input,
 textarea,
 select {
   padding: 0.6rem 0.8rem;
@@ -100,6 +106,56 @@ select {
  select:focus {
   border-color: #0e1420;
 }
+input[type=file] {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  max-width: 200px;
+}
 
+/* Estilizar o botão do seletor de arquivo */
+input[type=file]::file-selector-button {
+  padding: 0.4rem 0.8rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #0056b3;
+}
+input[type=file] {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  max-width: 70%;
+  
+}
+
+input[type=file]::file-selector-button {
+  padding: 0.4rem 0.8rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #0056b3;
+}
 
 `
+

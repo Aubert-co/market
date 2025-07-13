@@ -2,13 +2,14 @@ import type React from "react";
 import { useRef, type JSX } from "react";
 import { Link } from "react-router-dom"
 import { getMultiInputValues } from "../../Utils";
-import { UserFormStyles } from "../../Styles/Form";
+import { StyleBtn, UserFormStyles } from "../../Styles/Form";
 import { isAValidString, isValidEmail } from "../../Utils/checkIsValid";
 import type { TypeSubmitRegister } from "../../Pages/Register";
 import type { TypeSubmitLogin } from "../../Pages/Login";
 import { useMessage } from "../../Context/MessageContext";
 import { BoxMessage } from "../BoxMessages";
 import { PasswordInput } from "./PasswordInput";
+import { InputWithLabel } from "./InputWithLabel";
 
 type TypeForm = "Login" | "Register"
 type PropsTypeForm = {
@@ -61,38 +62,48 @@ export const FormLoginOrRegister = ({submitEvent,type,formRef}:PropsForm)=>{
               <h1 className="type_form" data-testid="type_form">{titleText}</h1>
               <BoxMessage/>
 
-              <input  
-              id="email" 
-              ref={refUserEmail} type="email" 
-              className="input-form" data-testid="input" 
-              required minLength={3}
-              placeholder="Digite seu email"
-              autoComplete="email"/>
+              <InputWithLabel textLabel="Digite seu email!" inputName={"email"}>
+                <input  
+                id="email" 
+                ref={refUserEmail} type="email" 
+                className="input-form"
+                required minLength={3}
+                placeholder="Ex: joao@gmail.com"
+                autoComplete="email"/>
+              </InputWithLabel>
 
               {type === "Register" &&
-               <input id="name" 
-                ref={refUserName}
-                type="text" 
-                className="input-form" 
-                required minLength={3} 
-                placeholder="Digite seu nome"
-                maxLength={15}
-                />
+                <InputWithLabel textLabel="Digite seu nome!" inputName={"name"}>
+                  <input id="name" 
+                  ref={refUserName}
+                  type="text" 
+                  className="input-form" 
+                  required minLength={3} 
+                  placeholder="Ex: joao"
+                  maxLength={15}
+                  />
+                
+                </InputWithLabel>
                 
                 }
 
-              <PasswordInput 
+              <InputWithLabel textLabel="Digite sua senha!" inputName={"password"}>
+                <PasswordInput 
                 id="password" 
                 refPassword={refUserPassword} 
-                placeholder={"Digite sua senha"}/>
+                placeholder={"Digite uma senha forte!"}/>
+              
+              </InputWithLabel>
 
               {type === "Register" &&
-               <PasswordInput 
+               <InputWithLabel textLabel="Repita sua senha!" inputName="repeatPassword">
+                <PasswordInput 
                 id="repeatPassword" 
                 refPassword={refRepeatUserPassword}
-                placeholder={"Repita sua senha"}/>}
+                placeholder={"Igual a do campo senha"}/>
+               </InputWithLabel>}
           
-              <button data-testid="btn_send" onClick={onClick}>{'Enviar'}</button>
+              <StyleBtn data-testid="btn_send" onClick={onClick}>{'Enviar'}</StyleBtn>
               <LoginOrRegister option={type}/>
           </div>
     </UserFormStyles>
