@@ -7,7 +7,7 @@ Este projeto é um mini Marketplace , desenvolvido com foco em escalabilidade, t
 
 - [x] Criar middlewares para gerenciar authenticação dos usuarios.
 
-- [] Desenvolver um frontend intuitivo e responsivo para melhorar a experiência do usuário.
+- [ ] Desenvolver um frontend intuitivo e responsivo para melhorar a experiência do usuário.
 
 - [x] Garantir a escalabilidade da aplicação através da utilização de contêineres com Docker.
 
@@ -25,8 +25,8 @@ Este projeto é um mini Marketplace , desenvolvido com foco em escalabilidade, t
 
 - [x] Utilizar injeção de dependencia para se caso venha a mudar de banco de dados a transição seja mais suave
 
-- [] Fazer upload dos arquivos para nuvem sem salvar os arquivos na aplicação
-
 - [x] Criar middleware para gerenciar os erros.
 
-- [] Utilizar o redis para cache
+- [x] Utilizar Redis para salvar em cache os produtos mais acessados
+
+- [x] Utilizar BullMQ para exclusão em lote de grandes volumes de produtos
