@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { imageUrl ,type Store} from "../../Services";
-
+import {  loadImage} from "../../Services";
+import type {Store} from '../../Services/StoreServices'
 import { StyleBtn } from "../../Styles/Form";
 import { ProductSection } from "../../Styles/Index";
 
@@ -14,7 +14,7 @@ export const ListStores = ({store,onClick}:PropsListStore)=>
     store.map(({ name, photo, description,id }) => (
     <div className="product" key={name} >
         <img    
-            src={photo ||imageUrl(photo)}
+            src={loadImage(photo)}
             alt={`Imagem da loja ${name}`}
             className="img"
         />
@@ -30,7 +30,7 @@ export const RenderStores = ({store}:Props)=>{
     const navigate = useNavigate()
     
     const onClick = (storeId:number)=>{
-        navigate(`/store/mystores/${storeId}`)
+        navigate(`/admin/products/${storeId}`)
     }
     return(
         <ProductSection>

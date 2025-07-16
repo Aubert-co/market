@@ -3,7 +3,7 @@ import type { Pagination } from "../Pages/Home"
 import { ListProducts } from "./ListProducts"
 import type { Products } from "./ListProducts"
 import {  fetchProducts } from "../Services/fetchDatas"
-import { serviceGetProducts } from "../Services"
+import { serviceGetProducts } from "../Services/ProductsServices"
 
 type Props = {
     page:Pagination;

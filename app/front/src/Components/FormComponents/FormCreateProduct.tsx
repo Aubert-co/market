@@ -1,13 +1,17 @@
 import { useRef } from "react"
 import { categories } from "../../Constants"
 import { getMultiInputValues } from "../../Utils"
-import { checkIsAValidCategory, checkIsAValidNumber, isAValidString } from "../../Utils/checkIsValid"
+import { checkIsAValidCategory, checkIsAValidNumber, getValidImageFile, isAValidString } from "../../Utils/checkIsValid"
 import { UserFormStyles } from "../../Styles/Form"
 import { InputWithLabel } from "../../Components/FormComponents/InputWithLabel"
 import { BoxMessage } from "../../Components/BoxMessages"
 import { useMessage } from "../../Context/MessageContext"
+import { serviceCreateProduct } from "../../Services/ProductsServices"
 
-export const CreateProduct = ()=>{
+type Props = {
+    storeId:string
+}
+export const FormCreateProduct = ({storeId}:Props)=>{
     const nameRef = useRef<HTMLInputElement>(null)
     const descriptionRef = useRef<HTMLTextAreaElement>(null)
     const imageRef = useRef<HTMLInputElement>(null);
@@ -39,7 +43,16 @@ export const CreateProduct = ()=>{
             setMessage({content:'Selecione uma cátegoria',type:'info'})
             return
         }
-
+        const file = getValidImageFile(imageRef);
+               
+        if(!file){
+            setMessage({content:'Adicione uma imagem válida',type:'info'})
+            return
+        }
+        const {message,status} = await serviceCreateProduct({name,description,price,stock,category,storeId,image:file})
+        console.log(message,status)
+        setMessage({content:message,type:'info'})
+        
     }
     return(
         <UserFormStyles>
@@ -58,7 +71,9 @@ export const CreateProduct = ()=>{
                     <input className="input-form"
                         ref={imageRef} 
                         type="file" 
-                        id="image"  />
+                        id="image" 
+                        accept="image/*"
+                        />
                 </InputWithLabel>
 
                 <InputWithLabel inputName="description" textLabel="Descrição do produto" >

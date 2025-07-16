@@ -1,0 +1,17 @@
+services:
+  worker:
+    build: 
+      context: .
+    container_name: bull-worker
+    command: yarn dev 
+    volumes:
+      - .:/app
+    environment:
+      - REDIS_URL=redis://default:${REDIS_PASSWORD}@redis:6379
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@my_postgres:5432/${POSTGRES_DB}?schema=public
+    networks:
+      - share
+
+networks:
+  share:
+    external: true

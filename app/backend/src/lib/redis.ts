@@ -1,10 +1,10 @@
 import { createClient, RedisClientType } from 'redis';
 
-export const REDIS_URL = process.env.REDIS_URL;
-if (!REDIS_URL) {
+
+if (! process.env.REDIS_URL) {
   throw new Error('Undefined redis url');
 }
-
+export const REDIS_URL = process.env.REDIS_URL;
 const redis: RedisClientType = createClient({
   url: REDIS_URL, 
   socket: {

@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import { serviceCreateStore } from "../../Services"
+import { serviceCreateStore } from "../../Services/StoreServices"
 import { getValidImageFile, isAValidString } from "../../Utils/checkIsValid"
 import { getMultiInputValues } from "../../Utils"
 import { useMessage } from "../../Context/MessageContext"
@@ -9,9 +9,9 @@ import { BoxMessage } from "../BoxMessages"
 
 export type PropsFormCreateStore = {
     formRef: React.RefObject<HTMLInputElement | null>,
-    setShowForm:(value:boolean)=>void
+    handleStoreCreated:()=>void
 }
-export const FormCreateStore = ({formRef,setShowForm}:PropsFormCreateStore)=>{
+export const FormCreateStore = ({formRef,handleStoreCreated}:PropsFormCreateStore)=>{
     const nameRef = useRef<HTMLInputElement>(null)
     const descriptionRef = useRef<HTMLTextAreaElement>(null)
     const imageRef = useRef<HTMLInputElement>(null);
@@ -37,9 +37,7 @@ export const FormCreateStore = ({formRef,setShowForm}:PropsFormCreateStore)=>{
         const {status} = await serviceCreateStore({name,description,image:file})
         if(status === 201){
             setMessage({content:'Loja criada com sucesso!',type:'success'});
-            setTimeout(()=>{
-              setShowForm(false)
-            },4000)
+            handleStoreCreated()
             return
         }
         if(status === 422){

@@ -100,16 +100,16 @@ describe("API POST /login: Database Operations",()=>{
        
         .send( {email:'test1231@gmail.com',password} ); 
 
-        expect(response.body.message).toEqual("User not found");
-        expect(response.statusCode).toEqual(401); 
+        expect(response.body.message).toEqual("Invalid email or password");
+        expect(response.statusCode).toEqual(400); 
     })
     it("should return status 401 and '' when the user exists but the password dont match",async()=>{
         const response = await request(app)
         .post('/login')
         
         .send( {email:data.email,password:'1lorem2'} ); 
-        expect(response.body.message).toEqual("Invalid credentials");
-        expect(response.statusCode).toEqual(401);
+        expect(response.body.message).toEqual("Invalid email or password");
+        expect(response.statusCode).toEqual(400);
     
         
     })
@@ -129,8 +129,8 @@ describe("API POST /login: Database Operations",()=>{
        
         .send( {email:data.email,password} ); 
 
-        expect(response.body.message).toEqual("User not found");
-        expect(response.statusCode).toEqual(401);
+        expect(response.body.message).toEqual("Invalid email or password");
+        expect(response.statusCode).toEqual(400);
     })
     })
 })

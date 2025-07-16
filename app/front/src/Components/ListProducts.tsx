@@ -5,7 +5,9 @@ export type Product ={
     price:number,
     id:number,
     imageUrl:string,
-    category:string
+    category:string,
+    stock:number,
+    description:string
 }
 type ListType = 'Product' | 'Cart'
 export type Products = Product[]

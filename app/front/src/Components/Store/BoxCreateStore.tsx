@@ -6,21 +6,21 @@ import type { PropsFormCreateStore } from "../FormComponents/FormCreateStore";
 import { FormCreateStore } from "../FormComponents/FormCreateStore";
 
 type Props =PropsFormCreateStore & {
-    showForm:boolean;
-    storeLenght:number
+   handleStoreCreated:()=>void
 }
-export const BoxCreateStore = ({formRef,setShowForm,showForm,storeLenght}:Props)=>{
+export const BoxCreateStore = ({formRef,handleStoreCreated}:Props)=>{
 
     return(
         <StyleCreateStore>
-            {storeLenght === 0 && 
+            
             <BoxBenefits 
                 formRef={formRef} 
                 adText={adTextStore} 
                 adLink={adLinkStore} 
-                benefits={benefitsCreateStore}/>}
+                benefits={benefitsCreateStore}/>
+            
 
-            {showForm && <FormCreateStore formRef={formRef} setShowForm={setShowForm}/>}
+            <FormCreateStore formRef={formRef} handleStoreCreated={handleStoreCreated}/>
         </StyleCreateStore>
     );
 }

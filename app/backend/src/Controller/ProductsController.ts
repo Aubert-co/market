@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { IProductService } from "../Services/ProductService";
 import { checkIsAValidCategory, checkIsAValidNumber } from "../Helpers";
-import { ErrorMessage } from "../Helpers/ErrorMessage";
 import { dataProducts } from "../Repository/ProductRepository";
 import { IProductRedisService } from "../Services/ProductRediService";
 
@@ -57,9 +56,9 @@ export class ProductsController{
         }
     }
     public async GetOneProduct(req:Request,res:Response,next:NextFunction):Promise<any>{
-         let category:string;
+        let category:string;
         if(!checkIsAValidNumber(req.params.id)){
-            throw new ErrorMessage("Failed to retrieve products. Please try again later.", 500);
+            return res.status(500).send({message:"Failed to retrieve products. Please try again later."});
         }
         try{
             const product = await this.products.getProductById(Number(req.params.id));
@@ -78,7 +77,7 @@ export class ProductsController{
     }
     public async GetProductsByCategory(req:Request,res:Response,next:NextFunction):Promise<any>{
         if(!checkIsAValidCategory(req.params.category)){
-            throw new ErrorMessage("Invalid category. Please check and try again.",422)
+            return res.status(422).send({message:"Invalid category. Please check and try again."})
         }
         const category = req.params.category
         try{

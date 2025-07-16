@@ -29,16 +29,7 @@ services:
       - .env
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
-  worker:
-    build: .
-    container_name: bull-worker
-    command: yarn worker 
-    depends_on:
-      - redis
-    volumes:
-      - .:/app
-    environment:
-      - REDIS_URL=redis://default:${REDIS_PASSWORD}@redis:6379
+
   test:
     image: my-express-app:dev 
     build:

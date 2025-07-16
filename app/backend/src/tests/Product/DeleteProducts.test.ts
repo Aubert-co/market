@@ -3,6 +3,8 @@ import app from '../../serve'
 import jwt from 'jsonwebtoken'
 import { products } from '../__mocks__/products';
 import {users, cleanAllDb, createUserStoreAndProducts } from '../__mocks__';
+import { prisma } from '../../lib/prima';
+import * as storages from '../../Repository/FileUpload'
 
 if(!process.env.ACCESS_TOKEN)throw new Error();
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN
@@ -13,6 +15,9 @@ const productIds = products.map((val)=>{
     return val.id
 })
 describe("Delete Products",()=>{
+    beforeEach(()=>{
+        let spyDelete = jest.spyOn(storages,'deleteImgFromBucket').mockResolvedValue(undefined)
+    })
     beforeAll(async()=>{
         await cleanAllDb();
         await createUserStoreAndProducts()
@@ -20,6 +25,7 @@ describe("Delete Products",()=>{
     })
     afterAll(async()=>{
         await cleanAllDb()
+
     })
     it("should delete the products correctly when send all data correctly",async()=>{
        
@@ -32,6 +38,7 @@ describe("Delete Products",()=>{
         expect(response.body.message).toEqual('Delete scheduled.')
         expect(response.statusCode).toBe(202)
      
+        
     })
     it("should not delete the products when send a store that no belongs to the user",async()=>{
         const response = await request(app)

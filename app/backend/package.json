@@ -4,7 +4,7 @@
     "build": "tsc --project ./tsconfig.json",
     "test": "npx jest --watchAll --detectOpenHandles --runInBand --logHeapUsage",
     "unit": "npx jest /*.spec.ts --watchAll --logHeapUsage",
-    "worker":"ts-node-dev --respawn --transpile-only src/Workers/worker.ts"
+    "worker": "ts-node-dev --respawn --transpile-only src/Workers/worker.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

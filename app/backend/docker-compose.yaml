@@ -18,7 +18,8 @@ services:
       timeout: 5s     
       retries: 5       
       start_period: 10s 
-
+    networks:
+      - share
   redis:
     image: redis:8.0.2
     restart: always
@@ -29,14 +30,8 @@ services:
       - .env
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
-  worker:
-    build: .
-    container_name: bull-worker
-    command: yarn start:worker 
-    depends_on:
-      - redis
-    volumes:
-      - .:/app
+    networks:
+      - share
   api:
     image: my-express-app:dev 
     build:
@@ -55,12 +50,15 @@ services:
       redis:
         condition: service_started
     environment:
-      - MODE=development
-      - POSTGRES_DB=market
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
       - REDIS_URL=redis://default:${REDIS_PASSWORD}@redis:6379
-
+    networks:
+      - share
 
 
 volumes:
   postgres_data:
   redis-data:
+networks:
+  share:
+    name: share  
