@@ -22,6 +22,6 @@ export function ErrorMiddleware  (error:any,req:Request,res:Response,next:NextFu
             res.status(error.status).json({message:error.message})
             return 
         }
-        console.log('hiii',error)
-        res.status(500).json({ message: 'An unexpected error occurred. Please try again later.' +error});
+      
+        res.status(500).json({ message: 'An unexpected error occurred. Please try again later.'});
 }

@@ -1,47 +1,87 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { ErrorMessage } from "../Helpers/ErrorMessage";
 import { RedisClientType } from "redis";
+import { Product, ProductWithCountsAndRatings, ProductWithPriceAndStock, SelectedProduct } from "../types/product";
 
-
-export type dataProducts = {
-    id:number,
-    name:string,
-    description:string,
-    price:number,
-    imageUrl:string,
-    stock:number,
-    category:string,
-    storeId:number
-}
 export interface IProductRepository{
     createProduct(data:{category:string,name:string,description:string,
         storeId:number,price:number,stock:number,imageUrl:string
     }):Promise<void>,
-    getProducts(limit:number,skip:number):Promise<dataProducts[]>,
-    findManyByName(name:string,limit:number,skip:number):Promise<Array<dataProducts>>
-    selectByCategory(category:string,limit:number,skip:number):Promise<dataProducts[] >,
-    getProductById(id:number):Promise<dataProducts | null>,
-    countProducts():Promise<number | undefined>,
-    getProductsByStoreId(storeId:number,skip:number,limit:number):Promise<dataProducts[]>,
-    countProductStore(storeId:number):Promise<number>,
-    deleteProduct(storeId:number,productId:number):Promise<void>
+    getProducts(limit:number,skip:number):Promise<SelectedProduct[]>,
+    findManyByName(name:string,limit:number,skip:number):Promise<Array<Product>>
+    selectByCategory(category:string,limit:number,skip:number):Promise<Product[] >,
+    getProductById(id:number):Promise< GetProductById>,
+    countProducts():Promise<number >,
+    getProductsByStoreId(storeId:number,skip:number,limit:number):Promise< ProductWithCountsAndRatings[] >,
+    countProductStore(storeId:number):Promise<number >,
+    deleteProduct(storeId:number,productId:number):Promise<void>,
+    selectProductPrice(productId:number):Promise<ProductWithPriceAndStock | null>
+}
+export type GetProductById = {
+  product: Prisma.ProductGetPayload<{
+    include: {
+      comments: true
+    }
+  }> | null,
+  ratings: {
+  _avg: { rating: number | null },
+  _count: { rating: number }
+}
+
 }
 export class ProductRepository  implements IProductRepository{
     constructor(private prisma:PrismaClient){}
 
     public async createProduct(data: { category:string,name: string; description: string; storeId: number; price: number; stock: number; imageUrl: string; }): Promise<void> {
-        await this.prisma.product.create({data})
+        try{
+            await this.prisma.product.create({data})
+        }catch(err:any){
+            throw new Error()
+        }
         
     }
-    public async getProducts(limit:number , skip:number = 0): Promise<dataProducts[]> {
+    public async getProducts(limit:number , skip:number = 0): Promise<SelectedProduct[] > {
          
-        const datas = await this.prisma.product.findMany({take: limit,
-            skip
-        })
-        return datas;
-        
+        try{
+            const [products, ratings] = await this.prisma.$transaction([
+                this.prisma.product.findMany({
+                    take: limit,
+                    skip,
+                    select: {
+                        id: true,
+                        name: true,
+                        imageUrl:true,
+                        price:true
+                    },
+                    orderBy:{
+                        id:'asc'
+                    }
+                }),
+                this.prisma.review.groupBy({
+                    by: ['productId'],
+                    _avg: {
+                    rating: true
+                    },
+                    orderBy:{
+                        productId:'asc'
+                    }
+                })
+                ]);
+                const ratingMap = new Map(
+                    ratings.map(r => [r.productId, r._avg?.rating ?? null])
+                );
+
+                
+                const productsWithRatings = products.map(product => ({
+                    ...product,
+                    averageRating: ratingMap.get(product.id) ?? null 
+            }));  
+            return productsWithRatings
+        }catch(err:any){
+            throw new ErrorMessage("An unexpected error occurred. Please try again later.",500)
+        }
     }
-    public async findManyByName(name: string, limit: number=10, skip: number = 0): Promise<dataProducts[]> {
+    public async findManyByName(name: string, limit: number=10, skip: number = 0): Promise<Product[]> {
         
         const datas = await this.prisma.product.findMany({
             where: {
@@ -54,7 +94,7 @@ export class ProductRepository  implements IProductRepository{
         return datas;
        
     }
-   public async selectByCategory(category:string,limit:number=10,skip:number=0):Promise<dataProducts[]>{
+   public async selectByCategory(category:string,limit:number=10,skip:number=0):Promise<Product[]>{
         const datas = await this.prisma.product.findMany({
             where:{
                 category
@@ -67,21 +107,48 @@ export class ProductRepository  implements IProductRepository{
    }
     
     
-    public async getProductById(id:number):Promise<dataProducts | null>{
-        return await this.prisma.product.findUnique({where:{id}})
+    public async getProductById(id:number):Promise< GetProductById >{
+        const product = await this.prisma.product.findUnique({
+            where:{id},
+            include:{
+                comments:true,
+            }
+        })
+        const ratings = await this.prisma.review.aggregate({
+            where:{productId:id},
+            _avg:{rating:true},
+            _count:{rating:true}
+        })
+        return {
+            product,ratings
+        }
     }
    
-    public async countProducts():Promise<number | undefined>{
+    public async countProducts():Promise<number >{
         return await this.prisma.product.count()
     }
     
     
-    public async getProductsByStoreId(storeId:number,skip:number=0,limit:number=10):Promise<dataProducts[]>{
-       return await this.prisma.product.findMany({
+    public async getProductsByStoreId(storeId:number,skip:number=0,limit:number=10):Promise<ProductWithCountsAndRatings[] >{
+        try{
+        return await this.prisma.product.findMany({
             where:{storeId},
             skip,
-            take:limit
+            take:limit,
+            include:{
+                _count:{
+                    select:{views:true,comments:true,reviews:true},                   
+                },
+                reviews:{
+                    select:{
+                        rating:true
+                    }
+                }
+            }
         })
+        }catch(err:any){
+            throw new ErrorMessage("Failed to get products",500)
+        }
     }
     public async countProductStore(storeId:number):Promise<number>{
         return await this.prisma.product.count({
@@ -90,6 +157,14 @@ export class ProductRepository  implements IProductRepository{
     }
     public async deleteProduct(storeId:number,productId:number):Promise<void>{
         await this.prisma.product.deleteMany({where:{id:productId,storeId}})
+    }
+    public async selectProductPrice(productId:number):Promise<ProductWithPriceAndStock | null>{
+        return await this.prisma.product.findFirst({
+            where:{id:productId},
+           select:{
+            price:true,stock:true
+           }
+        })
     }
     
 }

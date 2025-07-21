@@ -1,75 +1,35 @@
 import { NextFunction, Request, Response } from "express";
 import { IProductService } from "../Services/ProductService";
 import { checkIsAValidCategory, checkIsAValidNumber } from "../Helpers";
-import { dataProducts } from "../Repository/ProductRepository";
+import { Product } from "../types/product";
 import { IProductRedisService } from "../Services/ProductRediService";
 
 export class ProductsController{
     constructor(protected products:IProductService,protected productCache:IProductRedisService){}
     public async GetProducts(req:Request,res:Response,next:NextFunction):Promise<any>{
         let page = Number(req.params.page)
-        let countProducts:number
+       
         if( !checkIsAValidNumber(page) ){
             page = 1
         }
-        const limit = 10
         try{
-            countProducts = await this.productCache.getCountProductInCache();
-           
-            if ( countProducts <= 0 ) {
-                const count = await this.products.countProducts();
-                
-                if ( count > 0) {
-                    await this.productCache.saveCountProductsInCache(count)
-                    countProducts = count;
-                }
-            }
-            if (countProducts === 0) {
-                return res.status(204).send({message: {
-                    currentPage: 1,
-                    totalPages: 0,
-                    datas: [],
-                    message: 'No products available at the moment.'
-                }})
-            }
-          
-            const totalPages = Math.ceil(countProducts/limit)
-            if(page > totalPages)page = totalPages;
-
-            
-            const skip = (page -1 )* limit
-            const key = `product:page:${page}`
-            
-            const getProductsInCache =await this.productCache.getProductInCache( key )
-            
-            if(getProductsInCache.length >0 ){
-                return res.status(200).send({message:'Sucess',datas:getProductsInCache,totalPages,currentPage:page,fromCache:true})
-            }
- 
-            const datas = await this.products.getProducts(limit,skip)
+            const {datas,currentPage,fromCache,totalPages} = await this.products.getProducts(page)
         
-            res.status(200).send({message:'Sucess',datas,totalPages,currentPage:page,fromCache:false})
-            if(datas.length >0)await this.productCache.saveProductInCache( key ,datas);
+            res.status(200).send({message:'Sucess',datas,totalPages,currentPage,fromCache})
+            
         }catch(err:any){
-        
             next(err)
         }
     }
     public async GetOneProduct(req:Request,res:Response,next:NextFunction):Promise<any>{
-        let category:string;
+        
         if(!checkIsAValidNumber(req.params.id)){
             return res.status(500).send({message:"Failed to retrieve products. Please try again later."});
         }
         try{
-            const product = await this.products.getProductById(Number(req.params.id));
-            if(!product){
-                return res.status(200).send({message:'Sucess',datas:[]})
-            }
-            category = product.category
-            res.status(200).send({message:'Sucess',datas:[product]})
+            const datas = await this.products.getProductById(Number(req.params.id));
            
-            
-            
+            res.status(200).send({message:'Sucess',datas})
         }catch(err:any){
             next(err)
         }
@@ -90,7 +50,7 @@ export class ProductsController{
         
             res.status(200).send({message:'Sucess',datas,fromCache:false})
 
-            if(datas.length > 0)await this.productCache.saveProductInCache(key,datas as dataProducts[]);
+            if(datas.length > 0)await this.productCache.saveProductInCache(key,datas as Product[]);
             
         }catch(err:any){
             next(err)

@@ -61,13 +61,13 @@ export const serviceCreateProduct = async({
 }
 
 
-export const serviceGetAdminProducts = async(storeId:number):Promise<GetProducts & Response>=>{
+export const serviceGetAdminProducts = async(storeId:number,page:number=1):Promise<GetProducts & Response>=>{
     try{
-        const response = await fetch(url+'/admin/store/products',{
-            method:'POST',
+        const response = await fetch(url+`/admin/store/products/${storeId}/${page}`,{
+            method:'GET',
             headers,
             credentials:'include',
-            body:JSON.stringify({storeId,page:1})
+          
         })
         if(!response.ok)throw new Error()
         const {datas,currentPage,totalPages,message } = await response.json()

@@ -1,7 +1,6 @@
 import request from "supertest";
 import app from "../../serve";
-
-import { prisma } from "../../lib/prima";
+import { prisma } from "../../Lib/prima";
 import { deleteUser,oneUser,createOneUser, cleanAllDb } from "../__mocks__";
 
 describe('Api post/register: When the name are invalid',()=>{

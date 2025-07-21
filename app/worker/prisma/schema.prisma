@@ -12,26 +12,32 @@ generator client {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
+  id       Int       @id @default(autoincrement())
+  name     String
+  email    String    @unique
   password String
-  stores    Store[] 
+
+  stores   Store[]
+  cartitems Cartitem[]
+  couponUsages CouponUsage[]
+  reviews       Review[]
+  comments      Comment[]
+  order         Order[]
+  views         View[]
 }
 
 model Store {
   id          Int      @id @default(autoincrement())
-  userId      Int      
-  name        String   @unique 
-  description String?  
-  photo       String?  
+  userId      Int
+  name        String   @unique
+  description String?
+  photo       String?
+
   user        User     @relation(fields: [userId], references: [id])
-  products     Product[]
-  @@map("stores") 
+  products    Product[]
+  coupons     Coupon[]
 
-  
-
-
+  @@map("stores")
 }
 
 model Product {
@@ -45,9 +51,113 @@ model Product {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-
   storeId     Int
-  stores       Store    @relation(fields: [storeId], references: [id])
-
+  stores      Store    @relation(fields: [storeId], references: [id])
+  cartitems   Cartitem[]
+  reviews     Review[]
+  comments    Comment[]
+  orderItems  OrderItem[]
+  views       View[]
   @@index([storeId])
+}
+
+model Cartitem {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  quantity  Int      @default(1)
+  userId    Int
+
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, productId]) 
+}
+
+model Coupon {
+  id          Int           @id @default(autoincrement())
+  code        String        @unique                 
+  discount    Float                                 
+  discountType String       
+  quantity    Int                                  
+  expiresAt   DateTime?                             
+  storeId     Int?                                  
+  store       Store?        @relation(fields: [storeId], references: [id])
+  usages      CouponUsage[]
+  orders       Order[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model CouponUsage {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  couponId  Int
+  usedAt    DateTime  @default(now())
+
+  user      User      @relation(fields: [userId], references: [id])
+  coupon    Coupon    @relation(fields: [couponId], references: [id])
+
+  @@unique([userId, couponId])
+}
+
+model Review {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  productId   Int
+  orderItemId Int       // ligação direta ao item do pedido
+  rating      Int       // nota de 1 a 5
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id])
+  product     Product   @relation(fields: [productId], references: [id])
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
+}
+
+model Comment {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  productId   Int
+  orderItemId Int
+  content     String
+  photoUrl    String?   // pode ser nulo
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id])
+  product     Product   @relation(fields: [productId], references: [id])
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
+}
+model Order {
+  id          Int          @id @default(autoincrement())
+  user        User         @relation(fields: [userId], references: [id])
+  userId      Int
+  total       Float
+  createdAt   DateTime     @default(now())
+
+  coupon      Coupon?      @relation(fields: [couponId], references: [id])
+  couponId    Int?
+
+  orderItems  OrderItem[]  
+}
+
+model OrderItem {
+  id        Int       @id @default(autoincrement())
+  order     Order     @relation(fields: [orderId], references: [id])
+  orderId   Int
+  product   Product   @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int
+  price     Float
+
+  reviews   Review[]
+  comments  Comment[]
+}
+
+model View {
+  id         Int       @id @default(autoincrement())
+  productId  Int
+  userId     Int?      
+  viewedAt   DateTime  @default(now())
+
+  product    Product   @relation(fields: [productId], references: [id])
+  user       User?     @relation(fields: [userId], references: [id])
 }

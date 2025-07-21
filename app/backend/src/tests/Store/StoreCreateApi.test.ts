@@ -1,9 +1,9 @@
 import request from "supertest"
-import * as FileUpload from "../../Repository/FileUpload"
+import * as FileUpload from "../../Lib/FileUpload"
 import app from "../../serve"
 import path from "path"
 import jwt from "jsonwebtoken"
-import { prisma } from "../../lib/prima"
+import { prisma } from "../../Lib/prima"
 import { cleanAllDb, deleteStore, deleteUser } from "../__mocks__"
 
 

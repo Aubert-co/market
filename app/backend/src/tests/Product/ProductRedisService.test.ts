@@ -1,6 +1,6 @@
 import { ErrorMessage } from '../../Helpers/ErrorMessage'
 import {ProductRedisService} from '../../Services/ProductRediService'
-import { dataProducts } from '../../Repository/ProductRepository'
+import { Product } from '../../types/product'
 
 
 
@@ -15,11 +15,12 @@ const price = 10
 const skip = 10
 const limit =10
 
-let data:dataProducts
+let data:Product
 
 data = {
     description,name,stock,category,price,imageUrl,id,
-    storeId
+    storeId,createdAt: new Date,
+    updatedAt: new Date
 }
 
 
@@ -38,10 +39,19 @@ describe("method getProductInCache",()=>{
         const stringifyDatas = JSON.stringify( [data] )
         mockProductRepository.getCachedProduct.mockResolvedValue( stringifyDatas )
         const product = new ProductRedisService(mockProductRepository)
-        const getProduct = await product.getProductInCache(name)
+        const [getProduct] = await product.getProductInCache(name)
        
         expect(getCachedProduct).toHaveBeenCalledTimes(1)
-        expect(getProduct[0]).toEqual( data )
+        expect(getProduct).toMatchObject({
+                                    id,
+                                    name,
+                                    price,
+                                    description,
+                                    imageUrl,
+                                    stock,
+                                    storeId,
+                                    category,
+                                });
          
     })
     it("should return an empty array when cache is empty",async()=>{

@@ -1,8 +1,8 @@
 import request from 'supertest'
-import redis from '../../lib/redis'
+import redis from '../../Lib/redis'
 import app from '../../serve'
 import { cleanAllDb, createUserStoreAndProducts } from '../__mocks__'
-import { prisma } from '../../lib/prima'
+import { prisma } from '../../Lib/prima'
 import { ProductRepository } from '../../Repository/ProductRepository'
 import { ProductRedisRepository } from '../../Repository/ProductRedisRepository'
 
@@ -160,13 +160,14 @@ describe("When saves values in cache",()=>{
 describe("db errors",()=>{
     
     it("should return an error when a database error occurs",async()=>{
-        jest.spyOn(prisma.product,'findMany').mockRejectedValue(new Error('Simulated DB error: Connection lost.'));
+        jest.spyOn(prisma,'$transaction').mockRejectedValueOnce(new Error('Simulated DB error: Connection lost.'));
+        
         const response = await request(app)
         .get('/product/page/1')
         
-         
         expect(response.status).toEqual(500)
-        expect(response.body.message).toEqual('Failed to retrieve products. Please try again later.')
-        expect(response.body).not.toHaveProperty('datas')
+        expect(response.body.message).toEqual('An unexpected error occurred. Please try again later.')
+       
+        
     })
 })

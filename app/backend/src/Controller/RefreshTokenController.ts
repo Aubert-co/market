@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import jwt from 'jsonwebtoken'
+import {  Request, Response } from "express";
+
 import { IUserService } from "../Services/UserService";
-import { generateAccessToken } from "../Helpers/AuthTokens";
+
 
 export class RefreshTokenController{
     constructor(protected user:IUserService){}
@@ -15,15 +15,8 @@ export class RefreshTokenController{
   }
 
   try {
-    const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET!) as { id: string };
-
-    const user = await this.user.findUserById(Number(decoded.id))
-
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
-    }
-
-    const newAccessToken = generateAccessToken(user.id)
+  
+    const newAccessToken = await this.user.checkTheUserId(refreshToken)
 
     res.cookie("access_token", newAccessToken, {
       httpOnly: true,
@@ -32,10 +25,10 @@ export class RefreshTokenController{
       maxAge: 1000 * 60 * 15 
     });
 
-     res.status(200).json({ message: "New access token issued successfully" });
+    res.status(200).json({ message: "New access token issued successfully" });
 
-    } catch (err:any) {
-      res.status(401).json({ message: "Invalid or expired refresh token" });
-    }
+  } catch (err:any) {
+    res.status(401).json({ message: "Invalid or expired refresh token" });
+  }
     }
 }

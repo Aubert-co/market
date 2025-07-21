@@ -1,10 +1,18 @@
+import { generateAccessToken, generateRefreshToken } from "../Helpers/AuthTokens";
 import { ErrorMessage } from "../Helpers/ErrorMessage";
-import { IUserRepository, User } from "../Repository/UserRepository";
+import { IUserRepository } from "../Repository/UserRepository";
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 export interface IUserService  {
-    findUserById(userId:number):Promise<User|null>,
-    findByEmail(email:string):Promise<User|null>,
-    createUserAccount({email,password,name}:ParamsCreate):Promise<void>
+    createUserAccount({email,password,name}:ParamsCreate):Promise<void>,
+    loginUser(email:string,password:string):Promise<LoginUser>,
+    checkTheUserId(refreshToken:string):Promise<string>}
+
+type LoginUser = {
+    userId:number,
+    accessToken:string,
+    refreshToken:string
 }
 type ParamsCreate=  {
     email:string,
@@ -13,26 +21,47 @@ type ParamsCreate=  {
 }
 export class UserService implements IUserService {
     constructor(protected user:IUserRepository){}
-    public async findByEmail(email:string):Promise<User | null>{
-        try{
-            return await this.user.findByEmail(email)
-            
-        }catch(err:any){
-            throw new ErrorMessage('Failed to find an user',404);
+    public async loginUser(email:string,password:string):Promise<LoginUser>{
+        
+        const user = await this.user.findByEmail(email)
+        if(!user)throw new ErrorMessage("Invalid email or password",400) ;
+
+        
+        const hashedPassword = user.password
+        const compare = await bcrypt.compare(password,hashedPassword)
+        
+        if(!compare)throw new ErrorMessage("Invalid email or password",400);
+
+        const accessToken = generateAccessToken( user.id )
+        const refreshToken = generateRefreshToken( user.id )
+        return {
+            userId:user.id,
+            accessToken,
+            refreshToken
         }
     }
+
     public async createUserAccount({email,password,name}:ParamsCreate):Promise<void>{
-        try{
-            await this.user.createUserAccount({email,password,name})
-        }catch(err:any){
-            throw new ErrorMessage('Failed to create a new user',409)
+       
+        const findUser = await this.user.findByEmail( email )
+        if(findUser){
+            throw new ErrorMessage("User already exists",409)
         }
+        const hashedPassword =await bcrypt.hash( password ,10)
+
+        await this.user.createUserAccount({email,password:hashedPassword,name})
+       
     }
-    public async findUserById(userId:number):Promise<User|null>{
-        try{
-            return await this.user.findUserById(userId)
-        }catch(err:any){
-            throw new ErrorMessage('Failed to find a user',409)
+ 
+   public async checkTheUserId(refreshToken:string):Promise<string>{
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET!) as { id: string };
+
+        const user = await this.user.findUserById(Number(decoded.id))
+
+        if (!user) {
+            throw new ErrorMessage("User not found",401) 
         }
-    }
+        
+        return generateAccessToken(user.id)
+   }
 }

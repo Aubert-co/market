@@ -1,7 +1,7 @@
 import request from "supertest";
 import app from "../../serve";
 import bcrypt from "bcrypt"
-import { prisma } from "../../lib/prima";
+import { prisma } from "../../Lib/prima";
 import { cleanAllDb, deleteUser } from "../__mocks__";
 
 
@@ -151,8 +151,8 @@ describe("Api post/register: When the database throws an error",()=>{
        
         .send({password:'12345678',email:'lucas@gmail.com'}); 
 
-        expect(response.statusCode).toEqual(404);
-    
+        expect(response.statusCode).toEqual(404 );
+     
         expect(response.body.message).toEqual("Failed to find an user");
     })
 })

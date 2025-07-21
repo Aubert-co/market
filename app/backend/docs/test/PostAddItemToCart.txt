@@ -1,0 +1,8 @@
+Funcionalidade: Adicionar item ao carrinho de compras
+
+Dado que o usuário está autenticado
+E o produto com ID 10 existe e está disponível para compra
+Quando o usuário envia uma requisição POST para "/cart/add" com productId: 10 e quantity: 2
+Então a API deve retornar status 201
+E a mensagem na resposta deve ser "Produto adicionado ao carrinho."
+E o item deve ser adicionado ao carrinho do usuário com a quantidade correta

@@ -1,8 +1,8 @@
 import request from 'supertest'
-import redis from '../../lib/redis'
+import redis from '../../Lib/redis'
 import app from '../../serve'
 import { cleanAllDb, createUserStoreAndProducts } from '../__mocks__'
-import { prisma } from '../../lib/prima'
+import { prisma } from '../../Lib/prima'
 
 
 

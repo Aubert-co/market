@@ -1,4 +1,4 @@
-import { prisma } from "../../lib/prima"
+import { prisma } from "../../Lib/prima"
 import { products } from "./products"
 
 export const users = [{id:1,name:'lucas',password:'12345667e',email:'lucsssas@gmail.com'},
@@ -45,9 +45,17 @@ export const cleanAllDb = async():Promise<void>=>{
 export const createOneUser = async():Promise<void>=>{
     await prisma.user.create({data:oneUser})
 }
-
+export const cleanUserCart = async():Promise<void>=>{
+    await prisma.cartitem.deleteMany({
+        where:{
+            id:{
+                gt:0
+            }
+        }
+    })
+}
 export const createUserStoreAndProducts = async():Promise<void>=>{
-    await prisma.user.create( {data:oneUser} )
+    await prisma.user.createMany( {data:users} )
     await prisma.store.create({data:oneStore})
     await prisma.product.createMany({data:products})
 }

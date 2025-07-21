@@ -1,11 +1,10 @@
 import { NextFunction,Request, Response } from "express";
-import { IProductService, ProductService } from "../Services/ProductService";
+import { IProductService } from "../Services/ProductService";
 import { StoreService } from "../Services/StoreService";
 import { checkIsAValidCategory, checkIsAValidNumber, isAValidString } from "../Helpers";
-import { ErrorMessage } from "../Helpers/ErrorMessage";
-import { checkIsValidImage, generateImgPath } from "../Helpers/checkIsValidImage";
-import {  uploadFileToGCS } from "../Repository/FileUpload";
-import { deleteProductProducer } from "../lib/Jobs/deleteProduct.producer";
+
+import { checkIsValidImage } from "../Helpers/checkIsValidImage";
+
 
 
 export class ProductAdminController{
@@ -45,7 +44,7 @@ export class ProductAdminController{
         }
        
         const {buffer,originalname,mimetype} = req.file
-        const publicUrlStorage = generateImgPath(originalname)
+       
         const {name,description,price,stock,storeId,category} = req.body
        try{
             
@@ -55,10 +54,12 @@ export class ProductAdminController{
                 price:Number(price),
                 stock:Number(stock),
                 storeId:Number(storeId),
-                imageUrl:publicUrlStorage
+                fileBuffer:buffer,
+                originalName:originalname,
+                mimeType:mimetype,
             })
 
-            await uploadFileToGCS(buffer,publicUrlStorage,mimetype)
+          
             res.status(201).send({message:"Product sucessfully created."})
        }catch(err:any){
             next(err)
@@ -69,18 +70,7 @@ export class ProductAdminController{
         const {storeId,productIds} = req.body
         try{
           
-            if (!Array.isArray(productIds) || productIds.length === 0) {
-                return res.status(400).send({message:"Invalid product IDs provided."})
-            }
-            await Promise.all(
-                productIds.map(async(id)=>{
-                    let productId = Number(id)
-                    if(checkIsAValidNumber(id)){
-                        await deleteProductProducer(productId,Number(storeId))
-                    }
-                   
-                })
-            )
+            await this.products.deleteProduct(productIds,Number(storeId))
         
             res.status(202).send({ message: 'Delete scheduled.' });
 

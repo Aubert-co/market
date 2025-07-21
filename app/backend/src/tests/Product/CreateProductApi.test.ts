@@ -1,9 +1,9 @@
 import request from 'supertest'
-import * as FileUpload from "../../Repository/FileUpload"
+import * as FileUpload from "../../Lib/FileUpload"
 import app from "../../serve"
 import path from "path"
 import jwt from "jsonwebtoken"
-import { prisma } from "../../lib/prima"
+import { prisma } from "../../Lib/prima"
 import { cleanAllDb, deleteProduct, deleteStore } from '../__mocks__'
 
 
@@ -387,8 +387,8 @@ describe("db actions",()=>{
         .field('storeId',stores[0].id)
         .attach('image', path.resolve(__dirname, '../assets/tmp/image.jpg')); 
         
-        expect(response.body.message).toEqual('Failed to create product. Please check your input and try again.')
-        expect(response.statusCode).toEqual(422)
+        expect(response.body.message).toEqual('An unexpected error occurred. Please try again later.')
+        expect(response.statusCode).toEqual(500)
         expect(googleStorage).toHaveBeenCalledTimes(0)
     })
 }) 

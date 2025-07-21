@@ -3,7 +3,7 @@ import { ErrorMiddleware } from './Middleware/Error'
 import cookieParser from 'cookie-parser'
 import route from './Controller/Routes'
 import cors from 'cors'
-import { connectRedis } from './lib/redis'
+import { connectRedis } from './Lib/redis'
 
 const app = express()
 

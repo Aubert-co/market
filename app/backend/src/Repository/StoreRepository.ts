@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
+import { Store } from "../types/store";
 import { ErrorMessage } from "../Helpers/ErrorMessage";
-
 export interface IStoreRepository{
     createStore(data:{storeName:string,userId:number,description:string,photo:string}):Promise<void>,
     checkStoreOwnerShip(storeId:number):Promise<any>,
@@ -8,13 +8,7 @@ export interface IStoreRepository{
     selectUserStores(userId:number):Promise<Store[] | any>,
     
 }
-export type Store = {
-    name:string,
-    photo:string,
-    description:string,
-    id:number,
-    userId:number
-}
+
 
 export class StoreRepository implements IStoreRepository{
     
@@ -22,12 +16,16 @@ export class StoreRepository implements IStoreRepository{
  
     public async createStore(data:{storeName:string,userId:number,description:string,photo:string}):Promise<void>{
        
-        await this.prisma.store.create({data:{
+       try{
+             await this.prisma.store.create({data:{
             name:data.storeName,
             userId:data.userId,
             description:data.description,
             photo:data.photo
         }})  
+       }catch(err:any){
+        throw new ErrorMessage("Failed to create a store",409)
+       }
        
     } 
     public async checkStoreOwnerShip(storeId:number):Promise<any>{

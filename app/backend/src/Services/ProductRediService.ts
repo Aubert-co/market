@@ -1,15 +1,15 @@
 import { IProductRedisRepository } from "../Repository/ProductRedisRepository";
-import type { dataProducts } from "../Repository/ProductRepository";
+import { Product,SelectedProduct } from "../types/product";
 export interface IProductRedisService{
     getCountProductInCache():Promise<number>,
-    saveProductInCache(key:string,data:dataProducts[]):Promise<any>,
+    saveProductInCache(key:string,data:SelectedProduct[]):Promise<any>,
     saveCountProductsInCache(countProducts:number):Promise<void>,
-    getProductInCache(key:string):Promise<dataProducts[] >
+    getProductInCache(key:string):Promise<SelectedProduct[] >
 }
 
 export class ProductRedisService implements IProductRedisService{
     constructor(private redis:IProductRedisRepository){}
-    public async saveProductInCache(key:string,data:dataProducts[]):Promise<any>{
+    public async saveProductInCache(key:string,data:SelectedProduct[]):Promise<any>{
         const datas = JSON.stringify(data)
         try{
             await this.redis.saveProductInCache(key,datas)
@@ -17,7 +17,7 @@ export class ProductRedisService implements IProductRedisService{
             return [];
         }
     }
-     public async getProductInCache(key:string):Promise<dataProducts[] >{
+     public async getProductInCache(key:string):Promise<SelectedProduct[] >{
         try{
             const cachedDatas = await this.redis.getCachedProduct(key)
           
@@ -26,7 +26,7 @@ export class ProductRedisService implements IProductRedisService{
             const parsed = JSON.parse(cachedDatas)
             if(!Array.isArray(parsed))return [];
            
-            return parsed as dataProducts[]
+            return parsed as Product[] 
         }catch(err:any){
             return [];
         }

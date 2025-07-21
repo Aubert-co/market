@@ -1,29 +1,15 @@
 import {NextFunction, Request,Response} from 'express'
-import { ErrorMessage } from "../Helpers/ErrorMessage";
-import { generateAccessToken,generateRefreshToken } from "../Helpers/AuthTokens";
 import { IUserService } from "../Services/UserService";
-import bcrypt from 'bcrypt'
- 
-
-export class LoginController{
+import { isAValidString } from '../Helpers';
+  
+export class AuthUserController{
     constructor(private user:IUserService){}
- 
-    public async handler(req:Request,res:Response,next:NextFunction):Promise<any>{
+    public async Login(req:Request,res:Response,next:NextFunction):Promise<any>{
         try{
             const { email  , password} = req.body
 
-            const user = await this.user.findByEmail(email)
-            if(!user)return res.status(400).send({message:"Invalid email or password"});
+            const {accessToken,refreshToken} = await this.user.loginUser(email,password)
 
-
-            const hashedPassword = user.password
-            const compare = await bcrypt.compare(password,hashedPassword)
-            
-            if(!compare)return res.status(400).send({message:"Invalid email or password"})
-
-            const accessToken = generateAccessToken( user.id )
-            const refreshToken = generateRefreshToken( user.id )
-            
             res.cookie('token', accessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
@@ -41,6 +27,20 @@ export class LoginController{
             res.status(201).json({ message: "Login successfully" });
         }catch(error:any){
             next(error)
+        }
+    }
+    public async Register(req:Request,res:Response,next:NextFunction):Promise<any>{
+        try{
+            if(!isAValidString(req.body.name)){
+                return res.status(422).send({message:"Invalid name. Please check and try again."});
+            }
+           
+            const { email , name , password} = req.body
+            
+            await this.user.createUserAccount({name,email,password})
+            res.status(201).json({ message: "User created successfully" });
+        }catch(error:any){
+          next(error)
         }
     }
 }

@@ -27,7 +27,7 @@ async function compressImage(fileBuffer: Buffer): Promise<Buffer | null> {
     const fileSizeKB = fileBuffer.byteLength / 1024;
 
     if (fileSizeKB < 100) {
-      // Pequena, envia direto
+      
       return fileBuffer;
     }
 
@@ -50,13 +50,14 @@ async function compressImage(fileBuffer: Buffer): Promise<Buffer | null> {
   }
 }
 
-export const uploadFileToGCS = async (
-    fileBuffer: Buffer,
-    path: string,
-    mimeType: string
-): Promise<string> => {
+type UploadFile ={
+  fileBuffer:Buffer,
+  urlPath:string,
+  mimeType:string
+}
+export const uploadFileToGCS = async ({fileBuffer,mimeType,urlPath}:UploadFile): Promise<string> => {
     const buff = await compressImage(fileBuffer)
-    const blob = bucket.file( path );
+    const blob = bucket.file( urlPath );
     const blobStream = blob.createWriteStream({
         resumable: false,
         contentType:mimeType,

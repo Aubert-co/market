@@ -3,8 +3,8 @@ import app from '../../serve'
 import jwt from 'jsonwebtoken'
 import { products } from '../__mocks__/products';
 import {users, cleanAllDb, createUserStoreAndProducts } from '../__mocks__';
-import { prisma } from '../../lib/prima';
-import * as storages from '../../Repository/FileUpload'
+
+import * as storages from '../../Lib/FileUpload'
 
 if(!process.env.ACCESS_TOKEN)throw new Error();
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN

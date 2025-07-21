@@ -22,6 +22,12 @@ export class ProductRepository  {
         return await this.prisma.product.findUnique({where:{id}})
     }
     public async deleteProduct(storeId:number,productId:number):Promise<void>{
-        await this.prisma.product.deleteMany({where:{id:productId,storeId}})
+        await this.prisma.$transaction(async (tx) => {
+            await tx.product.deleteMany({ where: { id: productId, storeId } });
+            await tx.cartitem.deleteMany({ where: { productId } });
+        });
+
+       
     }
+
 }
