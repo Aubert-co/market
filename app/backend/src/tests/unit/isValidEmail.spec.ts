@@ -1,4 +1,4 @@
-import {isValidEmail} from '../../Helpers/index'
+import {isValidEmail} from '../../helpers/index'
 describe("isValidEmail",()=>{
     it("should return false when the email is empty",()=>{
         expect(isValidEmail('')).toBeFalsy()

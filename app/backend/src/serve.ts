@@ -1,10 +1,10 @@
-import express, { Express,Router,Request,Response, RequestHandler, ErrorRequestHandler, NextFunction } from 'express'
-import { ErrorMiddleware } from './Middleware/Error'
+import express, { Request,Response, ErrorRequestHandler, NextFunction } from 'express'
+import { ErrorMiddleware } from './middleware/Error'
 import cookieParser from 'cookie-parser'
-import route from './Controller/Routes'
+import route from './routes/Route'
 import cors from 'cors'
-import { connectRedis } from './Lib/redis'
-
+import { connectRedis } from './lib/redis'
+ 
 const app = express()
 
 

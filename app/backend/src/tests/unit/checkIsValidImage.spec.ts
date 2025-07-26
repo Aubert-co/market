@@ -1,5 +1,5 @@
 
-import { checkIsValidImage } from "../../Helpers/checkIsValidImage"
+import { checkIsValidImage } from "../../helpers/checkIsValidImage"
 describe('checkIsValidImage', () => {
   const validBuffer = Buffer.from([0xFF, 0xD8, 0xFF]); 
   const emptyBuffer = Buffer.alloc(0);

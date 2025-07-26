@@ -1,4 +1,4 @@
-import { checkIsAValidNumber } from "../../Helpers"
+import { checkIsAValidNumber } from "../../helpers"
 
 describe("",()=>{
     it("check is a valid number",()=>{

@@ -1,4 +1,4 @@
-import { getMatchCategories } from "../../Helpers";
+import { getMatchCategories } from "../../helpers";
 
 describe("getMatchCategories",()=>{
     it("test",()=>{

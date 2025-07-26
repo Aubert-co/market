@@ -1,5 +1,5 @@
 import {deleteImages,generateImages} from './src/tests/assets/generate'
-import {prisma} from './src/Lib/prima'
+import {prisma} from './src/lib/prisma'
 export default async function (){
     await deleteImages()
     await prisma.$disconnect()
