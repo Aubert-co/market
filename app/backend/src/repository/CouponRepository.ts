@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { ErrorMessage } from "../helpers/ErrorMessage";
 import { now } from "../helpers/Dates";
-import { Coupon, CouponUsage } from "../types/coupon";
+import { Coupon, CouponUsage, CouponUsageInfoDto } from "../types/coupon";
+import { DiscountType } from "../types/coupon";
 
-export type DiscountType = "fixed" | "percent"
 
 export type StoreCreateCoupon = {
     storeId:number,
@@ -137,6 +137,33 @@ export class CouponRepository implements ICouponRepository{
         }catch(err:any){
             throw new ErrorMessage("Failed to verify coupon is not expired",500)
         }
+    }
+    public async userHaveCoupon(userId:number,couponId:number):Promise<CouponUsageInfoDto | null>{
+        try{
+            return await this.prisma.couponUsage.findFirst({
+                where: {
+                    couponId,
+                    userId,
+                    usedAt: null,
+                    coupon: {
+                        expiresAt: {
+                            gt: now
+                        }
+                    }
+                },
+                include: {
+                    coupon: {
+                        select: {
+                            discount: true,
+                            discountType: true
+                        }
+                    }
+                }
+            });
+
+        }catch(err:any){
+            throw new ErrorMessage("",500)
+        }   
     }
     public async availableCoupons(limit:number,skip:number):Promise<Coupon[]>{
         try{

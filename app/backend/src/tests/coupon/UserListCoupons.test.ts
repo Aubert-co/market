@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma";
-import { addCouponUsage, cleanAllDb, cleanCoupons,createCoupons,createUserStoreAndProducts,oneStore,ParamsCoupons,users } from "../__mocks__";
+import { addCouponUsage, cleanAllDb,
+     cleanCoupons,createCoupons,createUserStoreAndProducts,oneStore,ParamsCoupons,users } from "../__mocks__";
 import request from "supertest";
 import app from "../../serve";
 import {couponsDatas} from '../__mocks__/coupons'
@@ -24,7 +25,7 @@ describe("GET /user/list/coupons",()=>{
         await createCoupons( coupons )
         
         const couponUsage =coupons.map((val)=>{
-            return {couponId:val.id,userId:userId}
+            return {couponId:val.id,userId}
         })
         await addCouponUsage(couponUsage)
     })

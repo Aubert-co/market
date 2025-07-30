@@ -24,10 +24,12 @@ import { CouponRepository } from "../repository/CouponRepository";
 import { CouponServices } from "../services/CouponServices";
 
 import storeRoute from '../routes/StoreRoute'
-import cartRoute from '@/routes/CartRoute'
-import { fileUpload } from "@/lib/fileUpload";
-import productRoute from '@/routes/ProductsRoute'
-import authRoute from '@/routes/AuthRoute'
+import cartRoute from '../routes/CartRoute'
+import { fileUpload } from "../lib/fileUpload";
+import productRoute from '../routes/ProductsRoute'
+import authRoute from '../routes/AuthRoute'
+import orderRoute from '../routes/OrderRoute'
+import reviewsOrder from './Reviews'
 
 const userRepository = new UserRepository( prisma)
 const storeRepository = new StoreRepository(prisma)
@@ -65,8 +67,8 @@ route.use(cartRoute)
 route.use(storeRoute)
 route.use(productRoute)
 route.use(authRoute)
-
-
+route.use(orderRoute)
+route.use(reviewsOrder)
 
 route.post('/product/create',[
     fileUpload.single('image')
@@ -108,4 +110,5 @@ route.get('/images/:filename', async (req, res) => {
 }); 
 route.get('/auth/refresh',refreshToken.handler)
  
+
 export default route

@@ -1,10 +1,10 @@
 import { Router,Request,Response,NextFunction } from "express"
-import { UserCartController } from "@/controller/UserCartController"
-import { UserCartRepository } from "@/repository/UserCartRepository"
-import { UserCartService } from "@/services/UserCartService"
-import { prisma } from "@/lib/prisma"
-import { ProductRepository } from "@/repository/ProductRepository"
-import { Auth } from "@/middleware/Auth"
+import { UserCartController } from "../controller/UserCartController"
+import { UserCartRepository } from "../repository/UserCartRepository"
+import { UserCartService } from "../services/UserCartService"
+import { prisma } from "../lib/prisma"
+import { ProductRepository } from "../repository/ProductRepository"
+import { Auth } from "../middleware/Auth"
 const userCartRepository = new UserCartRepository(prisma)
 const productRepository = new ProductRepository(prisma)
 const userCartService = new UserCartService(userCartRepository,productRepository)

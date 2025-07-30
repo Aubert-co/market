@@ -6,8 +6,9 @@ export class ReviewsController{
     constructor(protected reviews:IRewviewsService){}
     public async addReview(req:Request,res:Response,next:NextFunction):Promise<any>{
         const rating = req.body?.rating
-        const orderId = req.body.order
-
+        const orderId = req.body?.order
+        const content = req.body?.content
+        
         if (!checkIsAValidNumber(rating)) {
             return res.status(400).send({ message: "Invalid rating. It must be a valid number." });
         }
@@ -15,33 +16,18 @@ export class ReviewsController{
         if (!checkIsAValidNumber(orderId)) {
             return res.status(400).send({ message: "Invalid order ID. It must be a valid number." });
         }
-
-       try{
-            const userId = req.user
-            await this.reviews.addReview(userId,orderId,rating)
-            res.status(200).send({message:'Sucess'})
-        }catch(err){
-            next(err)
-        }
-    }
-    public async addComments(req:Request,res:Response,next:NextFunction):Promise<any>{
-        const content = req.body?.content
-        const orderId = req.body?.order
-
         if(!isAValidString(content,150)){
             return res.status(400).send({
                 message: "Content must be between 5 and 150 characters long."
             });
         }
-        if (!checkIsAValidNumber(orderId)) {
-            return res.status(400).send({ message: "Invalid order ID. It must be a valid number." });
-        }
-        try{
+       try{
             const userId = req.user
-            await this.reviews.addComments(userId,orderId,content)
-            res.status(200).send({message:'Sucess'})
-        }catch(err:any){
+            await this.reviews.addReview({content,rating,userId,orderId})
+            res.status(201).send({message:'Sucess'})
+        }catch(err){
             next(err)
         }
     }
+   
 }

@@ -1,14 +1,13 @@
 {
   "scripts": {
-    "dev": "ts-node-dev -r tsconfig-paths/register src/server.ts",
-    "start": "ts-node-dev --respawn  --transpile-only src/serve.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register src/serve.ts --noEmit",
+    "start": "node dist/serve.js",
     "build": "tsc --project ./tsconfig.json",
     "test": "npx jest --watchAll --detectOpenHandles --runInBand --logHeapUsage",
-    "unit": "npx jest /*.spec.ts --watchAll --logHeapUsage"
+    "unit": "npx jest /*.spec.ts --watchAll --logHeapUsage",
+    "load": "ts-node src/test-load/register.ts"
   },
-  "_moduleAliases": {
-    "@": "dist"
-  },
+  
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.9",

@@ -1,96 +1,94 @@
-import { OrderItem, PrismaClient } from "@prisma/client";
+import {  PrismaClient } from "@prisma/client";
 import { checkIsAValidNumber } from "../helpers";
 import { ErrorMessage } from "../helpers/ErrorMessage";
-import { SomeDiscount } from "../helpers/Some";
-import { DiscountType, ICouponRepository } from "../repository/CouponRepository";
+import {  ICouponRepository } from "../repository/CouponRepository";
 import { IOrderRepository } from "../repository/OrderRepository";
 import { IProductRepository } from "../repository/ProductRepository";
-import { Order } from "../types/order";
+import { DatasCreateOrderDto, Order, OrderProductInput } from "../types/order";
+import { GetCouponDto,DiscountType } from "../types/coupon";
+import { applyDiscount } from "../helpers/ApplyDiscount";
 
 interface OrderServices  {
-    createOrder(userId:number,couponId:number | null,items:Items[]):Promise<void>,
+    createOrder(userId:number,couponId:number | null):Promise<void>,
 }
-type Items = {
-    quantity:number,
-    productId:number
-}
-type ArrayItems ={
-    price:number,
-    quantity:number,
-    productId:number
-}
-type DatasCreateOrder = {
-    userId:number,couponId:number | null,items:Items[]
-}
+
+
+
+
 export class OrderService{
     constructor(protected order:IOrderRepository,protected product:IProductRepository,
         protected coupon:ICouponRepository,protected prisma:PrismaClient
     ){}
-    public async createOrder({userId,couponId,items}:DatasCreateOrder):Promise<void>{
 
-    
-        let totalItems:number = 0;
-        const itemPrices:ArrayItems[] = [];
+    protected async getCouponById(couponId:number | undefined):Promise<GetCouponDto>{
+        if(!couponId)return {discount:undefined,discountType:undefined}
 
-        for (const val of items) {
-            const products = await this.product.selectProductPrice(val.productId);
-
-            if (!products) {
-                throw new ErrorMessage("Invalid product", 400);
-            }
-
-            if (products.stock < val.quantity) {
-                throw new ErrorMessage("Invalid quantity", 400);
-            }
-
-            const itemTotal = products.price * val.quantity;
-            totalItems += itemTotal;
-
-            itemPrices.push({
-                price: products.price,
-                quantity: val.quantity,
-                productId:val.productId
-            });
+        const coupon = await this.coupon.getCouponById(couponId)
+        if (!coupon) {
+            throw new ErrorMessage("Coupon not found or is invalid.", 404);
         }
-        if(couponId){
-           const coupon = await this.coupon.getCouponById(couponId)
-           if(!coupon)throw new ErrorMessage("Invalid coupon",400)
 
-           totalItems =  SomeDiscount({discount:coupon.discount,
-            discountType:coupon.discountType,totalItems})
+        return {
+            discount:coupon.discount,discountType:coupon.discountType as DiscountType
         }
-        await this.prisma.$transaction(async (tx) => {
-            const order = await tx.order.create({
-                data: {
-                    userId,
-                    total: totalItems,
-                    couponId
+    }
+  
+    public async createOrder({userId,items}:DatasCreateOrderDto):Promise<void>{
+
+        try{
+            await this.prisma.$transaction(async (tx) => {
+                for (const val of items) {
+                    const product = await tx.product.findFirst({
+                        where:{id:val.productId},
+                        select:{
+                            price:true,stock:true
+                        }
+                    })
+                    
+                    if (!product) {
+                    throw new ErrorMessage("No valid product found to create the order.", 404);
+                    }
+
+                    if (product.stock < val.quantity) {
+                        throw new ErrorMessage("Insufficient product stock for the requested quantity.", 400);
+                    }
+
+                    const {discount,discountType} = await this.getCouponById(val.couponId)
+
+                    const total = applyDiscount({
+                        total: product.price * val.quantity,
+                        discount,
+                        discountType
+                    });
+
+                    await tx.order.create({
+                        data:{
+                        price: product.price,
+                        productId: val.productId,
+                        userId,
+                        couponId:val.couponId,
+                        quantity: val.quantity,
+                        total
+                        }
+                    });
+
+                    await tx.product.update({
+                        where:{id:val.productId},
+                        data:{stock: product.stock -  val.quantity}
+                    });
+                    
                 }
             });
 
-                for (const { price, productId, quantity } of itemPrices) {
-                    await tx.orderItem.create({
-                        data: {
-                            orderId: order.id,
-                            productId,
-                            quantity,
-                            price
-                        }
-                });
+       }catch(err:any){
+            if(err instanceof ErrorMessage){
+                throw new ErrorMessage(err.message,err.status)
             }
+            throw new ErrorMessage("Internal error while creating the order.", 500)
+        }
 
-    
-            return order;
-        });
         
     }
-    public async userGetOrders(userId:number):Promise<Order[]>{
-        return await this.order.getOrder(userId)
-    }
-    public async userGetOrderItems(userId:number):Promise<OrderItem[]>{
-        return await this.order.getOrderItems(userId)
-    }
-    public async storeGetOrderItems(storeId:number):Promise<OrderItem[]>{
-        return await this.order.storeGetOrderItems(storeId)
-    }
+    
+   
 }

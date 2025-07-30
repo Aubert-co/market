@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma";
-import { addCouponUsage, cleanAllDb, cleanCoupons,createCoupons,createUserStoreAndProducts,oneStore,ParamsCoupons,users } from "../__mocks__";
+import { addCouponUsage, cleanAllDb, cleanCoupons,
+    createCoupons,createUserStoreAndProducts,oneStore,ParamsCoupons,users } from "../__mocks__";
 import request from "supertest";
 import app from "../../serve";
 import {couponsDatas} from '../__mocks__/coupons'

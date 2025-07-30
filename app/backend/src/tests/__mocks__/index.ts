@@ -56,6 +56,31 @@ export const cleanUserCart = async():Promise<void>=>{
         }
     })
 }
+export const cleanOrders = async():Promise<void>=>{
+    await prisma.order.deleteMany({
+        where:{
+            id:{
+                gt:0
+            }
+        }
+    })
+}
+type CreateOrderDto = {
+    productId:number,
+    price:number,
+    userId:number,
+    total:number,
+    quantity:number,
+    id:number,
+    status:string
+}
+export const createOrder = async({productId,price,id,userId,total,quantity,status}:CreateOrderDto):Promise<void>=>{
+    await prisma.order.create({
+        data:{
+            productId,price,userId,total,quantity,id,status
+        }
+    })
+}
 export const cleanCoupons = async():Promise<void>=>{
      await prisma.couponUsage.deleteMany({
         where:{
@@ -116,5 +141,22 @@ type DatasCouponUsage = ParamCouponUsage &{
 export const addCouponUsage = async(data:ParamCouponUsage[]):Promise<DatasCouponUsage[]>=>{
     return await prisma.couponUsage.createManyAndReturn({
         data
+    })
+}
+
+export const deleteReviewAndComments = async():Promise<void>=>{
+    await prisma.review.deleteMany({
+        where:{
+            id:{
+                gt:0
+            }
+        }
+    })
+    await prisma.comment.deleteMany({
+        where:{
+            id:{
+                gt:0
+            }
+        }
     })
 }

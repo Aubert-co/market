@@ -1,13 +1,13 @@
 import { Router,NextFunction,Request,Response} from 'express'
-import { StoreAdminController } from '@/controller/StoreAdminController'
-import { ValidateImageAndFields } from '@/middleware/ValidateImageAndFields'
-import { Auth } from '@/middleware/Auth'
-import { StoreService } from '@/services/StoreService'
-import { prisma } from '@/lib/prisma'
-import { StoreRepository } from '@/repository/StoreRepository'
-import { ProductRepository } from '@/repository/ProductRepository'
-import { VerifyStoreOwnership } from '@/middleware/VerifyStoreOwnership'
-import { fileUpload } from '@/lib/fileUpload'
+import { StoreAdminController } from '../controller/StoreAdminController'
+import { ValidateImageAndFields } from '../middleware/ValidateImageAndFields'
+import { Auth } from '../middleware/Auth'
+import { StoreService } from '../services/StoreService'
+import { prisma } from '../lib/prisma'
+import { StoreRepository } from '../repository/StoreRepository'
+import { ProductRepository } from '../repository/ProductRepository'
+import { VerifyStoreOwnership } from '../middleware/VerifyStoreOwnership'
+import { fileUpload } from '../lib/fileUpload'
 
 const validateImageAndFields = new  ValidateImageAndFields
 const productRepository = new ProductRepository(prisma)

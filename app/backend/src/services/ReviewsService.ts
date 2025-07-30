@@ -1,39 +1,37 @@
+import { AddReviewDto } from "../types/reviews";
 import { ErrorMessage } from "../helpers/ErrorMessage";
 import { IOrderRepository } from "../repository/OrderRepository";
 import { IReviewsRepository } from "../repository/ReviewsRepository";
-import { OrderItem } from "../types/order";
+import { Order } from "../types/order";
+
 
 export interface IRewviewsService {
    
-    addComments(userId:number,orderItemId:number,content:string):Promise<void>,
-    addReview(userId:number,orderItemId:number,rating:number):Promise<void>
+    addReview({rating,content,orderId,userId}:AddReviewDto):Promise<void>
 }
 export class ReviewsService implements IRewviewsService{
     constructor(protected reviews:IReviewsRepository,
-        protected  orderItem:IOrderRepository
+        protected  order:IOrderRepository
     ){}
 
-    protected async checkOrderItem(userId:number,orderItemId:number):Promise<OrderItem>{
-        const orderItem = await this.orderItem.getOrderItemByIdAndUserId(userId,orderItemId)
-        if (!orderItem) {
+    protected async checkOrder(userId:number,OrderId:number):Promise<Order>{
+        const order = await this.order.getOrderItemByIdAndUserId(userId,OrderId,"completed")
+        if (!order) {
             throw new ErrorMessage("Order item not found or does not belong to the user.", 404);
         }
-        return orderItem;
-    }
-    public async addComments(userId:number,orderItemId:number,content:string):Promise<void>{
-        const orderItem = await this.checkOrderItem(userId,orderItemId)
-        
-        await this.reviews.addComment({
-            userId,content,orderId:orderItem.orderId,productId:orderItem.productId
-        })
 
+        return order;
     }
-    public async addReview(userId:number,orderItemId:number,rating:number):Promise<void>{
-        const orderItem  = await this.checkOrderItem(userId,orderItemId)
+   
+    public async addReview({rating,content,orderId,userId}:AddReviewDto):Promise<void>{
+        const order  = await this.checkOrder(userId,orderId)
         if(rating > 5)rating =5
-        if(rating <0)rating = 1
+        if(rating <=0)rating = 1
+
         await this.reviews.addReview({
-            userId,rating,orderId:orderItem.id,productId:orderItem.productId
+            userId,rating,orderId:order.id,productId:order.productId,
+            content
         })
+       
     }
 }

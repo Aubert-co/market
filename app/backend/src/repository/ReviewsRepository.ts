@@ -1,36 +1,36 @@
+import { AddReviewDto } from "../types/reviews";
 import { PrismaClient } from "@prisma/client";
 
 export interface IReviewsRepository  {
-    addReview({userId,rating,productId,orderId}:AddReview & Rating):Promise<void>,
-    addComment({userId,content,productId,orderId}:AddReview & Content):Promise<void>
-}
-type Rating = {
-    rating:number
-}
-type Content = {
-    content:string
-}
-type AddReview =  {
-    orderId:number,
-    userId:number,
-    productId:number
+    addReview({userId,rating,productId,orderId}:AddReviewDto & Product):Promise<void>,
+  
 }
 
+type Product = {
+    productId:number
+}
 export class ReviewsRepository implements IReviewsRepository{
     constructor(protected prisma:PrismaClient){}
-    public async addReview({userId,rating,productId,orderId}:AddReview & Rating):Promise<void>{
+    public async addReview({userId,rating,productId,orderId,content}:AddReviewDto & Product):Promise<void>{
         await this.prisma.review.create({
             data:{
-                orderItemId:orderId,
+                orderId,
                 userId,rating,productId
             }
         })
-    }
-    public async addComment({userId,content,productId,orderId}:AddReview & Content):Promise<void>{
-        await this.prisma.comment.create({
-            data:{
-                userId,content,productId,orderItemId:orderId
-            }
+        await this.prisma.$transaction(async(tx)=>{
+            await tx.review.create({
+                data:{
+                    orderId,userId,rating,productId
+                }
+            })
+            await tx.comment.create({
+                data:{
+                    userId,content,productId,orderId
+                }
+            })
+            
         })
     }
+   
 }

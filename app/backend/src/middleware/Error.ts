@@ -3,7 +3,7 @@ import { ErrorMessage } from "../helpers/ErrorMessage";
 import multer from "multer";
 
 export function ErrorMiddleware  (error:any,req:Request,res:Response,next:NextFunction):any{
-    
+      
         if (error instanceof multer.MulterError) {
       
             if (error.code === 'LIMIT_FILE_SIZE') {

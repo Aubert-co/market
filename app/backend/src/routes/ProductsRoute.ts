@@ -1,11 +1,11 @@
-import { prisma } from "@/lib/prisma";
-import { ProductRepository } from "@/repository/ProductRepository";
-import { ProductService } from "@/services/ProductService";
+import { prisma } from "../lib/prisma";
+import { ProductRepository } from "../repository/ProductRepository";
+import { ProductService } from "../services/ProductService";
 import { Router,Request,Response,NextFunction } from "express";
-import { ProductRedisRepository } from "@/repository/ProductRedisRepository";
-import { ProductRedisService } from "@/services/ProductRediService";
-import redis from "@/lib/redis";
-import { ProductsController } from "@/controller/ProductsController";
+import { ProductRedisRepository } from "../repository/ProductRedisRepository";
+import { ProductRedisService } from "../services/ProductRediService";
+import redis from "../lib/redis";
+import { ProductsController } from "../controller/ProductsController";
 
 
 const productRepository = new ProductRepository(prisma)

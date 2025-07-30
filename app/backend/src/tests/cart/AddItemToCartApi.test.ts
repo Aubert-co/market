@@ -3,7 +3,7 @@ import app from '../../serve'
 import { addItemToCart, cleanAllDb, cleanUserCart, createUserStoreAndProducts ,users} from '../__mocks__'
 import { products } from '../__mocks__/products'
 import { prisma } from '../../lib/prisma'
-import { routes } from '../__mocks__/configs'
+import { routes } from '../../tests/__mocks__/configs'
 import { generateAccessToken } from '../../helpers/AuthTokens'
 
 const [user1,user2] = users

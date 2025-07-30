@@ -1,9 +1,9 @@
 import { Router,Request,Response,NextFunction } from "express"
-import { ValidateCredentials } from "@/middleware/ValidateCredentials"
-import { AuthUserController } from "@/controller/AuthUserController"
-import { UserService } from "@/services/UserService"
-import { UserRepository } from "@/repository/UserRepository"
-import { prisma } from "@/lib/prisma"
+import { ValidateCredentials } from "../middleware/ValidateCredentials"
+import { AuthUserController } from "../controller/AuthUserController"
+import { UserService } from "../services/UserService"
+import { UserRepository } from "../repository/UserRepository"
+import { prisma } from "../lib/prisma"
 const validateCredentials = new ValidateCredentials()
 
 const userRepository =  new UserRepository(prisma)

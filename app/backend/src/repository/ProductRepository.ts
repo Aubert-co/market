@@ -15,7 +15,8 @@ export interface IProductRepository{
     getProductsByStoreId(storeId:number,skip:number,limit:number):Promise< ProductWithCountsAndRatings[] >,
     countProductStore(storeId:number):Promise<number >,
     deleteProduct(storeId:number,productId:number):Promise<void>,
-    selectProductPrice(productId:number):Promise<ProductWithPriceAndStock | null>
+    selectProductPrice(productId:number):Promise<ProductWithPriceAndStock | null>,
+    decreaseStock(productId:number,stock:number):Promise<void>
 }
 export type GetProductById = {
   product: Prisma.ProductGetPayload<{
@@ -170,5 +171,10 @@ export class ProductRepository  implements IProductRepository{
            }
         })
     }
-    
+    public async decreaseStock(productId:number,stock:number):Promise<void>{
+        await this.prisma.product.update({
+            where:{id:productId},
+            data:{stock}
+        })
+    }
 }

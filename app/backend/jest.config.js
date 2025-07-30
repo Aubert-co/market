@@ -17,5 +17,6 @@ module.exports = {
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   globalTeardown: '<rootDir>/global-teardown.ts',
-  globalSetup:'<rootDir>/global-setup.ts'
+  globalSetup:'<rootDir>/global-setup.ts',
+
 };
