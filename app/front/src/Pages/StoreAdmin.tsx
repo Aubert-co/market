@@ -1,19 +1,26 @@
-import { useParams } from "react-router-dom"
+import { useParams ,Link} from "react-router-dom"
 import { FormCreateProduct } from "../Components/FormComponents/FormCreateProduct"
 import { deleteProduct ,serviceGetAdminProducts} from "../Services/ProductsServices";
 import { StyleBtn } from "../Styles/Form";
 import { ProductSection } from "../Styles/Index";
-import type { Products } from "../Components/ListProducts";
+import type { Product } from "@/types/products.types";
 import { useEffect, useState } from "react";
 import { checkIsAValidNumber } from "../Utils/checkIsValid";
 import { loadImage } from "../Services";
-
+import { Container } from "@/Components/Container";
+import { StoreLayout } from "@/Components/Store/StoreLayout";
+import { ListItems, ListContainer, ListInfo } from "@/Styles/StyledUtils";
+import { MiniBoxReview } from "@/Components/Store/boxes/BoxReviews";
+import { BoxLowStock } from "@/Components/Store/boxes/BoxLowStock";
+import { BoxMostViewd } from "@/Components/Store/boxes/BoxMostViewd";
+import { BoxMostSOld } from "@/Components/Store/boxes/BoxMostSold";
+/*
 type Props = {
-    products:Products,
+    products:Product[],
     storeId:number
 }
 type PropsListStore = {
-    products:Products,
+    products:Product[],
     onDelete:(id:number)=>void
 }
 export const ListStores = ({products,onDelete}:PropsListStore)=>
@@ -50,7 +57,7 @@ export const RenderStores = ({products,storeId}:Props)=>{
     
 }
 type fetchD ={
-    setDatas:(params:{data:Products})=>void,
+    setDatas:(params:{data:Product[]})=>void,
     storeId:number,
 }
 const fetchDatas = async({setDatas,storeId}:fetchD):Promise<void>=>{
@@ -59,7 +66,7 @@ const fetchDatas = async({setDatas,storeId}:fetchD):Promise<void>=>{
     setDatas({data:datas})
 }
 type useSt = {
-    data:Products
+    data:Product[]
 }
 export const AdminProducts = ()=>{
     const [useDatas,setDatas] = useState<useSt>({data:[]})
@@ -76,4 +83,28 @@ export const AdminProducts = ()=>{
             <FormCreateProduct storeId={storeid}/>
         </>
     )
+}*/
+
+export const StoreAdmin = ()=>{
+    return (
+        <StoreLayout>
+            <ListContainer>
+  <div className="list-container">
+    
+    <BoxMostSOld datas={[{name:'camisa azul',sold:12}]} />
+    <BoxMostViewd datas={[{name:'camisa polo',views:559},{name:'vestido',views:52}]}/>
+
+ 
+    <MiniBoxReview  review={4.5}/>
+
+    
+    <BoxLowStock datas={[{name:'camisa polo',stock:5},{name:'camisa azul',stock:3}]}/>
+
+    
+
+  </div>
+</ListContainer>
+
+      </StoreLayout>
+  )
 }

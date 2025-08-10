@@ -59,7 +59,15 @@ export class UserCartRepository implements UserCartRepository{
        try{
          return await this.prisma.cartitem.findMany({
             where:{userId},
-            include:{product:true}
+            include:{product:{
+                select:{
+                    stock:true,
+                    price:true,
+                    imageUrl:true,
+                    name:true
+                    }
+                }
+            }
         })
        }catch(err:any){
         throw new ErrorMessage("Failed to get items from cart.",500)

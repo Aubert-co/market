@@ -1,39 +1,25 @@
 import {  useState } from "react"
-import { TopBar } from "../Components/Header/TopBar"
-import { Aside, Aside2, Container, Header, Main } from "../Styles/Index"
+
 import { Pagination } from "../Components/Pagination"
-import { BoxProducts } from "../Components/BoxProducts"
+import { BoxProducts } from "../Components/Product/BoxProducts"
+import type { PageInfo } from "../types/pagination.types"
+import { Container } from "@/Components/Container"
 
 
 
-export type Pagination={
-    currentPage:number,
-    totalPages:number
-}
+
 export const Home = ()=>{
     
-    const [pages,setPages] = useState<Pagination>({
+    const [pages,setPages] = useState<PageInfo>({
         currentPage: 1,
         totalPages: 5,
     })
 
     
     return (
-        <Container>
-            <Header>
-                <TopBar/>
-            </Header>
-            <Aside>
-                
-            </Aside>
-            <Main>
-                <BoxProducts page={pages} setPages={setPages}/>
-                <Pagination setCurrentPage={setPages} currentPage={pages.currentPage}  totalPages={pages.totalPages}/>
-            </Main>
-            <Aside2>
-
-            </Aside2>
-           
-        </Container>
+       <Container>
+            <BoxProducts page={pages} setPages={setPages}/>
+            <Pagination setCurrentPage={setPages} currentPage={pages.currentPage}  totalPages={pages.totalPages}/>
+       </Container>
     )
 }

@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import {  loadImage} from "../../Services";
-import type {Store} from '../../Services/StoreServices'
+import type { Store } from "@/types/store.types";
 import { StyleBtn } from "../../Styles/Form";
 import { ProductSection } from "../../Styles/Index";
+import { shortDescription } from "@/Utils";
 
 type Props = {
     store:Store[]
@@ -20,7 +21,7 @@ export const ListStores = ({store,onClick}:PropsListStore)=>
         />
         <h2>{name}</h2>
         <p>
-             {description.split(" ").slice(0, 20).join(" ")}
+            {shortDescription(description)}
         </p>
         <StyleBtn  onClick={() => onClick(id)} >Visualizar Produtos</StyleBtn>
     </div>

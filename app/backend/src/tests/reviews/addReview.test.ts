@@ -90,8 +90,7 @@ describe("Api POST:/order/create",()=>{
 describe("Api POST:/order/create",()=>{
     const orderId = 50
     beforeAll(async()=>{
-     
-         await deleteReviewAndComments()
+        await deleteReviewAndComments()
         await cleanOrders()
        
         await cleanAllDb()
@@ -101,13 +100,13 @@ describe("Api POST:/order/create",()=>{
         await createOrder({productId:product.id,id:orderId,userId,quantity:5,price:30,total:150,status:'completed'})
     })
     afterAll(async()=>{
-         await deleteReviewAndComments()
+        await deleteReviewAndComments()
         await cleanOrders()
         await cleanAllDb()
         
     })
     
-     it("should not save a new review  when the order status is different from completed",async()=>{
+     it("should sucessfuly save the review",async()=>{
         const content = "lorem isptu testing a new product"
         const rating = 50
         const response = await request(app)

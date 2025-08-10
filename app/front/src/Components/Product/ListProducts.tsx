@@ -1,23 +1,15 @@
 import { useNavigate } from "react-router-dom"
+import type { Product } from "@/types/products.types"
 
-export type Product ={
-    name:string,
-    price:number,
-    id:number,
-    imageUrl:string,
-    category:string,
-    stock:number,
-    description:string
-}
 type ListType = 'Product' | 'Cart'
-export type Products = Product[]
+
 type Props = {
-    products:Products,
+    products:Product[],
     listType:ListType
 }
 export const RenderPrice = (params:{type:ListType,price:number})=> 
     params.type === "Product" &&
-    <p className="item_price" >{params.price}</p>;
+    <p className="item_price" >R${params.price}</p>;
 
 export const ListProducts = ({products,listType}:Props)=>{
     const navigate = useNavigate()
@@ -29,7 +21,9 @@ export const ListProducts = ({products,listType}:Props)=>{
             return (
                 <div className="product"
                     key={id}
-                    onClick={()=>redirectToProduct(id)}
+                    onClick={
+                        ()=>redirectToProduct(id)
+                    }
                 >
                     <div className="img">
                         <img alt={name}

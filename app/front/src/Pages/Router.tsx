@@ -3,10 +3,13 @@ import { Register } from "./Register"
 import { MessageProvider } from "../Context/MessageContext"
 import { Login } from "./Login"
 import {Home} from './Home'
-import { AdminStore } from "./AdminStore"
+import { CreateStore } from "./CreateStore"
 
-import { AdminProducts } from "./AdminProducts"
+import {  StoreAdmin } from "./StoreAdmin"
 import { AuthGuard } from "../Components/AuthGuard"
+import { Products } from "./Product"
+import {Profile} from './Profile'
+
 
 export const App = ()=>{
     return(
@@ -17,9 +20,11 @@ export const App = ()=>{
                 <Route path="/" element={<Home/>}/>
                 <Route path="/registro" element={<Register/>}/>
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/perfil/:action" element={<Profile/>}></Route>
+                <Route path="/product/:productId" element={<Products/>} />
                 <Route element={<AuthGuard><Outlet /></AuthGuard>}>
-                    <Route path="/admin/products/:storeid" element={<AdminProducts />} />
-                    <Route path="/admin/stores" element={<AdminStore />} />
+                    <Route path="/loja/gerenciar/:storeid" element={<StoreAdmin />} />
+                    <Route path="/loja/criar" element={<CreateStore />} />
                 </Route>
 
             </Route>

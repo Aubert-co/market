@@ -34,9 +34,6 @@ export class UserCartService implements IUserCartService{
         }
 
         await this.cart.create(userId,productId,quantity)
-        
-      
-        
     }
     public async removeItem(datas:DatasToRemove[]):Promise<void>{
         await this.cart.removeItem(datas)
@@ -45,11 +42,8 @@ export class UserCartService implements IUserCartService{
         return await this.cart.getAllCartItems(userId);
     }
     public async updateCart(userId:number,datas:UserCartItems[]):Promise<void>{
-    
-            for( const {quantity,cartId} of datas){
-                await this.cart.updateCart(cartId,userId,quantity)
-            }
-        
-       
+        for( const {quantity,cartId} of datas){
+            await this.cart.updateCart(cartId,userId,quantity)
+        }
     }
 }

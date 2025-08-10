@@ -9,7 +9,7 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 `;
-export const Container = styled.div`
+export const ContainerStyle = styled.div`
 display: grid;
 grid-template-areas:
   "header header header header"
@@ -19,7 +19,7 @@ grid-template-columns: 10% 70% 5%;
 grid-template-rows: auto 1fr auto; 
 column-gap: 1%;
 background-color: #f4f7f9;
-    
+min-height:97vh;
 `
 export const Aside = styled.aside`
 grid-area:aside;
@@ -65,8 +65,13 @@ grid-area:aside;
 
 
 export const Main = styled.main`
-grid-area: main;
+  grid-area: main;
+
+
+  margin-bottom:1%;
+  margin-top:5%
 `;
+
 export const PromoContainer = styled.div`
 display: flex;
 justify-content: space-between;

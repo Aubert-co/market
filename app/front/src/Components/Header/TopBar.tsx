@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { SearchBar } from "./SeachBar"
 import { FaShoppingCart, FaUser } from "react-icons/fa"
 
 export const TopBar = ()=>{
+    const navigate = useNavigate()
     return(
         <>
             <div className="logo">
@@ -11,11 +12,11 @@ export const TopBar = ()=>{
             <SearchBar/>
             <nav>
                 <i>
-                    <FaShoppingCart/>
+                    <FaShoppingCart onClick={()=>navigate("/perfil/carrinho")}/>
                 </i>
 
                 <i>
-                    <FaUser/>
+                  <FaUser onClick={()=>navigate("/perfil/ordens")}/>
                 </i>
             </nav>
         </>

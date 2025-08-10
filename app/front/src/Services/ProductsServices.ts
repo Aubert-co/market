@@ -1,4 +1,4 @@
-import type { Products } from "../Components/ListProducts"
+import type { Products } from "../Components/Product/ListProducts"
 import { url,headers } from "./";
 import type { Response } from "./";
 type GetProducts = {

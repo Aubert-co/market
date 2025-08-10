@@ -1,9 +1,10 @@
+import { UserReviewsAndComments } from "../types/user";
 import { AddReviewDto } from "../types/reviews";
 import { PrismaClient } from "@prisma/client";
 
 export interface IReviewsRepository  {
     addReview({userId,rating,productId,orderId}:AddReviewDto & Product):Promise<void>,
-  
+    userGetReviews(userId:number,orderId:number):Promise<UserReviewsAndComments[]>
 }
 
 type Product = {
@@ -12,12 +13,7 @@ type Product = {
 export class ReviewsRepository implements IReviewsRepository{
     constructor(protected prisma:PrismaClient){}
     public async addReview({userId,rating,productId,orderId,content}:AddReviewDto & Product):Promise<void>{
-        await this.prisma.review.create({
-            data:{
-                orderId,
-                userId,rating,productId
-            }
-        })
+       
         await this.prisma.$transaction(async(tx)=>{
             await tx.review.create({
                 data:{
@@ -29,6 +25,20 @@ export class ReviewsRepository implements IReviewsRepository{
                     userId,content,productId,orderId
                 }
             })
+            
+        })
+    }
+    public async userGetReviews(userId:number,orderId:number):Promise<UserReviewsAndComments[]>{
+        return await this.prisma.user.findMany({
+            select:{
+                reviews:{
+                    where:{orderId}
+                },
+                comments:{
+                    where:{orderId}
+                }
+            },
+            where:{id:userId},
             
         })
     }

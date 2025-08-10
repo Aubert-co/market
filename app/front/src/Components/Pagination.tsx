@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import type { TPagination } from '../Pages/Home';
+import type {PageInfo} from '../types/pagination.types'
 
 type Props = {
   totalPages: number;
   currentPage: number;
-  setCurrentPage:React.Dispatch<React.SetStateAction<TPagination>>
+  setCurrentPage:React.Dispatch<React.SetStateAction<PageInfo>>
   
 }
 

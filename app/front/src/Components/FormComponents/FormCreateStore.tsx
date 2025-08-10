@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import { serviceCreateStore } from "../../Services/StoreServices"
+import { serviceCreateStore } from "../../Services/store.services"
 import { getValidImageFile, isAValidString } from "../../Utils/checkIsValid"
 import { getMultiInputValues } from "../../Utils"
 import { useMessage } from "../../Context/MessageContext"

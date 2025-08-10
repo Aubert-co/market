@@ -5,3 +5,7 @@ export const getInputValue = (ref:RefValue):string =>{
     return '';
 };
 export const getMultiInputValues = (...refs:RefValue[]):string[]=>refs.map((val)=>getInputValue(val));
+
+
+export const shortDescription = (description:string):string=>
+    description.split(" ").slice(0,20).join(" ");

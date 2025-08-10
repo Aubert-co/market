@@ -21,7 +21,22 @@ export interface IProductRepository{
 export type GetProductById = {
   product: Prisma.ProductGetPayload<{
     include: {
-      comments: true
+        reviews:{
+            select:{
+                rating:true
+            }
+        }
+      comments: {
+        select:{
+           
+            content:true,
+            user:{
+                select:{
+                    name:true
+                }
+            }
+        }
+      }
     }
   }> | null,
   ratings: {
@@ -113,7 +128,19 @@ export class ProductRepository  implements IProductRepository{
             const product = await this.prisma.product.findUnique({
             where:{id},
             include:{
-                comments:true,
+                reviews:{
+                    select:{
+                        rating:true
+                    }
+                },
+                comments:{
+                    select:{content:true,
+                        user:{
+                        select:{name:true}
+                        
+                    }},
+                    take:5
+                },
             }
             })
             const ratings = await this.prisma.review.aggregate({
